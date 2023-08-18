@@ -5,3 +5,6 @@ Windows DirectX Hlsl shader C++ library
 - [x] Dx10
 - [ ] Dx11
 - [ ] Dx12
+
+## Requirements
+WindowsSdk
