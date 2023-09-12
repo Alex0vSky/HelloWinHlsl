@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="FastBuild|Win32">
+      <Configuration>FastBuild</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="FastBuild|x64">
+      <Configuration>FastBuild</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{b343fb28-5dc7-4635-b4bc-dec08c3e0fbc}</ProjectGuid>
+    <RootNamespace>LibHelperD3d</RootNamespace>
+    <ProjectName>HelloWinHlsl</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FastBuild|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FastBuild|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='FastBuild|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='FastBuild|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>bin\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>bin\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FastBuild|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>bin\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>bin\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>bin\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FastBuild|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)\</OutDir>
+    <IntDir>bin\$(PlatformTarget)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>.;src;src\_pch;ThirdParty;resource;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>src\_pch;src;</AdditionalIncludeDirectories>
+      <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>.;src;src\_pch;ThirdParty;resource;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>src\_pch;src;</AdditionalIncludeDirectories>
+      <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='FastBuild|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>.;src;src\_pch;ThirdParty;resource;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>src\_pch;src;</AdditionalIncludeDirectories>
+      <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>.;src;src\_pch;ThirdParty;resource;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>src\_pch;src;</AdditionalIncludeDirectories>
+      <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>.;src;src\_pch;ThirdParty;resource;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>src\_pch;src;</AdditionalIncludeDirectories>
+      <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='FastBuild|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>.;src;src\_pch;ThirdParty;resource;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+    </ClCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>src\_pch;src;</AdditionalIncludeDirectories>
+      <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
+    </ResourceCompile>
+    <Lib>
+      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\_pch\framework.h" />
+    <ClInclude Include="src\_pch\sysw.h" />
+    <ClInclude Include="src\_pch\targetver.h" />
+    <None Include="resource\resource.h" />
+    <ClInclude Include="src\ClientApp\Configurator\Builder.h" />
+    <ClInclude Include="src\ClientApp\Configurator\Predef.h" />
+    <ClInclude Include="src\ClientApp\Configurator\Config.h" />
+    <ClInclude Include="src\DxtkFont\CompiledToBinary.h" />
+    <ClInclude Include="src\Dx\Adapter\Dx11Adapter.h" />
+    <ClInclude Include="src\Dx\Adapter\Dx12Adapter.h" />
+    <ClInclude Include="src\Dx\Ctx\Impl\Dx11CtxImpl.h" />
+    <ClInclude Include="src\Dx\Ctx\Impl\Dx12CtxImpl.h" />
+    <ClInclude Include="src\Dx\DynamicData.h" />
+    <ClInclude Include="src\Dx\Spec\Any\WindowResizerStub.h" />
+    <ClInclude Include="src\Dx\Spec\D12\GameLoopPart.h" />
+    <ClInclude Include="src\Dx\Spec\D12\Resizer.h" />
+    <ClInclude Include="src\Dx\Spec\D12\SetterRootSignature.h" />
+    <ClInclude Include="src\Dx\Spec\D12\Waiter.h" />
+    <ClInclude Include="src\Dx\Spec\D12\WindowResizer.h" />
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaSerializer\Builder.h" />
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\Accessor.h" />
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\Converter.h" />
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\FactoryPackoffsetAware.h" />
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\FactoryStrict.h" />
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\HolderMem.h" />
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\RootSignatureCreator.h" />
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\z_example_.h" />
+    <ClInclude Include="src\Dx\Tool\IndexBuf.h" />
+    <ClInclude Include="src\Dx\Tool\Predef\Quad.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\ConstantSetterDx9.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\ByteCode\FromFile.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\ChainByteCode.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\ChainSourceCode.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\Composite.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\SourceCode\FromMem.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\Locator.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\Predef\ChainPassThrough.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\Predef\Composite.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\Predef\PassThrough\Colored.h" />
+    <ClInclude Include="src\Dx\Tool\Vertex.h" />
+    <ClInclude Include="src\Dx\Tool\VertexBuf.h" />
+    <ClInclude Include="src\GameLoop\ABase.h" />
+    <ClInclude Include="src\GameLoop\BaseInCurrentThread.h" />
+    <ClInclude Include="src\GameLoop\BaseInSeparateThread.h" />
+    <ClInclude Include="src\GameLoop\InCurrentThread.h" />
+    <ClInclude Include="src\GameLoop\InSeparateThread.h" />
+    <ClInclude Include="src\LikeDxut\Camera\Default.h" />
+    <ClInclude Include="src\LikeDxut\Mouse.h" />
+    <ClInclude Include="src\LikeDxut\Timer.h" />
+    <ClInclude Include="src\Main.h" />
+    <ClInclude Include="src\Sys\HolderClientApp.h" />
+    <ClInclude Include="src\Sys\HolderType.h" />
+    <ClInclude Include="src\Sys\Hr.h" />
+    <ClInclude Include="src\Sys\Wnd\AWndProcHolder.h" />
+    <ClInclude Include="src\Sys\Wnd\IResizebleWindow.h" />
+    <ClInclude Include="src\Sys\Wnd\Proc.h" />
+    <ClInclude Include="src\Sys\Wnd\StToken.h" />
+    <ClInclude Include="src\Tpl\Trait.h" />
+    <ClInclude Include="src\Version.h" />
+    <ClInclude Include="src\ClientApp\ABaseClientApp.h" />
+    <ClInclude Include="src\ClientApp\Present\AOrdinary.h" />
+    <ClInclude Include="src\DrawAux\Fps\Ordinary.h" />
+    <ClInclude Include="src\Dx\Adapter\Dx10Adapter.h" />
+    <ClInclude Include="src\Dx\Adapter\Dx9Adapter.h" />
+    <ClInclude Include="src\Dx\AdjustAux.h" />
+    <ClInclude Include="src\Dx\Ctx\FactoryCtxs.h" />
+    <ClInclude Include="src\Dx\Ctx\Impl\Dx10CtxImpl.h" />
+    <ClInclude Include="src\Dx\Ctx\Impl\Dx9CtxImpl.h" />
+    <ClInclude Include="src\Dx\Ctx\CtxDx.h" />
+    <ClInclude Include="src\Dx\Ctx\CtxTool.h" />
+    <ClInclude Include="src\Dx\Descr.h" />
+    <ClInclude Include="src\Dx\Ctxs.h" />
+    <ClInclude Include="src\FrameLimiter\ABase.h" />
+    <ClInclude Include="src\FrameLimiter\Unlimit.h" />
+    <ClInclude Include="src\FrameLimiter\ViaSleep.h" />
+    <ClInclude Include="src\HelloWinHlsl.h" />
+    <ClInclude Include="src\Sys\AlignCode.h" />
+    <ClInclude Include="src\Sys\AlignConst.h" />
+    <ClInclude Include="src\Sys\AlignMacro.h" />
+    <ClInclude Include="src\Sys\ErrorHandler.h" />
+    <ClInclude Include="src\Sys\Rtti.h" />
+    <ClInclude Include="src\Sys\Wnd\Change.h" />
+    <ClInclude Include="src\Sys\Wnd\Creator.h" />
+    <ClInclude Include="src\_pch\dx.h" />
+    <ClInclude Include="src\_pch\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\HelloWinHlsl.cpp" />
+    <ClCompile Include="src\_pch\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='FastBuild|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='FastBuild|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\HelloWinHlsl.ico" />
+    <Image Include="resource\small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource\HelloWinHlsl.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

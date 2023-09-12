@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\GameLoop">
+      <UniqueIdentifier>{04b949d2-4cd3-4767-aafe-5f144bb398b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DrawAux">
+      <UniqueIdentifier>{75e2f583-2a55-46d5-81db-5de65cd70a53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DrawAux\Fps">
+      <UniqueIdentifier>{f65f96b2-55dd-4927-945d-ab04f5e73bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FrameLimiter">
+      <UniqueIdentifier>{e119d002-9e80-424c-8ab5-9d5d5f88631f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ClientApp">
+      <UniqueIdentifier>{59077af5-8901-4b96-ad63-ac9984a45785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx">
+      <UniqueIdentifier>{5fcabf65-aa4a-47e2-b1c8-9a4ec832e255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ClientApp\Present">
+      <UniqueIdentifier>{e9e06047-2ce7-4639-8e3d-e00b0359ba4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_pch">
+      <UniqueIdentifier>{021a7ed8-7545-4105-917b-0ee9da91a45a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Ctx">
+      <UniqueIdentifier>{434fbb55-60ad-48cf-a971-22fb6038fbb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Ctx\Impl">
+      <UniqueIdentifier>{8ff3aa0e-0c11-46ba-be77-1f771c869942}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Adapter">
+      <UniqueIdentifier>{ccae65e4-91e1-4615-ad1e-77c574adc630}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool">
+      <UniqueIdentifier>{15dff0a8-c601-4bc0-8c05-fc6bdb669371}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sys">
+      <UniqueIdentifier>{43dc3131-da4a-4821-93ca-d31c852ecc3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sys\Wnd">
+      <UniqueIdentifier>{6fa83a89-58ac-4fb0-b054-ec2637c88f94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ClientApp\Configurator">
+      <UniqueIdentifier>{14c3cac2-2821-4e71-a43c-6bd3f504e0c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool\Shader">
+      <UniqueIdentifier>{929975e6-7948-41fc-8068-ee4860fdbc39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool\Shader\Loader">
+      <UniqueIdentifier>{332dd00d-f1b1-41d6-a80f-c524624d6f3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool\Shader\Loader\ByteCode">
+      <UniqueIdentifier>{794e9b13-c2ff-4888-851f-414dff972ab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool\Shader\Loader\SourceCode">
+      <UniqueIdentifier>{3c753398-637c-468e-b272-b96b1584e2cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool\Shader\Predef">
+      <UniqueIdentifier>{9645a7e3-19fc-45b0-90d4-d9227050946a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool\Shader\Predef\PassThrough">
+      <UniqueIdentifier>{4537d4e8-7d14-43e7-8f7b-9ca3660b2d41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{b4200367-a047-47da-a94c-3d7067d05107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LikeDxut">
+      <UniqueIdentifier>{1d126d03-6e38-4496-bebe-763afcb14bb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\LikeDxut\Camera">
+      <UniqueIdentifier>{03c8204c-97a8-4c0f-bc62-1bc95f293b8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool\ConstantBuf">
+      <UniqueIdentifier>{7c3d89fb-952a-4029-b544-e795fff94114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool\ConstantBuf\viaStruct">
+      <UniqueIdentifier>{43624eba-4010-47ef-a892-2e82726bfb07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool\ConstantBuf\viaSerializer">
+      <UniqueIdentifier>{e8d536c5-8f2d-4935-ab67-abdc3cc9eefd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Tool\Predef">
+      <UniqueIdentifier>{ec5b2c47-b8fc-485d-b98d-f61e2cf6615a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tpl">
+      <UniqueIdentifier>{77f588ae-eb73-43ed-aec0-b3c3415f77f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Spec">
+      <UniqueIdentifier>{ffc6379c-67ec-436f-9b1e-a07888131584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Spec\D12">
+      <UniqueIdentifier>{d8747471-cc69-4e81-aa96-d28163987db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Dx\Spec\Any">
+      <UniqueIdentifier>{106f607d-4e7b-484f-b067-a5145eb453e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DxtkFont">
+      <UniqueIdentifier>{8a4a4244-aeb7-4551-a8ad-7136ef3de0d0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\HelloWinHlsl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\_pch\stdafx.cpp">
+      <Filter>_pch</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Sys\HolderType.h">
+      <Filter>Header Files\Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\HolderClientApp.h">
+      <Filter>Header Files\Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ClientApp\Configurator\Predef.h">
+      <Filter>Header Files\ClientApp\Configurator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ClientApp\Configurator\Config.h">
+      <Filter>Header Files\ClientApp\Configurator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ClientApp\Configurator\Builder.h">
+      <Filter>Header Files\ClientApp\Configurator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\IndexBuf.h">
+      <Filter>Header Files\Dx\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Vertex.h">
+      <Filter>Header Files\Dx\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\VertexBuf.h">
+      <Filter>Header Files\Dx\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Predef\Composite.h">
+      <Filter>Header Files\Dx\Tool\Shader\Predef</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Predef\ChainPassThrough.h">
+      <Filter>Header Files\Dx\Tool\Shader\Predef</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Predef\PassThrough\Colored.h">
+      <Filter>Header Files\Dx\Tool\Shader\Predef\PassThrough</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\HelloWinHlsl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ClientApp\ABaseClientApp.h">
+      <Filter>Header Files\ClientApp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ClientApp\Present\AOrdinary.h">
+      <Filter>Header Files\ClientApp\Present</Filter>
+    </ClInclude>
+    <ClInclude Include="src\_pch\stdafx.h">
+      <Filter>_pch</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Ordinary.h">
+      <Filter>Header Files\DrawAux\Fps</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\AdjustAux.h">
+      <Filter>Header Files\Dx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Descr.h">
+      <Filter>Header Files\Dx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Ctxs.h">
+      <Filter>Header Files\Dx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Adapter\Dx9Adapter.h">
+      <Filter>Header Files\Dx\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Adapter\Dx10Adapter.h">
+      <Filter>Header Files\Dx\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Ctx\FactoryCtxs.h">
+      <Filter>Header Files\Dx\Ctx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Ctx\CtxDx.h">
+      <Filter>Header Files\Dx\Ctx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Ctx\CtxTool.h">
+      <Filter>Header Files\Dx\Ctx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Ctx\Impl\Dx9CtxImpl.h">
+      <Filter>Header Files\Dx\Ctx\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Ctx\Impl\Dx10CtxImpl.h">
+      <Filter>Header Files\Dx\Ctx\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\ConstantSetterDx9.h">
+      <Filter>Header Files\Dx\Tool\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\Composite.h">
+      <Filter>Header Files\Dx\Tool\Shader\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\ChainByteCode.h">
+      <Filter>Header Files\Dx\Tool\Shader\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\ChainSourceCode.h">
+      <Filter>Header Files\Dx\Tool\Shader\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\SourceCode\FromMem.h">
+      <Filter>Header Files\Dx\Tool\Shader\Loader\SourceCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\ByteCode\FromFile.h">
+      <Filter>Header Files\Dx\Tool\Shader\Loader\ByteCode</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FrameLimiter\ABase.h">
+      <Filter>Header Files\FrameLimiter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FrameLimiter\Unlimit.h">
+      <Filter>Header Files\FrameLimiter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FrameLimiter\ViaSleep.h">
+      <Filter>Header Files\FrameLimiter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\AlignMacro.h">
+      <Filter>Header Files\Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\AlignConst.h">
+      <Filter>Header Files\Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\AlignCode.h">
+      <Filter>Header Files\Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\ErrorHandler.h">
+      <Filter>Header Files\Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\Rtti.h">
+      <Filter>Header Files\Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\Wnd\Creator.h">
+      <Filter>Header Files\Sys\Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\Wnd\Change.h">
+      <Filter>Header Files\Sys\Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Ctx\Impl\Dx11CtxImpl.h">
+      <Filter>Header Files\Dx\Ctx\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Adapter\Dx11Adapter.h">
+      <Filter>Header Files\Dx\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Adapter\Dx12Adapter.h">
+      <Filter>Header Files\Dx\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Ctx\Impl\Dx12CtxImpl.h">
+      <Filter>Header Files\Dx\Ctx\Impl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\Wnd\Proc.h">
+      <Filter>Header Files\Sys\Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Locator.h">
+      <Filter>Header Files\Dx\Tool\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\DynamicData.h">
+      <Filter>Header Files\Dx</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LikeDxut\Camera\Default.h">
+      <Filter>Header Files\LikeDxut\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LikeDxut\Timer.h">
+      <Filter>Header Files\LikeDxut</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Predef\Quad.h">
+      <Filter>Header Files\Dx\Tool\Predef</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaSerializer\Builder.h">
+      <Filter>Header Files\Dx\Tool\ConstantBuf\viaSerializer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\FactoryPackoffsetAware.h">
+      <Filter>Header Files\Dx\Tool\ConstantBuf\viaStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\FactoryStrict.h">
+      <Filter>Header Files\Dx\Tool\ConstantBuf\viaStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\HolderMem.h">
+      <Filter>Header Files\Dx\Tool\ConstantBuf\viaStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\z_example_.h">
+      <Filter>Header Files\Dx\Tool\ConstantBuf\viaStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\Accessor.h">
+      <Filter>Header Files\Dx\Tool\ConstantBuf\viaStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\Converter.h">
+      <Filter>Header Files\Dx\Tool\ConstantBuf\viaStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Tpl\Trait.h">
+      <Filter>Header Files\Tpl</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Spec\D12\Waiter.h">
+      <Filter>Header Files\Dx\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Spec\D12\SetterRootSignature.h">
+      <Filter>Header Files\Dx\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Spec\D12\Resizer.h">
+      <Filter>Header Files\Dx\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLoop\InSeparateThread.h">
+      <Filter>Header Files\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Spec\D12\GameLoopPart.h">
+      <Filter>Header Files\Dx\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLoop\InCurrentThread.h">
+      <Filter>Header Files\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLoop\BaseInCurrentThread.h">
+      <Filter>Header Files\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLoop\ABase.h">
+      <Filter>Header Files\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameLoop\BaseInSeparateThread.h">
+      <Filter>Header Files\GameLoop</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\Wnd\IResizebleWindow.h">
+      <Filter>Header Files\Sys\Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Spec\D12\WindowResizer.h">
+      <Filter>Header Files\Dx\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\Wnd\StToken.h">
+      <Filter>Header Files\Sys\Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\Wnd\AWndProcHolder.h">
+      <Filter>Header Files\Sys\Wnd</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Spec\Any\WindowResizerStub.h">
+      <Filter>Header Files\Dx\Spec\Any</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\RootSignatureCreator.h">
+      <Filter>Header Files\Dx\Tool\ConstantBuf\viaStruct</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sys\Hr.h">
+      <Filter>Header Files\Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DxtkFont\CompiledToBinary.h">
+      <Filter>Header Files\DxtkFont</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LikeDxut\Mouse.h">
+      <Filter>Header Files\LikeDxut</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\_pch\dx.h">
+      <Filter>_pch</Filter>
+    </ClInclude>
+    <ClInclude Include="src\_pch\sysw.h">
+      <Filter>_pch</Filter>
+    </ClInclude>
+    <ClInclude Include="src\_pch\framework.h">
+      <Filter>_pch</Filter>
+    </ClInclude>
+    <ClInclude Include="src\_pch\targetver.h">
+      <Filter>_pch</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resource\HelloWinHlsl.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resource\small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource\HelloWinHlsl.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resource\resource.h">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>
