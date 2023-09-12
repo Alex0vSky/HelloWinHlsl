@@ -85,7 +85,8 @@
       <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
       <AdditionalDependencies>DirectXTK12.lib;</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <AdditionalOptions>/ignore:4099</AdditionalOptions>
+      <DelayLoadDLLs>dxgi.dll;dwrite.dll;d2d1.dll; d3d9.dll;d3dx9.dll;D3DX9_43.dll; d3d10_1.dll;d3dx10.dll; d3d11.dll;d3dcompiler.dll;D3DCompiler_47.dll; d3d11.dll;d3d11_3SDKLayers.dll; d3d12.dll;</DelayLoadDLLs>
+      <AdditionalOptions>/ignore:4199 /ignore:4099</AdditionalOptions>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -103,7 +104,8 @@
       <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
       <AdditionalDependencies>DirectXTK12.lib;</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <AdditionalOptions>/ignore:4099</AdditionalOptions>
+      <DelayLoadDLLs>dxgi.dll;dwrite.dll;d2d1.dll; d3d9.dll;d3dx9.dll;D3DX9_43.dll; d3d10_1.dll;d3dx10.dll; d3d11.dll;d3dcompiler.dll;D3DCompiler_47.dll; d3d11.dll;d3d11_3SDKLayers.dll; d3d12.dll;</DelayLoadDLLs>
+      <AdditionalOptions>/ignore:4199 /ignore:4099</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -123,7 +125,8 @@
       <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
       <AdditionalDependencies>DirectXTK12.lib;</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <AdditionalOptions>/ignore:4099</AdditionalOptions>
+      <DelayLoadDLLs>dxgi.dll;dwrite.dll;d2d1.dll; d3d9.dll;d3dx9.dll;D3DX9_43.dll; d3d10_1.dll;d3dx10.dll; d3d11.dll;d3dcompiler.dll;D3DCompiler_47.dll; d3d11.dll;d3d11_3SDKLayers.dll; d3d12.dll;</DelayLoadDLLs>
+      <AdditionalOptions>/ignore:4199 /ignore:4099</AdditionalOptions>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -141,7 +144,8 @@
       <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
       <AdditionalDependencies>DirectXTK12.lib;</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
-      <AdditionalOptions>/ignore:4099</AdditionalOptions>
+      <DelayLoadDLLs>dxgi.dll;dwrite.dll;d2d1.dll; d3d9.dll;d3dx9.dll;D3DX9_43.dll; d3d10_1.dll;d3dx10.dll; d3d11.dll;d3dcompiler.dll;D3DCompiler_47.dll; d3d11.dll;d3d11_3SDKLayers.dll; d3d12.dll;</DelayLoadDLLs>
+      <AdditionalOptions>/ignore:4199 /ignore:4099</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
 </Project>
