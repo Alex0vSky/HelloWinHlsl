@@ -21,6 +21,6 @@ jobs:
         with:
           name: ${{ env.test_artifact_name }}
           path: | # *.pdb for code coverage
-            ${{env.dirTestExecutables}}\**\*.exe
-            ${{env.dirTestExecutables}}\**\*.pdb
-            !${{env.dirTestExecutables}}\**\StaticLibrary.pdb
+            ${{ github.workspace }}/qa/UnitTest/bin/**/*.exe
+            ${{ github.workspace }}/qa/UnitTest/bin/**/*.pdb
+            ${{ github.workspace }}/qa/UnitTest/bin/**/StaticLibrary.pdb
