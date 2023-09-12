@@ -1,8 +1,5 @@
 #pragma once
-// TODO:
-//#include "HelloWinHlsl.h"
-#include "stdafx_sys.h"
-#include "Main.h"
+#include "HelloWinHlsl.h"
 #include "gtest\gtest.h"
 #include "gmock\gmock.h"
 

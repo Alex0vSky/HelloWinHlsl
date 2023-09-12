@@ -69,75 +69,77 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>A0S_HWH_YOUROWN_ENTRY;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\ThirdParty\googletest\gmock\include;..\ThirdParty\gmock-win32\include; ..\..\..\resource;..\..\..\src;..\..\..\src\_pch;..\..\..\ThirdParty; </AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>A0S_HWH_YOUROWN_ENTRY;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\ThirdParty\googletest\gmock\include;..\ThirdParty\gmock-win32\include; ..\..\..\resource;..\..\..;..\..\..\src; ..\..\..\src\_pch; ..\..\..\ThirdParty; ..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\EditorSubsystem;..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine;..\..\..\include\Engine\Source\Runtime\Engine\Public;..\..\..\include\Engine\Source\Editor\EditorSubsystem\Public; ..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\GameProjectGeneration;..\..\..\include\Engine\Source;..\..\..\include\Engine\Source\Editor\AddContentDialog\Public; ..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\AddContentDialog; ..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\SlateCore;..\..\..\include\Engine\Source\Runtime\SlateCore\Public;..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\InputCore;..\..\..\include\Engine\Source\Runtime\InputCore\Classes;  ..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\HardwareTargeting;..\..\..\include\Engine\Source\Runtime\Core\Public;..\..\..\include\Engine\Source\Runtime\ApplicationCore\Public;..\..\..\include\Engine\Source\Editor\HardwareTargeting\Public;..\..\..\include\Engine\Source\Runtime\Json\Public;..\..\..\include\Engine\Source\Runtime\Projects\Public;..\..\..\include\Engine\Source\Runtime\CoreUObject\Public;..\..\..\include\Engine\Source\Runtime\Slate\Public;..\..\..\include\Engine\Source\Runtime\TraceLog\Public; %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <Optimization>Disabled</Optimization>
-      <RemoveUnreferencedCodeData>false</RemoveUnreferencedCodeData>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
       <AdditionalDependencies>HelloWinHlsl.lib;</AdditionalDependencies>
-      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalOptions>/ignore:4099</AdditionalOptions>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PreprocessorDefinitions>A0S_HWH_YOUROWN_ENTRY;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\ThirdParty\googletest\gmock\include;..\ThirdParty\gmock-win32\include; ..\..\..\resource;..\..\..\src;..\..\..\src\_pch;..\..\..\ThirdParty; </AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>HelloWinHlsl.lib;</AdditionalDependencies>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalOptions>/ignore:4099</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>A0S_HWH_YOUROWN_ENTRY;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\ThirdParty\googletest\gmock\include;..\ThirdParty\gmock-win32\include; ..\..\..\resource;..\..\..;..\..\..\src; ..\..\..\src\_pch; ..\..\..\ThirdParty; ..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\EditorSubsystem;..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine;..\..\..\include\Engine\Source\Runtime\Engine\Public;..\..\..\include\Engine\Source\Editor\EditorSubsystem\Public; ..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\GameProjectGeneration;..\..\..\include\Engine\Source;..\..\..\include\Engine\Source\Editor\AddContentDialog\Public; ..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\AddContentDialog; ..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\SlateCore;..\..\..\include\Engine\Source\Runtime\SlateCore\Public;..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\InputCore;..\..\..\include\Engine\Source\Runtime\InputCore\Classes;  ..\..\..\include\Engine\Intermediate\Build\Win64\UE4Editor\Inc\HardwareTargeting;..\..\..\include\Engine\Source\Runtime\Core\Public;..\..\..\include\Engine\Source\Runtime\ApplicationCore\Public;..\..\..\include\Engine\Source\Editor\HardwareTargeting\Public;..\..\..\include\Engine\Source\Runtime\Json\Public;..\..\..\include\Engine\Source\Runtime\Projects\Public;..\..\..\include\Engine\Source\Runtime\CoreUObject\Public;..\..\..\include\Engine\Source\Runtime\Slate\Public;..\..\..\include\Engine\Source\Runtime\TraceLog\Public; %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <LanguageStandard>stdcpp17</LanguageStandard>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalOptions>
-Delayimp.lib
-/delayload:UE4Editor-Core.dll
-/delayload:UE4Editor-ApplicationCore.dll
-/delayload:UE4Editor-GameProjectGeneration.dll
-/delayload:UE4Editor-CoreUObject.dll
-/delayload:UE4Editor-AddContentDialog.dll
-/delayload:UE4Editor-Slate.dll
-..\..\..\lib\UE4Editor-Core.lib
-..\..\..\lib\UE4Editor-ApplicationCore.lib
-..\..\..\lib\UE4Editor-GameProjectGeneration.lib
-..\..\..\lib\UE4Editor-CoreUObject.lib
-..\..\..\lib\UE4Editor-AddContentDialog.lib
-..\..\..\lib\UE4Editor-Slate.lib
- %(AdditionalOptions)</AdditionalOptions>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>None</DebugInformationFormat>
-      <AdditionalIncludeDirectories>..\ThirdParty\googletest\gmock\include;..\ThirdParty\gmock-win32\include; ..\..\..\resource;..\..\..\src;..\..\..\src\_pch;..\..\..\ThirdParty; </AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
       <AdditionalDependencies>HelloWinHlsl.lib;</AdditionalDependencies>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalOptions>/ignore:4099</AdditionalOptions>
+      <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PreprocessorDefinitions>A0S_HWH_YOUROWN_ENTRY;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\ThirdParty\googletest\gmock\include;..\ThirdParty\gmock-win32\include; ..\..\..\resource;..\..\..\src;..\..\..\src\_pch;..\..\..\ThirdParty; </AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>HelloWinHlsl.lib;</AdditionalDependencies>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <AdditionalOptions>/ignore:4099</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
 </Project>
