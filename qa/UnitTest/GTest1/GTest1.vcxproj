@@ -82,7 +82,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>HelloWinHlsl.lib;</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTK12.lib;</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalOptions>/ignore:4099</AdditionalOptions>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
@@ -100,7 +100,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>HelloWinHlsl.lib;</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTK12.lib;</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalOptions>/ignore:4099</AdditionalOptions>
     </Link>
@@ -119,7 +119,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>HelloWinHlsl.lib;</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTK12.lib;</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalOptions>/ignore:4099</AdditionalOptions>
       <GenerateDebugInformation>DebugFastLink</GenerateDebugInformation>
@@ -137,7 +137,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <AdditionalLibraryDirectories>..\..\..\..\HelloWinHlsl\lib\$(PlatformTarget)\$(Configuration);</AdditionalLibraryDirectories>
-      <AdditionalDependencies>HelloWinHlsl.lib;</AdditionalDependencies>
+      <AdditionalDependencies>DirectXTK12.lib;</AdditionalDependencies>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
       <AdditionalOptions>/ignore:4099</AdditionalOptions>
     </Link>
