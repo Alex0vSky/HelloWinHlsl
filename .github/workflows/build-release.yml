@@ -17,7 +17,15 @@ jobs:
 
       - name: Set environment values (windows-latest)
         run: | 
+          $dirLib="${{ github.workspace }}\lib";
+          echo "dirLib=$dirLib" >> $env:GITHUB_ENV
+          $dirLib_x86_Debug="${{ github.workspace }}\lib\x86\Debug";
+          $dirLib_x86_Release="${{ github.workspace }}\lib\x86\Release";
+          $dirLib_x64_Debug="${{ github.workspace }}\lib\x64\Debug";
           $dirLib_x64_Release="${{ github.workspace }}\lib\x64\Release";
+          echo "dirLib_x86_Debug=$dirLib_x86_Debug" >> $env:GITHUB_ENV
+          echo "dirLib_x86_Release=$dirLib_x86_Release" >> $env:GITHUB_ENV
+          echo "dirLib_x64_Debug=$dirLib_x64_Debug" >> $env:GITHUB_ENV
           echo "dirLib_x64_Release=$dirLib_x64_Release" >> $env:GITHUB_ENV
           $uriVersion='gist.githubusercontent.com/${{ github.repository_owner }}/${{ env.uriGistId }}/raw'
           echo "uriVersion=$uriVersion" >> $env:GITHUB_ENV
@@ -55,16 +63,23 @@ jobs:
         uses: microsoft/setup-msbuild@v1.1
       - name: Build release
         run: | # build from *.sln
+          MSBuild . -noLogo -verbosity:minimal -m -p:Platform=x86 -p:Configuration=Debug
+          MSBuild . -noLogo -verbosity:minimal -m -p:Platform=x86 -p:Configuration=Release
+          MSBuild . -noLogo -verbosity:minimal -m -p:Platform=x64 -p:Configuration=Debug
           MSBuild . -noLogo -verbosity:minimal -m -p:Platform=x64 -p:Configuration=Release
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.release_artifact_name }}
           path: |
-            ${{ env.dirLib_x64_Release }}\*.${{ env.strOutExt }}
+            ${{ env.dirLib }}\**.${{ env.strOutExt }}
 
       - name: Renaming to versioning names
         run: | 
+          mv -v ${{ env.dirLib_x86_Debug }}\${{ env.strOutName }}.${{ env.strOutExt }} ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x86.${{ env.strOutExt }}
+          mv -v ${{ env.dirLib_x86_Release }}\${{ env.strOutName }}.${{ env.strOutExt }} ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x86.${{ env.strOutExt }}
+          mv -v ${{ env.dirLib_x64_Debug }}\${{ env.strOutName }}.${{ env.strOutExt }} ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x64.${{ env.strOutExt }}
           mv -v ${{ env.dirLib_x64_Release }}\${{ env.strOutName }}.${{ env.strOutExt }} ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x64.${{ env.strOutExt }}
+
       - name: Replace '\\' for softprops/action-gh-release
         run: | 
           $strGlob="${{ runner.temp }}/${{ env.strOutName }}-${{ env.strTag }}-*.${{ env.strOutExt }}";
