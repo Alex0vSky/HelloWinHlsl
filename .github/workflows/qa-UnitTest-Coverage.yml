@@ -26,9 +26,9 @@ jobs:
 
       - name: Set values (windows-latest)
         run: | # build from *.sln, all tests
-          echo "dirTestExecutables=${{github.workspace}}\qa\UnitTest\bin\${{env.strPlatform}}\${{env.strConfiguration}}" >> $env:GITHUB_ENV
-          echo "strCfg=${{env.strPlatform}}-${{env.strConfiguration}}" >> $env:GITHUB_ENV
-          echo "dirSetupOcc=${env:Programfiles}\Occ" >> $env:GITHUB_ENV
+          echo "dirTestExecutables=${{ github.workspace }}\qa\UnitTest\bin\${{ env.strPlatform }}\${{ env.strConfiguration }}" >> $env:GITHUB_ENV
+          echo "strCfg=${{ env.strPlatform }}-${{ env.strConfiguration }}" >> $env:GITHUB_ENV
+          echo "dirSetupOcc=${ env:Programfiles }\Occ" >> $env:GITHUB_ENV
 
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
@@ -36,7 +36,7 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: build-test.yml
           name: ${{ env.test_artifact_name }}
-          path: ${{ env.dirTestExecutables }}
+          path: ${{ github.workspace }}\qa\UnitTest\bin
           search_artifacts: true
 
       - name: Cache tool Occ
@@ -62,11 +62,6 @@ jobs:
       - name: Run tool Occ
         continue-on-error: true
         run: |
-          # Warmup for gmock-win32 hooks
-          @( 
-              "${{ env.module0 }}"
-          ).ForEach{ Start-Process "${{ env.dirTestExecutables }}\$_" -ArgumentList '--gtest_repeat=0' -NoNewWindow; } 
-          
           # Prepare occ args
           $common_args='-q --working_dir "src"'
           $modules="--modules ${{ env.dirTestExecutables }}"
