@@ -10,6 +10,6 @@ extern "C" {
 	__declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
 }
 
-int APIENTRY wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, int) {
+int WINAPI wWinMain(HINSTANCE hInst, HINSTANCE, LPWSTR, int) {
 	return prj_3d::HelloWinHlsl::Main::run( hInst );
 }

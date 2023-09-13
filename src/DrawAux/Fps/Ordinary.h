@@ -472,6 +472,7 @@ template<> class Ordinary<DxVer::v12> {
 
 	uptr< DirectX::DescriptorHeap > m_resourceDescriptors;
 	uptr< DirectX::SpriteFont > m_font;
+	//enum class Descriptors : size_t {
 	enum Descriptors {
 		MyFont,
 		Count

@@ -63,8 +63,8 @@ class Hr {
     }
 	// or -fno-elide-constructor
 	Hr(const Hr&& rhs) 
-		: m_hr( std::move( rhs.m_hr ) ) // NOLINT(build/include_what_you_use)
-		, m_bstrDescription( std::move( rhs.m_bstrDescription ) ) // NOLINT(build/include_what_you_use)
+		: m_hr( rhs.m_hr ) 
+		, m_bstrDescription( rhs.m_bstrDescription ) 
     {}
     // NonCopyable almost -- "Hr() = default;"
     Hr(const Hr&) = delete;
