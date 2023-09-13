@@ -1,5 +1,5 @@
 // Dx/Spec/D12/GameLoopPart.h - common behavior in run for DirectX 12 game loop
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Spec::D12 {
 class GameLoopPart : virtual public GameLoop::detail_::ABaseWndProcHolderAware<DxVer::v12> {
 	using ABaseWndProcHolderAware<DxVer::v12>::ABaseWndProcHolderAware;
@@ -35,13 +35,13 @@ class GameLoopPart : virtual public GameLoop::detail_::ABaseWndProcHolderAware<D
 
 		m_puoWnd ->setDxCtx( m_stCtx ->m_psstDxCtx, m_puMutex.get( ), m_psoWaiter.get( ), m_psoResizer.get( ) );
 
-		m_puSetterRootSignature = std::make_unique< Dx::Spec::D12::SetterRootSignature >( std::addressof( m_pcRootSignature ) );
+		m_puSetterRootSignature = std::make_unique< Dx::Spec::D12::SetterRootSignature >( 
+			std::addressof( m_pcRootSignature ) );
         m_puoAdjustDxAux = Dx::FactoryAdjustAux<DxVer::v12>::create( 
 				m_stCtx ->m_psstDxCtx
 				, m_psoWaiter.get( )
 				, *m_puSetterRootSignature
 			);
-
 	}
 
 	virtual ~GameLoopPart() {
@@ -60,7 +60,8 @@ class GameLoopPart : virtual public GameLoop::detail_::ABaseWndProcHolderAware<D
 			m_puoDrawAuxFps ->setDx12Viewport( m_psoResizer ->getViewport( ) );
 			m_puoDrawAuxFps ->setDx12CommandList( m_pc_CommandList );
 		}
-		m_graphicsMemory = std::make_unique< DirectX::GraphicsMemory >( m_stCtx ->m_psstDxCtx ->m_pcD3dDevice12.Get( ) );
+		m_graphicsMemory = std::make_unique< DirectX::GraphicsMemory >( 
+			m_stCtx ->m_psstDxCtx ->m_pcD3dDevice12.Get( ) );
 
 		this ->setCallbackAfterPresent(
 				[this]() {
@@ -128,7 +129,8 @@ class GameLoopPart : virtual public GameLoop::detail_::ABaseWndProcHolderAware<D
 
 					// Execute the command list.
 					ID3D12CommandList* ppCommandLists[] = { m_pc_CommandList.Get( ) };
-					m_stCtx ->m_psstDxCtx ->m_pcCommandQueue ->ExecuteCommandLists( _countof( ppCommandLists ), ppCommandLists );
+					m_stCtx ->m_psstDxCtx ->m_pcCommandQueue ->ExecuteCommandLists( 
+						_countof( ppCommandLists ), ppCommandLists );
 				}
 			);		
 	}

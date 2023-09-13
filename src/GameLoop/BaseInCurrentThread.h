@@ -1,5 +1,5 @@
 ﻿// GameLoop/BaseInCurrentThread.h - base logic for game loop in current thread
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::GameLoop {
 namespace detail_ {
 
@@ -10,7 +10,7 @@ class BaseInCurrentThread_ : virtual public ABaseWndProcHolderAware<T> {
  protected:
 	using base_t::ABaseWndProcHolderAware;
 	int wndMessageAndClientCall() {
-        MSG msg = {};
+        MSG msg = { };
         do {
 			// Hangs inside DispatchMessage when I move the window, only WndProc works.
             if ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE)) {
@@ -20,7 +20,10 @@ class BaseInCurrentThread_ : virtual public ABaseWndProcHolderAware<T> {
 
 			if ( base_t::m_pfnCallbackBeforeRender )
 				base_t::m_pfnCallbackBeforeRender( );
-			base_t::m_puoClientApp ->render_frame( base_t::m_stCtx ->m_psstDxCtx, base_t::m_psoDynamicData ->forClient( ) );
+			base_t::m_puoClientApp ->render_frame( 
+					base_t::m_stCtx ->m_psstDxCtx
+					, base_t::m_psoDynamicData ->forClient( ) 
+				);
 
 			// show fps
 			if ( base_t::m_puoDrawAuxFps )
@@ -31,12 +34,17 @@ class BaseInCurrentThread_ : virtual public ABaseWndProcHolderAware<T> {
             // limit fps
             base_t::m_puoFrameLimiter ->limit( );
 
-			base_t::m_puoClientApp ->present_to_screen( base_t::m_stCtx ->m_psstDxCtx, base_t::m_psoDynamicData ->forClient( ) );
-			if ( base_t::m_pfnCallbackAfterPresent ) 
+			base_t::m_puoClientApp ->present_to_screen( 
+					base_t::m_stCtx ->m_psstDxCtx
+					, base_t::m_psoDynamicData ->forClient( ) 
+				);
+			if ( base_t::m_pfnCallbackAfterPresent ) {
 				base_t::m_pfnCallbackAfterPresent( );
+			}
         } while ( WM_QUIT != msg.message );
-        return (int) msg.wParam;
+        return static_cast<int>( msg.wParam );
 	}
 };
-} // namespace detail_;
+} // namespace detail_
 } // namespace prj_3d::HelloWinHlsl::GameLoop
+

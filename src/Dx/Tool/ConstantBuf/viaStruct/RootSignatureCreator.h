@@ -1,5 +1,5 @@
 ﻿// Dx/Tool/ConstantBuf/viaStruct/RootSignatureCreator.h - ...
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct {
 class RootSignatureCreator {
 	using TInnerDxVer = DxVer::v12;
@@ -13,29 +13,27 @@ class RootSignatureCreator {
  public:
 	explicit RootSignatureCreator(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx ) 
-	{}
+	 {}
 
 #ifdef BOOST_PFR_ENABLED
 	template<class TConstBuf>
 	auto fromStruct() {
 		std::vector< D3D12_ROOT_PARAMETER > vecParam;
 		UINT shaderRegister = 0;
-		boost::pfr::for_each_field( TConstBuf{ }, [&vecParam,&shaderRegister](const auto& field) {
+		boost::pfr::for_each_field( TConstBuf{ }, [&vecParam, &shaderRegister](const auto& field) {
 			UINT num32BitValues = 0;
 			CD3DX12_ROOT_PARAMETER param;
 			using field_t = std::decay_t< decltype( field ) >;
-			if constexpr ( false ) {}
-			else if constexpr ( ( std::is_same_v< field_t, float > ) ) {
+			if constexpr ( false ) {
+			} else if constexpr ( ( std::is_same_v< field_t, float > ) ) {
 				param = InitAsConstants_( num32BitValues = 1, shaderRegister++ );
-			}
-			else if constexpr ( ( std::is_same_v< field_t, DirectX::XMFLOAT2 > ) ) {
+			} else if constexpr ( ( std::is_same_v< field_t, DirectX::XMFLOAT2 > ) ) {
 				param = InitAsConstants_( num32BitValues = 2, shaderRegister++ );
-			}
-			else if constexpr ( ( std::is_same_v< field_t, DirectX::XMUINT2 > ) ) {
+			} else if constexpr ( ( std::is_same_v< field_t, DirectX::XMUINT2 > ) ) {
 				param = InitAsConstants_( num32BitValues = 2, shaderRegister++ );
-			}
-			else 
+			} else {
 				static_assert( Tpl::Trait::always_false_v< field_t >, "unsupport type" );
+			}
 			vecParam.push_back( param );
 		} );
 
@@ -65,6 +63,5 @@ class RootSignatureCreator {
 		return pcRootSignature;
 	}
 #endif // BOOST_PFR_ENABLED
-
 };
 } // namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct

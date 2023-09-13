@@ -1,10 +1,11 @@
 ﻿// Dx/Spec/D12/Resizer.h - resize window, now its only storage
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Spec::D12 {
 class Resizer {
 	D3D12_VIEWPORT m_stViewport;
 	D3D12_RECT m_stScissorRect;
 	std::vector< CPtr< ID3D12Resource > > m_veRenderTargets;
+	
  public:
 	template<size_t FrameCount>
 	Resizer( 
@@ -15,7 +16,7 @@ class Resizer {
 		: m_stViewport( viewport )
 		, m_stScissorRect( scissorRect )
 		, m_veRenderTargets( renderTargets.begin( ), renderTargets.end( ) )
-	{}
+	 {}
 	const D3D12_VIEWPORT &getViewport() const {
 		return m_stViewport;
 	}

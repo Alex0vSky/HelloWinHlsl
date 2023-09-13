@@ -1,15 +1,16 @@
 ﻿// Dx/Tool/IndexBuf.h - Index Buffer creator
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool {
 template<class T> class IndexBuf; // primary template
 
 template<> class IndexBuf<DxVer::v9> {
 	using TInnerDxVer = DxVer::v9;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
-public:
+	
+ public:
 	explicit IndexBuf(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx )
-	{}
+	 {}
 
 	struct indexBuf_t {
 		const CPtr< IDirect3DIndexBuffer9 > m_pcBuffer;
@@ -20,12 +21,9 @@ public:
 	template<class TVE>
 	auto createInitialized(const std::vector< TVE > &veMem) {
 		D3DFORMAT enuFormat = D3DFORMAT::D3DFMT_UNKNOWN;
-		if ( false ) ;
-		else {
-			if ( 2 == sizeof( TVE ) ) {
-				if ( std::is_unsigned_v< TVE > )
-					enuFormat = D3DFORMAT::D3DFMT_INDEX16;
-			}
+		if ( 2 == sizeof( TVE ) ) {
+			if ( std::is_unsigned_v< TVE > )
+				enuFormat = D3DFORMAT::D3DFMT_INDEX16;
 		}
 		if ( D3DFORMAT::D3DFMT_UNKNOWN == enuFormat )
 			return uptr< indexBuf_t >{ }; // nullptr;
@@ -58,10 +56,11 @@ public:
 template<> class IndexBuf<DxVer::v10> {
 	using TInnerDxVer = DxVer::v10;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
-public:
+	
+ public:
 	explicit IndexBuf(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx )
-	{}
+	 {}
 
 	struct indexBuf_t {
 		const CPtr< ID3D10Buffer > m_pcBuffer;
@@ -73,14 +72,11 @@ public:
 	template<class TVE>
 	auto createInitialized(const std::vector< TVE > &veMemNdcLH) {
 		DXGI_FORMAT enuDxgiFormat = DXGI_FORMAT::DXGI_FORMAT_UNKNOWN;
-		if ( false ) ;
-		else {
-			if ( 2 == sizeof( TVE ) ) {
-				if ( std::is_unsigned_v< TVE > )
-					enuDxgiFormat = DXGI_FORMAT::DXGI_FORMAT_R16_UINT;
-				else 
-					enuDxgiFormat = DXGI_FORMAT::DXGI_FORMAT_R16_SINT;
-			}
+		if ( 2 == sizeof( TVE ) ) {
+			if ( std::is_unsigned_v< TVE > )
+				enuDxgiFormat = DXGI_FORMAT::DXGI_FORMAT_R16_UINT;
+			else 
+				enuDxgiFormat = DXGI_FORMAT::DXGI_FORMAT_R16_SINT;
 		}
 		if ( DXGI_FORMAT::DXGI_FORMAT_UNKNOWN == enuDxgiFormat )
 			return uptr< indexBuf_t >{ }; // nullptr;
@@ -90,7 +86,8 @@ public:
 		stBufferDesc.Usage = D3D10_USAGE_DEFAULT;
 		stBufferDesc.BindFlags = D3D10_BIND_INDEX_BUFFER;
 		CPtr< ID3D10Buffer > cpIndexBuf;
-		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( &stBufferDesc, &stInitData, cpIndexBuf.ReleaseAndGetAddressOf( ) );
+		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( 
+			&stBufferDesc, &stInitData, cpIndexBuf.ReleaseAndGetAddressOf( ) );
 		if ( FAILED( hr ) )
 			return uptr< indexBuf_t >{ }; // nullptr;
 		indexBuf_t stBuf{ 

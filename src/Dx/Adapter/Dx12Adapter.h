@@ -1,11 +1,12 @@
 ﻿// Dx/Adapter/Dx12Adapter.h - work with adapter
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Adapter {
 class Dx12Adapter {
 	std::string m_strAdapterDescr;
 	CPtr< IDXGIAdapter1 > m_pcDxgiAdapter;
 	CPtr< IDXGIFactory6 > m_pcDxgiFactory6;
-public:
+
+ public:
 	bool prepare() {
 		Sys::Hr hr;
 	    UINT dxgiFactoryFlags = 0;
@@ -13,7 +14,7 @@ public:
 #ifdef _DEBUG
 		// Enable the debug layer (requires the Graphics Tools "optional feature").
 		// NOTE: Enabling the debug layer after device creation will invalidate the active device.
-		{
+		 {
 			CPtr< ID3D12Debug > D3D12Debug;
 			HRESULT hr_;
 			hr_ = ::D3D12GetDebugInterface( IID_PPV_ARGS( D3D12Debug.ReleaseAndGetAddressOf( ) ) );
@@ -26,15 +27,20 @@ public:
 
 		/*
 		CPtr< IDXGIInfoQueue > dxgiInfoQueue;
-		if (DXGIGetDebugInterface1 != nullptr && SUCCEEDED(::DXGIGetDebugInterface1(0, IID_PPV_ARGS(dxgiInfoQueue.GetAddressOf()))))
+		if (DXGIGetDebugInterface1 != nullptr && SUCCEEDED(
+			::DXGIGetDebugInterface1(0, IID_PPV_ARGS(dxgiInfoQueue.GetAddressOf()))))
 		{
-			hr = dxgiInfoQueue->SetBreakOnSeverity(DXGI_DEBUG_ALL, DXGI_INFO_QUEUE_MESSAGE_SEVERITY_CORRUPTION, true);
-			hr = dxgiInfoQueue->SetBreakOnSeverity(DXGI_DEBUG_ALL, DXGI_INFO_QUEUE_MESSAGE_SEVERITY_ERROR, true);
-			//dxgiInfoQueue->SetBreakOnSeverity(DXGI_DEBUG_ALL, DXGI_INFO_QUEUE_MESSAGE_SEVERITY_WARNING, true);
+			hr = dxgiInfoQueue->SetBreakOnSeverity(DXGI_DEBUG_ALL, 
+				DXGI_INFO_QUEUE_MESSAGE_SEVERITY_CORRUPTION, true);
+			hr = dxgiInfoQueue->SetBreakOnSeverity(DXGI_DEBUG_ALL, 
+				DXGI_INFO_QUEUE_MESSAGE_SEVERITY_ERROR, true);
+			//dxgiInfoQueue->SetBreakOnSeverity(DXGI_DEBUG_ALL, 
+				DXGI_INFO_QUEUE_MESSAGE_SEVERITY_WARNING, true);
 
 			DXGI_INFO_QUEUE_MESSAGE_ID hide[] =
 			{
-				// IDXGISwapChain::GetContainingOutput: The swapchain's adapter does not control the output on which the swapchain's window resides.
+				// IDXGISwapChain::GetContainingOutput: The swapchain's adapter does not control 
+				//	the output on which the swapchain's window resides.
 				//80 
 				// D3D Error 887e0003: (3224@711816656) at 00007FFDDE460ED5
 				// D3D12 SDKLayers dll does not match the D3D12SDKVersion of D3D12 Core dll.
@@ -51,10 +57,12 @@ public:
 
 #endif // _DEBUG
 		//*/
-		{
+		 {
 			CPtr< IDXGIFactory4 > pcDxgiFactory4;
-			hr = ::CreateDXGIFactory2( dxgiFactoryFlags, IID_PPV_ARGS( pcDxgiFactory4.ReleaseAndGetAddressOf( ) ) );
-			hr = pcDxgiFactory4 ->QueryInterface( IID_PPV_ARGS( m_pcDxgiFactory6.ReleaseAndGetAddressOf( ) ) );
+			hr = ::CreateDXGIFactory2( dxgiFactoryFlags, IID_PPV_ARGS( 
+				pcDxgiFactory4.ReleaseAndGetAddressOf( ) ) );
+			hr = pcDxgiFactory4 ->QueryInterface( IID_PPV_ARGS( 
+				m_pcDxgiFactory6.ReleaseAndGetAddressOf( ) ) );
 		}
 		// No more need to export symbols NvOptimusEnablement and AmdPowerXpressRequestHighPerformance
 		DXGI_ADAPTER_DESC1 struAdapterDesc;
@@ -74,7 +82,13 @@ public:
 		hr = m_pcDxgiAdapter ->GetDesc1( &struAdapterDesc );
 
 		std::vector< char > plainMemory( ::wcslen( struAdapterDesc.Description ) + 1 );
-		::wcstombs_s( nullptr, &plainMemory[ 0 ], plainMemory.size( ), struAdapterDesc.Description, _TRUNCATE );
+		::wcstombs_s( 
+				nullptr
+				, &plainMemory[ 0 ]
+				, plainMemory.size( )
+				, struAdapterDesc.Description
+				, _TRUNCATE 
+			);
 		m_strAdapterDescr = &plainMemory[ 0 ];
 
 		return true;

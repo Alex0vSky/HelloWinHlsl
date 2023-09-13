@@ -1,5 +1,5 @@
 ﻿// Sys/Wnd/Creator.h - create window
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Sys::Wnd {
 namespace detail_ {
 template<class TResizer>
@@ -57,7 +57,7 @@ struct BaseCreator {
 			);
 	}
 };
-} // namespace detail_ _
+} // namespace detail_
 class Creator {
 	typedef Dx::Spec::D12::WindowResizer ResizerDx12_t;
 	typedef Dx::Spec::Any::WindowResizerStub ResizerDxOther_t;

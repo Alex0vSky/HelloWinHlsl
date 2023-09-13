@@ -1,12 +1,11 @@
 ﻿// Dx/Ctx/Impl/Dx12CtxImpl.h - implementation for DirectX3D version 11
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Ctx::Impl {
 class Dx12CtxImpl {
-public:
+ public:
 	static 
 	Ty::StDxCtx_ptr< DxVer::v12 >
-	create(Sys::Wnd::StToken::cref_t crstWndToken, const Dx::Adapter::Dx12Adapter &oAdapter) 
-	{
+	create(Sys::Wnd::StToken::cref_t crstWndToken, const Dx::Adapter::Dx12Adapter &oAdapter) {
 		UINT Width = crstWndToken.m_uInitialWidth
 			, Height = crstWndToken.m_uInitialHeight;
 		float fWidth = static_cast< float >( Width )
@@ -31,7 +30,8 @@ public:
 					, IID_PPV_ARGS( pcD3dDevice12.ReleaseAndGetAddressOf( ) )
 				);
 		BOOL allowTearing = FALSE;
-		hr_ = oAdapter ->CheckFeatureSupport( DXGI_FEATURE_PRESENT_ALLOW_TEARING, &allowTearing, sizeof( allowTearing ) );
+		hr_ = oAdapter ->CheckFeatureSupport( 
+			DXGI_FEATURE_PRESENT_ALLOW_TEARING, &allowTearing, sizeof( allowTearing ) );
 		bool bTearingSupport = SUCCEEDED( hr_ ) && allowTearing;
 
 		// Describe and create the command queue.
@@ -55,7 +55,7 @@ public:
 		swapChainDesc.SampleDesc.Count = 1;
 	    swapChainDesc.Flags = bTearingSupport ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
 		CPtr< IDXGISwapChain3 > swapChain3;
-		{
+		 {
 			CPtr< IDXGISwapChain1 > swapChain1;
 			hr = oAdapter ->CreateSwapChainForHwnd(
 					// Swap chain needs the queue so that it can force a flush on it.
@@ -81,7 +81,7 @@ public:
 		UINT rtvDescriptorSize;
 		// Create descriptor heaps.
 		CPtr< ID3D12DescriptorHeap > pcRtvHeap;
-		{
+		 {
 			// Describe and create a render target view (RTV) descriptor heap.
 			D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = { };
 			rtvHeapDesc.NumDescriptors = FrameCount;
@@ -100,8 +100,7 @@ public:
 		//	Adventage "std::array" its simple assign
 		std::array< CPtr< ID3D12Resource >, FrameCount > renderTargets;
 		// Create frame resources.
-		{
-
+		 {
 			CD3DX12_CPU_DESCRIPTOR_HANDLE oRtvHandle( 
 					pcRtvHeap ->GetCPUDescriptorHandleForHeapStart( ) 
 				);
@@ -125,7 +124,7 @@ public:
 		// Pipeline objects.
 		CPtr< ID3D12RootSignature > rootSignature;
 		// Create an some root signature.
-		{ 
+		 { 
 			CD3DX12_ROOT_SIGNATURE_DESC rootSignatureDesc;
 			rootSignatureDesc.Init( 
 					0, nullptr
@@ -155,7 +154,7 @@ public:
 		std::array< UINT64, FrameCount > aruFenceValues = { };
 		std::array< CPtr< ID3D12CommandAllocator >, FrameCount > arpcCommandAllocators;
 		// Create synchronization objects and wait until assets have been uploaded to the GPU.
-		{
+		 {
 			hr = pcD3dDevice12 ->CreateFence(
 					aruFenceValues[ frameIndex ]
 					, D3D12_FENCE_FLAG_NONE

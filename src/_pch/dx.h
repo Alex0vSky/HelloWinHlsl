@@ -1,5 +1,5 @@
 // _pch\dx.h
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 
 #pragma warning( disable: 26812 )
 #pragma warning( disable: 26495 )

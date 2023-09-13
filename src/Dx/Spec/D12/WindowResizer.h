@@ -1,5 +1,5 @@
 ﻿// Dx/Spec/D12/WindowResizer.h - make windows resize 
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Spec::D12 {
 class WindowResizer : public Sys::Wnd::AWndProcHolder {
 	using AWndProcHolder::AWndProcHolder;
@@ -65,8 +65,7 @@ class WindowResizer : public Sys::Wnd::AWndProcHolder {
 
 		// Obtain the back buffers for this window which will be the final render targets
 		// and create render target views for each of them.
-		for (UINT n = 0; n < m_psstDxCtx ->FrameCount; n++)
-		{
+		for (UINT n = 0; n < m_psstDxCtx ->FrameCount; n++) {
 			hr = m_psstDxCtx ->m_pcDxgiSwapChain ->GetBuffer(
 					n
 					, IID_PPV_ARGS( m_pResizer ->getRenderTarget( n ).GetAddressOf( ) )
@@ -95,9 +94,9 @@ class WindowResizer : public Sys::Wnd::AWndProcHolder {
 		m_pResizer ->setViewport( CD3DX12_VIEWPORT( 0.0f, 0.0f, fWidth, fHeight ) );
 		m_pResizer ->setScissorRect( CD3DX12_RECT( 0, 0, lWidth, lHeight ) );
 
-		BOOL fullscreenState;
-		hr = m_psstDxCtx ->m_pcDxgiSwapChain ->GetFullscreenState( &fullscreenState, nullptr );
-		m_bWindowedMode = !fullscreenState;
+		BOOL bIsFullscreen;
+		hr = m_psstDxCtx ->m_pcDxgiSwapChain ->GetFullscreenState( &bIsFullscreen, nullptr );
+		m_bWindowedMode = !bIsFullscreen;
 	}
 	void toggleFullscreenWindow() override {
 		if ( !m_psstDxCtx ) 
@@ -113,16 +112,19 @@ class WindowResizer : public Sys::Wnd::AWndProcHolder {
 		Sys::Hr hr;
 		auto stWndToken = AWndProcHolder::getWndToken( );
 		HWND hWnd = stWndToken.m_hWnd;
-		// TODO: remakeme, lazy to make calling of parent ctor
+		// TODO(Alex0vSky): remakeme, lazy to make calling of parent ctor
 		if ( m_stWindowRect == RECT{ } ) {
 			m_stWindowRect = stWndToken.m_stWindowRect;
 			m_uWindowStyle = stWndToken.m_uWindowStyle;
 		}
 
 		if ( !m_psstDxCtx ->detail_.m_bTearingSupport ) {
-            BOOL fullscreenState;
-            hr = m_psstDxCtx ->m_pcDxgiSwapChain ->GetFullscreenState( &fullscreenState, nullptr );
-            if ( FAILED( m_psstDxCtx ->m_pcDxgiSwapChain ->SetFullscreenState( !fullscreenState, nullptr ) ) ) {
+            BOOL bIsFullscreen;
+            hr = m_psstDxCtx ->m_pcDxgiSwapChain ->GetFullscreenState( &bIsFullscreen, nullptr );
+			bool bFailed = FAILED( 
+					m_psstDxCtx ->m_pcDxgiSwapChain ->SetFullscreenState( !bIsFullscreen, nullptr ) 
+				);
+            if ( bFailed ) {
                 // Transitions to fullscreen mode can fail when running apps over
                 // terminal services or for some other unexpected reason.  Consider
                 // notifying the user in some way when this happens.
@@ -146,19 +148,22 @@ class WindowResizer : public Sys::Wnd::AWndProcHolder {
 			// Restore menu
 			::SetMenu( hWnd, m_hMenu );
 			::ShowWindow( hWnd, SW_NORMAL);
-		}
-		else
-		{
+		} else {
 			// Save the old window rect so we can restore it when exiting fullscreen mode.
 			::GetWindowRect( hWnd, &m_stWindowRect );
 			// Make the window borderless so that the client area can fill the screen.
-			::SetWindowLongW( hWnd, GWL_STYLE, m_uWindowStyle & ~(WS_CAPTION | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_SYSMENU | WS_THICKFRAME));
+			UINT uWindowStyleMask = WS_CAPTION | WS_MAXIMIZEBOX 
+				| WS_MINIMIZEBOX | WS_SYSMENU | WS_THICKFRAME;
+			::SetWindowLongW( 
+					hWnd
+					, GWL_STYLE
+					, m_uWindowStyle & ~( uWindowStyleMask )
+				);
 			// Remove menu
 			m_hMenu = ::GetMenu( hWnd );
 			::SetMenu( hWnd, NULL );
 			RECT fullscreenWindowRect;
-			try
-			{
+			try {
 				// Get the settings of the display on which the app's window is currently displayed
 				CPtr< IDXGIOutput > pOutput;
 				hr = m_psstDxCtx ->m_pcDxgiSwapChain ->GetContainingOutput( pOutput.ReleaseAndGetAddressOf( ) );
@@ -166,8 +171,7 @@ class WindowResizer : public Sys::Wnd::AWndProcHolder {
 				hr = pOutput ->GetDesc( &Desc );
 				fullscreenWindowRect = Desc.DesktopCoordinates;
 			}
-			catch (_com_error& e)
-			{
+			catch (_com_error& e) {
 				UNREFERENCED_PARAMETER( e );
 				// Get the settings of the primary display
 				DEVMODE devMode = { };
@@ -195,7 +199,7 @@ class WindowResizer : public Sys::Wnd::AWndProcHolder {
 		m_bFullscreenMode = !m_bFullscreenMode;
 	}
 
-public:
+ public:
 	typedef uptr< WindowResizer > uptr_t;
 
 	void setDxCtx(

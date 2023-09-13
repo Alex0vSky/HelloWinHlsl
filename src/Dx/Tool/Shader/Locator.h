@@ -1,5 +1,5 @@
 ﻿// Dx/Tool/Shader/Locator.h - shader file locator
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader {
 struct Locator {
 	static std::wstring locate(const std::wstring &strRelFileName) {

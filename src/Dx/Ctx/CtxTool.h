@@ -1,10 +1,10 @@
 ﻿// Dx/Ctx/CtxTool.h - structure of helper tools context
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 // Forward decl
 namespace prj_3d::HelloWinHlsl::Dx {
 	namespace Tool { namespace Shader { namespace Loader { template<class T> class Composite; } } }
 	namespace Tool { namespace Shader { namespace Predef { template<class T> class Composite; } } }
-	namespace Tool { template<class TSPE,class T=TSPE> class VertexBuf; }
+	namespace Tool { template<class TSPE, class T = TSPE> class VertexBuf; }
 	namespace Tool { template<class T> class IndexBuf; }
 	namespace Tool { namespace Predef { template<class T> class Quad; } }
 	namespace Tool { namespace ConstantBuf { namespace viaStruct { template<class T> class FactoryStrict; } } }
@@ -33,21 +33,22 @@ struct CommonToolCtx {
 
 template<class T> 
 class CommonMethodsToolCtx : protected detail_::CommonToolCtx<T> {
-public:
+ public:
 	explicit CommonMethodsToolCtx(CommonToolCtx &&aggregate ) : CommonToolCtx{ std::move( aggregate ) }
-	{}
+	 {}
 #pragma region methods
-	auto shader() const {
-		class ChainMe {
+	auto shader() const { 
+		class 
+		ChainMe {
 			Tool::Shader::Loader::Composite<T> *m_poShaderLoader;
 			Tool::Shader::Predef::Composite<T> *m_poShaderPredef;
-		public:
+			
+		 public:
 			ChainMe(Tool::Shader::Loader::Composite<T> *poShaderLoader
 				, Tool::Shader::Predef::Composite<T> *poShaderPredef
-			)
+			) {
 				//: m_poShaderLoader( nullptr ) // clang
 				//, m_poShaderPredef( nullptr )
-			{
 				this ->m_poShaderLoader = poShaderLoader;
 				this ->m_poShaderPredef = poShaderPredef;
 				return;
@@ -70,17 +71,17 @@ public:
 #pragma endregion // methods
 };
 
-} // namespace detail_ _
+} // namespace detail_
 
 // the partial specialization other Dx
 template<class T> 
 class CtxTool<T> : public detail_::CommonMethodsToolCtx<T> {
-public:
+ public:
 	explicit CtxTool(
 			CommonToolCtx &&aggregate
 		) 
 		: CommonMethodsToolCtx{ std::move( aggregate ) }
-	{}
+	 {}
 	auto constBufAccessorFactory() const {
 		return CommonMethodsToolCtx::m_puoCBufAccessorFactory.get( );
 	}
@@ -91,7 +92,7 @@ template<> class CtxTool<DxVer::v9> : public detail_::CommonMethodsToolCtx<DxVer
 	typedef sptr< Tool::IndexBuf<DxVer::v9> > IndexBuf_t;
 	ConstantSetterDx9_t m_puoConstantSetterDx9;
 	IndexBuf_t m_psoIndexBuf;
-public:
+ public:
 	CtxTool(
 			CommonToolCtx &&aggregate
 			, const ConstantSetterDx9_t &puoConstantSetterDx9
@@ -100,7 +101,7 @@ public:
 		: CommonMethodsToolCtx{ std::move( aggregate ) }
 		, m_puoConstantSetterDx9( puoConstantSetterDx9 )
 		, m_psoIndexBuf( psoIndexBuf )
-	{}
+	 {}
 	auto shaderConstSetterDx9() const {
 		return m_puoConstantSetterDx9.get( );
 	}
@@ -112,14 +113,14 @@ public:
 template<> class CtxTool<DxVer::v10> : public detail_::CommonMethodsToolCtx<DxVer::v10> { 
 	typedef sptr< Tool::IndexBuf<DxVer::v10> > IndexBuf_t;
 	IndexBuf_t m_psoIndexBuf;
-public:
+ public:
 	CtxTool(
 			CommonToolCtx &&aggregate
 			, const IndexBuf_t &psoIndexBuf
 		) 
 		: CommonMethodsToolCtx{ std::move( aggregate ) }
 		, m_psoIndexBuf( psoIndexBuf )
-	{}
+	 {}
 	auto constBufAccessorFactory() const {
 		return CommonMethodsToolCtx::m_puoCBufAccessorFactory.get( );
 	}
@@ -131,14 +132,14 @@ public:
 template<> class CtxTool<DxVer::v12> : public detail_::CommonMethodsToolCtx<DxVer::v12> { 
 	typedef sptr< Tool::ConstantBuf::viaStruct::RootSignatureCreator > RootSignatureCreator_t;
 	RootSignatureCreator_t m_puoRootSignatureCreator;
-public:
+ public:
 	CtxTool(
 			CommonToolCtx &&aggregate
 			, const RootSignatureCreator_t &puoRootSignatureCreator
 		) 
 		: CommonMethodsToolCtx{ std::move( aggregate ) }
 		, m_puoRootSignatureCreator( puoRootSignatureCreator )
-	{}
+	 {}
 	auto constBufAccessorFactory() const {
 		return CommonMethodsToolCtx::m_puoCBufAccessorFactory.get( );
 	}

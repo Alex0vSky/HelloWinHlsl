@@ -1,9 +1,9 @@
 ﻿// Sys/ErrorHandler.h - error handler
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Sys {
 //_Noreturn 
 class ErrorHandler {
-public:
+ public:
 	// show error message and exit
 	__declspec(noreturn) 
 	static 

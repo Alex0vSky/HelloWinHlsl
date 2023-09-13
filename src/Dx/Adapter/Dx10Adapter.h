@@ -1,13 +1,15 @@
 ﻿// Dx/Adapter/Dx10Adapter.h - work with adapter
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Adapter {
 class Dx10Adapter {
 	std::string m_strAdapterDescr;
 	CPtr< IDXGIAdapter > m_pcDxgiAdapter; // Dx10
-public:
+
+ public:
 	bool prepare() {
 		Sys::Hr hr;
-		// Get first adapter (NvOptimusEnablement, AmdPowerXpressRequestHighPerformance) or need to use IDXGIFactory6::EnumAdapterByGpuPreference
+		// Get first adapter (NvOptimusEnablement, AmdPowerXpressRequestHighPerformance) or 
+		//	need to use IDXGIFactory6::EnumAdapterByGpuPreference
 		CPtr< IDXGIFactory > pcDxgiFactory;
 		hr = ::CreateDXGIFactory( IID_PPV_ARGS( pcDxgiFactory.ReleaseAndGetAddressOf( ) ) );
 		hr = pcDxgiFactory ->EnumAdapters( 0, m_pcDxgiAdapter.ReleaseAndGetAddressOf( ) );

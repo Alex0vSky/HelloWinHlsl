@@ -1,12 +1,11 @@
 ﻿// Dx/Ctx/Impl/Dx9CtxImpl.h - implementation for DirectX3D version 9
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Ctx::Impl {
 class Dx9CtxImpl {
-public:
+ public:
 	static 
 	Ty::StDxCtx_ptr< DxVer::v9 > 
-	create(Sys::Wnd::StToken::cref_t crstWndToken, const Dx::Adapter::Dx9Adapter &oAdapter) 
-	{
+	create(Sys::Wnd::StToken::cref_t crstWndToken, const Dx::Adapter::Dx9Adapter &oAdapter) {
 		Sys::Hr hr;
 
 		CPtr< IDirect3D9 > pcD3D;

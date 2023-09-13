@@ -1,5 +1,5 @@
 ﻿// Dx/ConstantBuf/viaStruct/z_example_.h - example, for internal using
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::z_example_ {
 static void structPack() {
 #pragma pack( push, 1 )
@@ -140,23 +140,25 @@ static void structAnalize(const T &st) {
 			// MSVS get FAIL on offsetof() func
 			veSizeof.push_back( sizeof( field ) );
 			veTypename.push_back( typeid( field ).name( ) ); // RTTI aka /GR
-			// I think it will work if a type that is not a multiple of 4 is followed by a type that is not a multiple of 4.
-			// it is also possible here it is worth checking the output of the last field for 16 bytes, although it is unlikely.
+			// I think it will work if a type that is not a multiple of 4 
+			//	is followed by a type that is not a multiple of 4.
+			// 	it is also possible here it is worth checking the output of 
+			//	the last field for 16 bytes, although it is unlikely.
 		} );
 	std::stringstream ss;
 	auto siSize = veSizeof.size( );
 	size_t i = 0;
-	for( ; i < siSize; ++i )
-	{
+	for( ; i < siSize; ++i ) {
 		if ( veSizeof[ i ] < 4 ) {
-			ss << "[HlSh error] less 4. Field number " << i << " (count from zero), type is " << veTypename[ i ] << std::endl;
+			ss << "[HlSh error] less 4. Field number " << i << 
+				" (count from zero), type is " << veTypename[ i ] << std::endl;
 			::OutputDebugStringA( ss.str( ).c_str( ) );
 			break;
 		}
 		//veTypename[ i ];
 	}
 	if ( i < siSize )
-		__nop( ); // TODO: FAIL
+		__nop( ); // TODO(Alex0vSky): FAIL
 	__nop( );
 }
 template<class T>

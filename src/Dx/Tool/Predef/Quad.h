@@ -1,5 +1,5 @@
 ﻿// Dx/Tool/Predef/Quad.h - helper for creating a square of vertices for shaders to work there.
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::Predef {
 
 template<class T> class Quad; // primary template
@@ -8,14 +8,15 @@ template<> class Quad<DxVer::v9> {
 	using TInnerDxVer = DxVer::v9;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	const sptr< Tool::VertexBuf<TInnerDxVer> > m_psoVertexBuf;
-public:
+	
+ public:
 	Quad(
 		Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx
 		, const sptr< Tool::VertexBuf<TInnerDxVer> > &psoVertexBuf
 	) 
 		: m_stDxCtx( stDxCtx )
 		, m_psoVertexBuf( psoVertexBuf )
-	{}
+	 {}
 
 	struct vertexBufPrimitive_t {
 		VertexBuf<TInnerDxVer>::OutVertexBuf m_stVertexBuf;
@@ -61,21 +62,26 @@ template<> class Quad<DxVer::v10> {
 	using TInnerDxVer = DxVer::v10;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	const sptr< Tool::VertexBuf<TInnerDxVer> > m_psoVertexBuf;
-public:
+	
+ public:
 	Quad(
 		Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx
 		, const sptr< Tool::VertexBuf<TInnerDxVer> > &psoVertexBuf
 	) 
 		: m_stDxCtx( stDxCtx )
 		, m_psoVertexBuf( psoVertexBuf )
-	{}
+	 {}
 
 	CPtr< ID3D10InputLayout > createLayout(const std::vector<char> &veShaderByte) {
 		CPtr< ID3D10InputLayout > cpLayout;
 		D3D10_INPUT_ELEMENT_DESC stLayout[] = { 
 				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D10_INPUT_PER_VERTEX_DATA, 0 }
 			};
-		m_stDxCtx ->m_pcD3dDevice ->CreateInputLayout( stLayout, _countof( stLayout ), &veShaderByte[ 0 ], veShaderByte.size( ), cpLayout.ReleaseAndGetAddressOf( ) );
+		m_stDxCtx ->m_pcD3dDevice ->CreateInputLayout( 
+				stLayout, _countof( stLayout )
+				, &veShaderByte[ 0 ], veShaderByte.size( )
+				, cpLayout.ReleaseAndGetAddressOf( ) 
+			);
 		return cpLayout;
 	}
 	struct vertexBufTopology_t {
@@ -83,9 +89,10 @@ public:
 		D3D_PRIMITIVE_TOPOLOGY m_enuTopology;
 	};	
 	auto createVertexBuf() {
-		// TODO: common data to base class, now its common sure
-		// TODO: take type from Tool::VertexBuf<TInnerDxVer>:: ...
-		// Fill vertex buffer. Enough "D3DXVECTOR3", expects "D3DXVECTOR4", definition goes by "stride" in "IASetVertexBuffers".
+		// TODO(Alex0vSky): common data to base class, now its common sure
+		// TODO(Alex0vSky): take type from Tool::VertexBuf<TInnerDxVer>:: ...
+		// Fill vertex buffer. Enough "D3DXVECTOR3", expects "D3DXVECTOR4", 
+		//	definition goes by "stride" in "IASetVertexBuffers".
 		std::vector< D3DXVECTOR3 > veMem = {
 				  D3DXVECTOR3( -1, -1, 0 ) // bottom left corner
 				, D3DXVECTOR3( -1, +1, 0 ) // top left corner
@@ -112,21 +119,26 @@ template<> class Quad<DxVer::v11> {
 	using TInnerDxVer = DxVer::v11;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	const sptr< Tool::VertexBuf<TInnerDxVer> > m_psoVertexBuf;
-public:
+	
+ public:
 	Quad(
 		Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx
 		, const sptr< Tool::VertexBuf<TInnerDxVer> > &psoVertexBuf
 	) 
 		: m_stDxCtx( stDxCtx )
 		, m_psoVertexBuf( psoVertexBuf )
-	{}
+	 {}
 
 	CPtr< ID3D11InputLayout > createLayout(const std::vector<char> &veShaderByte) {
 		CPtr< ID3D11InputLayout > cpLayout;
 		D3D11_INPUT_ELEMENT_DESC stLayout[] = { 
 				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 			};
-		m_stDxCtx ->m_pcD3dDevice ->CreateInputLayout( stLayout, _countof( stLayout ), &veShaderByte[ 0 ], veShaderByte.size( ), cpLayout.ReleaseAndGetAddressOf( ) );
+		m_stDxCtx ->m_pcD3dDevice ->CreateInputLayout( 
+				stLayout, _countof( stLayout )
+				, &veShaderByte[ 0 ], veShaderByte.size( )
+				, cpLayout.ReleaseAndGetAddressOf( ) 
+			);
 		return cpLayout;
 	}
 	struct vertexBufTopology_t {
@@ -134,7 +146,8 @@ public:
 		D3D_PRIMITIVE_TOPOLOGY m_enuTopology;
 	};	
 	auto createVertexBuf() {
-		// Fill vertex buffer. Enough "D3DXVECTOR3", expects "D3DXVECTOR4", definition goes by "stride" in "IASetVertexBuffers".
+		// Fill vertex buffer. Enough "D3DXVECTOR3", expects "D3DXVECTOR4", 
+		//	definition goes by "stride" in "IASetVertexBuffers".
 		std::vector< D3DXVECTOR3 > veMem = {
 				  D3DXVECTOR3( -1, -1, 0 ) // bottom left corner
 				, D3DXVECTOR3( -1, +1, 0 ) // top left corner
@@ -161,14 +174,15 @@ template<> class Quad<DxVer::v12> {
 	using TInnerDxVer = DxVer::v12;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	const sptr< Tool::VertexBuf<TInnerDxVer> > m_psoVertexBuf;
-public:
+	
+ public:
 	Quad(
 		Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx
 		, const sptr< Tool::VertexBuf<TInnerDxVer> > &psoVertexBuf
 	) 
 		: m_stDxCtx( stDxCtx )
 		, m_psoVertexBuf( psoVertexBuf )
-	{}
+	 {}
 
 	std::vector< D3D12_INPUT_ELEMENT_DESC > createLayout() {
 		std::vector< D3D12_INPUT_ELEMENT_DESC > vecLayout = { 

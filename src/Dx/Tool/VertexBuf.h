@@ -1,19 +1,20 @@
 ﻿// Dx/Tool/VertexBuf.h - Vertex Buffer creator
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool {
 
-template<class TSPE,class T> class VertexBuf; // primary template
+template<class TSPE, class T> class VertexBuf; // primary template
 
-template<class T2> class VertexBuf<DxVer::v9,T2> {
+template<class T2> class VertexBuf<DxVer::v9, T2> {
 	using TInnerDxVer = DxVer::v9; // IntelliSense
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
-public:
+	
+ public:
 	typedef uptr< VertexBuf > uptr_t;
 	explicit VertexBuf(
 		Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx
 	) 
 		: m_stDxCtx( stDxCtx )
-	{}
+	 {}
 
 	struct OutVertexBuf {
 		const CPtr< IDirect3DVertexBuffer9 > m_pcBuffer;
@@ -26,15 +27,17 @@ public:
 	// With D3DPOOL::D3DPOOL_DEFAULT and FVF = D3DFVF_XYZRHW | D3DFVF_DIFFUSE
 	template<class TVE>
 	auto createInitialized(const std::vector< TVE > &veMemNdcLH, bool bNdc = true) {
-		// TODO: std::enable_if_v< is_same_t< TVE, Tool::Vertex<TInnerDxVer> > >
+		// TODO(Alex0vSky): std::enable_if_v< is_same_t< TVE, Tool::Vertex<TInnerDxVer> > >
 
 		// From Ndc LH to Orth LH. @insp https://stackoverflow.com/questions/19226156/directx-11-vertices-coordinates @insp https://stackoverflow.com/questions/42751427/transformations-from-pixels-to-ndc
 		D3DVIEWPORT9 stViewport = { };
 		m_stDxCtx ->m_pcD3dDevice ->GetViewport( &stViewport );
 		std::vector< TVE > veMemOrthLH = veMemNdcLH;
 		if ( bNdc ) 
-			for ( TVE &el : veMemOrthLH )
-				el.xyz.x = ( ( stViewport.Width * ( 1 + el.xyz.x ) / 2.0f ) ), el.xyz.y = ( ( stViewport.Height * ( 1 - el.xyz.y ) / 2.0f ) );
+			for ( TVE &el : veMemOrthLH ) {
+				el.xyz.x = ( ( stViewport.Width * ( 1 + el.xyz.x ) / 2.0f ) );
+				el.xyz.y = ( ( stViewport.Height * ( 1 - el.xyz.y ) / 2.0f ) );
+			}
 
 		CPtr< IDirect3DVertexBuffer9 > cpVertexBuf;
 		size_t si = veMemOrthLH.size( ) * sizeof( TVE );
@@ -63,15 +66,16 @@ public:
 	}
 };
 
-template<class T> class VertexBuf<DxVer::v10,T> {
+template<class T> class VertexBuf<DxVer::v10, T> {
 	const Ty::StDxCtx_ptr<T> m_stDxCtx;
-public:
+	
+ public:
 	typedef uptr< VertexBuf > uptr_t;
 	explicit VertexBuf(
 		Ty::StDxCtx_crefPtr<T> stDxCtx
 	) 
 		: m_stDxCtx( stDxCtx )
-	{}
+	 {}
 
 	struct OutVertexBuf {
 		static const UINT c_uNumBuffers = 1;
@@ -92,7 +96,8 @@ public:
 		stBufferDesc.Usage = D3D10_USAGE_DEFAULT;
 		stBufferDesc.BindFlags = D3D10_BIND_VERTEX_BUFFER;
 		CPtr< ID3D10Buffer > cpVertexBuf;
-		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( &stBufferDesc, &stInitData, cpVertexBuf.ReleaseAndGetAddressOf( ) );
+		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( 
+			&stBufferDesc, &stInitData, cpVertexBuf.ReleaseAndGetAddressOf( ) );
 		if ( FAILED( hr ) )
 			return uptr< OutVertexBuf >{ }; // nullptr;
 		OutVertexBuf stBuf{ 
@@ -105,15 +110,16 @@ public:
 	}
 };
 
-template<class T> class VertexBuf<DxVer::v11,T> {
+template<class T> class VertexBuf<DxVer::v11, T> {
 	const Ty::StDxCtx_ptr<T> m_stDxCtx;
-public:
+	
+ public:
 	typedef uptr< VertexBuf > uptr_t;
 	explicit VertexBuf(
 		Ty::StDxCtx_crefPtr<T> stDxCtx
 	) 
 		: m_stDxCtx( stDxCtx )
-	{}
+	 {}
 
 	struct OutVertexBuf {
 		static const UINT c_uNumBuffers = 1;
@@ -134,7 +140,8 @@ public:
 		stBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 		stBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		CPtr< ID3D11Buffer > cpVertexBuf;
-		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( &stBufferDesc, &stInitData, cpVertexBuf.ReleaseAndGetAddressOf( ) );
+		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( 
+			&stBufferDesc, &stInitData, cpVertexBuf.ReleaseAndGetAddressOf( ) );
 		if ( FAILED( hr ) )
 			return uptr< OutVertexBuf >{ }; // nullptr;
 		OutVertexBuf stBuf{ 
@@ -147,15 +154,16 @@ public:
 	}
 };
 
-template<class T> class VertexBuf<DxVer::v12,T> {
+template<class T> class VertexBuf<DxVer::v12, T> {
 	const Ty::StDxCtx_ptr<T> m_stDxCtx;
-public:
+	
+ public:
 	typedef uptr< VertexBuf > uptr_t;
 	explicit VertexBuf(
 		Ty::StDxCtx_crefPtr<T> stDxCtx
 	) 
 		: m_stDxCtx( stDxCtx )
-	{}
+	 {}
 
 	struct OutVertexBuf {
 		static const UINT c_uNumBuffers = 1;
@@ -167,14 +175,14 @@ public:
 	// Position/coordinate values in Ndc(Normalized device coordinate)
 	template<class TVE>
 	auto createInitialized(const std::vector< TVE > &veMemNdcLH) {
-
 		HRESULT hr;
 		CPtr< ID3D12Resource > vertexBuffer;
 		D3D12_VERTEX_BUFFER_VIEW vertexBufferView;
 
 		const UINT vertexBufferSize = (UINT)Tpl::Trait::vectorsizeof( veMemNdcLH );
 		CD3DX12_HEAP_PROPERTIES stHeapProp( D3D12_HEAP_TYPE_UPLOAD );
-		CD3DX12_RESOURCE_DESC stResDesc = CD3DX12_RESOURCE_DESC::Buffer( vertexBufferSize, D3D12_RESOURCE_FLAG_NONE );
+		CD3DX12_RESOURCE_DESC stResDesc = CD3DX12_RESOURCE_DESC::Buffer( 
+			vertexBufferSize, D3D12_RESOURCE_FLAG_NONE );
 		// Note: using upload heaps to transfer static data like vert buffers is not 
 		// recommended. Every time the GPU needs it, the upload heap will be marshalled 
 		// over. Please read up on Default Heap usage. An upload heap is used here for 

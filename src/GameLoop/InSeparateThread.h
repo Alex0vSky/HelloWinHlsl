@@ -2,7 +2,7 @@
 //	"PeekMessage" and "GetMessage" take messages only from the thread where the window was created, 
 //	and "AttachThreadInput" is poorly compatible.
 //@insp https://stackoverflow.com/questions/617248/can-the-hwnd-from-createwindow-createdialog-be-getmessaged-from-another-thread
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::GameLoop {
 
 // primary template
@@ -13,7 +13,7 @@ class InSeparateThread : public detail_ ::BaseInSeparateThread_< T > {
 
  public:
 	virtual ~InSeparateThread() 
-	{}
+	 {}
 	int run() override {
         base_t::m_puoAdjustDxAux = Dx::FactoryAdjustAux<T>::create( base_t::m_stCtx ->m_psstDxCtx );
 		if ( !base_t::initialize( ) )
@@ -26,14 +26,13 @@ class InSeparateThread : public detail_ ::BaseInSeparateThread_< T > {
 template<>
 class InSeparateThread< DxVer::v12 > 
 	: public Dx::Spec::D12::GameLoopPart
-	, public detail_ ::BaseInSeparateThread_< DxVer::v12 > 
-{
+	, public detail_ ::BaseInSeparateThread_< DxVer::v12 > {
 	using Dx::Spec::D12::GameLoopPart::GameLoopPart;
 	using detail_::BaseInSeparateThread_< DxVer::v12 >::BaseInSeparateThread_;
 
  public:
 	virtual ~InSeparateThread() 
-	{}
+	 {}
 	int run() override {
 		// syncronized
 		GameLoopPart::m_puMutex = std::make_unique< BaseInSeparateThread_::mutex_t >( );

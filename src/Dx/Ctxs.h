@@ -1,5 +1,5 @@
 ﻿// Dx/Ctxs.h - ...
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx { 
 
 template<class T>

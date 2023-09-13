@@ -1,7 +1,7 @@
 ﻿// Dx/AdjustAux.h - setting auxiliary DirectX features via callback
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 
-// TODO: avoid need create spectial data struct for client
+// TODO(Alex0vSky): avoid need create spectial data struct for client
 // Fwd decl for friend-s
 namespace prj_3d::HelloWinHlsl::GameLoop {
 namespace detail_ { template<class T, class TWndProcHolder> class ABase; }
@@ -17,13 +17,14 @@ template<class T> class AdjustAux; // primary template
 template<> class AdjustAux<DxVer::v9> { 
 	using TInnerDxVer = DxVer::v9;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_psstDxCtx;
-public:
+
+ public:
     typedef uptr< AdjustAux > uptr_t;
 	explicit AdjustAux(Ty::StDxCtx_crefPtr<TInnerDxVer> psstDxCtx) 
 		: m_psstDxCtx( psstDxCtx )
-	{ }
+	 {}
 
-	// ?TODO: make me?
+	// ?TODO(Alex0vSky): make me?
 	void adjust() {
 	}
 };
@@ -32,7 +33,7 @@ template<> class AdjustAux<DxVer::v10> {
 
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_psstDxCtx;
 
-	// TODO: store in CPtr, because user can release memory
+	// TODO(Alex0vSky): store in CPtr, because user can release memory
 	//	@use C:\Prj\3d\HelloShader\poc\withoutEffects\main.cpp
 	ID3D10RasterizerState** m_pifcRasterizerStateUser;
 	std::function< void (D3D10_RASTERIZER_DESC *) > m_pfnRasterizerState;
@@ -44,9 +45,9 @@ template<> class AdjustAux<DxVer::v10> {
 	std::function< void (D3D10_BLEND_DESC *) > m_pfnBlendState;
 
 	ID3D10DepthStencilView** m_pifcID3D10DepthStencilViewUser;
-	std::function< void (D3D10_TEXTURE2D_DESC *,D3D10_DEPTH_STENCIL_VIEW_DESC *) > m_pfnDepthStencilView;
+	std::function< void (D3D10_TEXTURE2D_DESC *, D3D10_DEPTH_STENCIL_VIEW_DESC *) > m_pfnDepthStencilView;
 	
-public:
+ public:
     typedef uptr< AdjustAux > uptr_t;
 	explicit AdjustAux(Ty::StDxCtx_crefPtr<TInnerDxVer> psstDxCtx) 
 		: m_psstDxCtx( psstDxCtx )
@@ -54,7 +55,7 @@ public:
 		, m_pifcDepthStencilStateUser( nullptr )
 		, m_pifcBlendStateUser( nullptr )
 		, m_pifcID3D10DepthStencilViewUser( nullptr )
-    {}
+     {}
 
 	// Why "decltype" and heavy function type -- 
 // stackoverflow.com/questions/28509273/get-types-of-c-function-parameters
@@ -74,14 +75,16 @@ public:
 		m_pifcID3D10DepthStencilViewUser = pifc;
 		m_pfnDepthStencilView = pfn;
 	}
-	// TODO: can take values ​​like default "DXUT" from "DXUTSetupD3D10Views" code. Now most of '...\HLSLWithoutFX10\HLSLWithoutFX10.cpp'.
+	// TODO(Alex0vSky): can take values ​​like default "DXUT" from 
+	//	"DXUTSetupD3D10Views" code. Now most of '...\HLSLWithoutFX10\HLSLWithoutFX10.cpp'.
 	void adjust() {
         Sys::Hr hr;
 		// Set up rasterizer
 		if ( m_pifcRasterizerStateUser ) {
-			// TODO: you need to make your own "memset", because it is "{ 0 }", does not guarantee nulling.
+			// TODO(Alex0vSky): you need to make your own "memset", because it is "{ 0 }",
+			//	does not guarantee nulling.
 			// @insp https://stackoverflow.com/questions/61240589/how-to-initialize-a-struct-to-0-in-c
-			D3D10_RASTERIZER_DESC stD3dRasterizerDesc = {};
+			D3D10_RASTERIZER_DESC stD3dRasterizerDesc = { };
 			stD3dRasterizerDesc.AntialiasedLineEnable = FALSE;
 			stD3dRasterizerDesc.CullMode = D3D10_CULL_NONE;
 			stD3dRasterizerDesc.DepthBias = 0;
@@ -95,39 +98,42 @@ public:
 			if ( m_pfnRasterizerState ) 
 				m_pfnRasterizerState( &stD3dRasterizerDesc );
 			CPtr<ID3D10RasterizerState> pcRasterizerStateDef;
-			hr = m_psstDxCtx ->m_pcD3dDevice ->CreateRasterizerState( &stD3dRasterizerDesc, pcRasterizerStateDef.ReleaseAndGetAddressOf( ) );
+			hr = m_psstDxCtx ->m_pcD3dDevice ->CreateRasterizerState( 
+				&stD3dRasterizerDesc, pcRasterizerStateDef.ReleaseAndGetAddressOf( ) );
 			*m_pifcRasterizerStateUser = pcRasterizerStateDef.Detach( );
 		}
 		// Create a depth stencil state to enable less-equal depth testing
 		if ( m_pifcDepthStencilStateUser ) {
-			D3D10_DEPTH_STENCIL_DESC stDSDesc = {};
+			D3D10_DEPTH_STENCIL_DESC stDSDesc = { };
 			stDSDesc.DepthEnable = TRUE;
 			stDSDesc.DepthFunc = D3D10_COMPARISON_LESS_EQUAL;
 			stDSDesc.DepthWriteMask = D3D10_DEPTH_WRITE_MASK_ALL;
 			if ( m_pfnDepthStencilState ) 
 				m_pfnDepthStencilState( &stDSDesc );
 			CPtr<ID3D10DepthStencilState> pcLessEqualDepth;
-			hr = m_psstDxCtx ->m_pcD3dDevice ->CreateDepthStencilState( &stDSDesc, pcLessEqualDepth.ReleaseAndGetAddressOf( ) );
+			hr = m_psstDxCtx ->m_pcD3dDevice ->CreateDepthStencilState( 
+				&stDSDesc, pcLessEqualDepth.ReleaseAndGetAddressOf( ) );
 			*m_pifcDepthStencilStateUser = pcLessEqualDepth.Detach( );
 		}
 		// Create a blend state to disable alpha blending
-		if ( m_pifcBlendStateUser ) 
-		{
-			D3D10_BLEND_DESC stBlendState = {};
+		if ( m_pifcBlendStateUser ) {
+			D3D10_BLEND_DESC stBlendState = { };
 			stBlendState.BlendEnable[0] = FALSE;
 			stBlendState.RenderTargetWriteMask[0] = D3D10_COLOR_WRITE_ENABLE_ALL;
 			if ( m_pfnBlendState ) 
 				m_pfnBlendState( &stBlendState );
 			CPtr<ID3D10BlendState> pcBlendStateNoBlend;
-			hr = m_psstDxCtx ->m_pcD3dDevice ->CreateBlendState( &stBlendState, pcBlendStateNoBlend.ReleaseAndGetAddressOf( ) );
+			hr = m_psstDxCtx ->m_pcD3dDevice ->CreateBlendState( 
+				&stBlendState, pcBlendStateNoBlend.ReleaseAndGetAddressOf( ) );
 			*m_pifcBlendStateUser = pcBlendStateNoBlend.Detach( );
 		}
 
-		// Sets the viewport, creates a render target view, and depth scencil texture and view. @insp HRESULT DXUTSetupD3D10Views( ID3D10Device* pd3dDevice, DXUTDeviceSettings* pDeviceSettings )
+		// Sets the viewport, creates a render target view, and depth scencil texture and view. 
+		//	@insp HRESULT DXUTSetupD3D10Views(ID3D10Device*, DXUTDeviceSettings*)
 		if ( m_pifcID3D10DepthStencilViewUser ) {
 			// Get the back buffer and desc
 			D3D10_TEXTURE2D_DESC stBackBufferSurfaceDesc;
-			{
+			 {
 				CPtr<ID3D10Texture2D> pBackBuffer;
 				hr = m_psstDxCtx ->m_pcDxgiSwapChain ->GetBuffer( 
 						0
@@ -137,12 +143,13 @@ public:
 			}
 			// Create depth stencil texture
 			CPtr<ID3D10Texture2D> pcDepthStencil;
-			D3D10_TEXTURE2D_DESC stTex2dDesc = {};
+			D3D10_TEXTURE2D_DESC stTex2dDesc = { };
 			stTex2dDesc.Width = stBackBufferSurfaceDesc.Width;
 			stTex2dDesc.Height = stBackBufferSurfaceDesc.Height;
 			stTex2dDesc.MipLevels = 1;
 			stTex2dDesc.ArraySize = 1;
-			// @insp ...\DXUT\Core\DXUTenum.cpp. DXUTBuildOptimalD3D10DeviceSettings() -> DXUTBuildValidD3D10DeviceSettings() ->bestMultiSampleCount
+			// @insp ...\DXUT\Core\DXUTenum.cpp. DXUTBuildOptimalD3D10DeviceSettings() -> 
+			//	DXUTBuildValidD3D10DeviceSettings() ->bestMultiSampleCount
 			stTex2dDesc.Format = DXGI_FORMAT_D32_FLOAT; // pDeviceSettings->d3d10.AutoDepthStencilFormat;
 			stTex2dDesc.SampleDesc.Count = 1; // pDeviceSettings->d3d10.sd.SampleDesc.Count;
 			stTex2dDesc.SampleDesc.Quality = 0; // pDeviceSettings->d3d10.sd.SampleDesc.Quality;
@@ -152,27 +159,29 @@ public:
 			stTex2dDesc.MiscFlags = 0;
 
 			// Create the depth stencil view
-			D3D10_DEPTH_STENCIL_VIEW_DESC stDsvDesc = {};
+			D3D10_DEPTH_STENCIL_VIEW_DESC stDsvDesc = { };
 			stDsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
 			stDsvDesc.ViewDimension = D3D10_DSV_DIMENSION_TEXTURE2D;
 			stDsvDesc.Texture2D.MipSlice = 0;
 
 			if ( m_pfnDepthStencilView ) 
 				m_pfnDepthStencilView( &stTex2dDesc, &stDsvDesc );
-			hr = m_psstDxCtx ->m_pcD3dDevice ->CreateTexture2D( &stTex2dDesc, NULL, pcDepthStencil.ReleaseAndGetAddressOf( ) );
+			hr = m_psstDxCtx ->m_pcD3dDevice ->CreateTexture2D( 
+				&stTex2dDesc, NULL, pcDepthStencil.ReleaseAndGetAddressOf( ) );
 			CPtr<ID3D10DepthStencilView> pcDSV;
-			hr = m_psstDxCtx ->m_pcD3dDevice ->CreateDepthStencilView( pcDepthStencil.Get( ), &stDsvDesc, pcDSV.ReleaseAndGetAddressOf( ) );
+			hr = m_psstDxCtx ->m_pcD3dDevice ->CreateDepthStencilView( 
+				pcDepthStencil.Get( ), &stDsvDesc, pcDSV.ReleaseAndGetAddressOf( ) );
 			*m_pifcID3D10DepthStencilViewUser = pcDSV.Detach( );
 		}
 	}
 };
-// TODO: cleanme
+// TODO(Alex0vSky): cleanme
 template<> class AdjustAux<DxVer::v11> { 
 	using TInnerDxVer = DxVer::v11;
 
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_psstDxCtx;
 
-	// TODO: store in CPtr, because user can release memory
+	// TODO(Alex0vSky): store in CPtr, because user can release memory
 	//	@use C:\Prj\3d\HelloShader\poc\withoutEffects\main.cpp
 	ID3D10RasterizerState** m_pifcRasterizerStateUser;
 	std::function< void (D3D10_RASTERIZER_DESC *) > m_pfnRasterizerState;
@@ -184,9 +193,11 @@ template<> class AdjustAux<DxVer::v11> {
 	std::function< void (D3D10_BLEND_DESC *) > m_pfnBlendState;
 
 	ID3D10DepthStencilView** m_pifcID3D10DepthStencilViewUser;
-	std::function< void (D3D10_TEXTURE2D_DESC *,D3D10_DEPTH_STENCIL_VIEW_DESC *) > m_pfnDepthStencilView;
+	std::function
+		< void (D3D10_TEXTURE2D_DESC *, D3D10_DEPTH_STENCIL_VIEW_DESC *) > 
+		m_pfnDepthStencilView;
 	
-public:
+ public:
     typedef uptr< AdjustAux > uptr_t;
 	explicit AdjustAux(Ty::StDxCtx_crefPtr<TInnerDxVer> psstDxCtx) 
 		: m_psstDxCtx( psstDxCtx )
@@ -194,7 +205,7 @@ public:
 		, m_pifcDepthStencilStateUser( nullptr )
 		, m_pifcBlendStateUser( nullptr )
 		, m_pifcID3D10DepthStencilViewUser( nullptr )
-    {}
+	 {}
 
 	// Why "decltype" and heavy function type -- 
 // stackoverflow.com/questions/28509273/get-types-of-c-function-parameters
@@ -202,7 +213,9 @@ public:
 		m_pifcRasterizerStateUser = pifc;
 		m_pfnRasterizerState = pfn;
 	}
-	void setDepthStencilState(ID3D10DepthStencilState** pifc, decltype(m_pfnDepthStencilState) pfn = nullptr) {
+	void setDepthStencilState(
+		ID3D10DepthStencilState** pifc, decltype(m_pfnDepthStencilState) pfn = nullptr
+	) {
 		m_pifcDepthStencilStateUser = pifc;
 		m_pfnDepthStencilState = pfn;
 	}
@@ -229,7 +242,7 @@ template<> class AdjustAux<DxVer::v12> {
 	CPtr< ID3D12PipelineState > m_pcPipelineState;
 	CPtr< ID3D12GraphicsCommandList > m_pc_CommandList;
 
-public:
+ public:
     typedef uptr< AdjustAux > uptr_t;
 	AdjustAux(
 			Ty::StDxCtx_crefPtr<TInnerDxVer> psstDxCtx
@@ -239,7 +252,7 @@ public:
 		: m_psstDxCtx( psstDxCtx )
 		, m_pWaiter( psoWaiter )
 		, m_setterRootSignature( setterRootSignature )
-    {}
+     {}
 
 	void onSetPso(decltype( m_pfnChangePso ) pfn) {
 		m_pfnChangePso = pfn;
@@ -297,9 +310,10 @@ template<class T, typename... Args> static auto z_make_unique(Args&&... args) {
 	return std::make_unique< Tpl::Trait::aggregate_adapter< AdjustAux< T > > >( 
 		std::forward<Args>(args)... );
 }
-} // namespace detail_ _
+} // namespace detail_
 
-// Factory of AdjustAux. To fork call ctors. primary template, "typename = void" for partial specialization
+// Factory of AdjustAux. To fork call ctors. primary template, 
+//	"typename = void" for partial specialization
 template<class T, typename = void> struct FactoryAdjustAux;
 
 // the partial specialization other Dx

@@ -1,8 +1,8 @@
 ﻿// Sys/Wnd/Change.h - change window
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Sys::Wnd {
 class Change {
-public:
+ public:
 	// Set usable/graceful window title
 	template<class T>
 	static 
@@ -15,29 +15,26 @@ public:
 			std::string strWndText;
 			if ( strClientAppName.length( ) ) {
 				strWndText = strClientAppName;
-			}
-			else
+			} else {
 				strWndText = &vecMem[ 0 ] + std::string( " [noRTTI]" );
+			}
 			strWndText += " (";
 			strWndText += strAdapterDescr;
 			strWndText += ")";
 
 			strWndText += " (";
-			if ( false ) ;
-			else if ( Sys::Rtti::IsTypesEqual< T, DxVer::v9 >( ) ) {
+			if ( false ) {
+			} else if ( Sys::Rtti::IsTypesEqual< T, DxVer::v9 >( ) ) {
 				strWndText += "D3D9";
-			}
-			else if ( Sys::Rtti::IsTypesEqual< T, DxVer::v10 >( ) ) {
+			} else if ( Sys::Rtti::IsTypesEqual< T, DxVer::v10 >( ) ) {
 				strWndText += "D3D10";
-			}
-			else if ( Sys::Rtti::IsTypesEqual< T, DxVer::v11 >( ) ) {
+			} else if ( Sys::Rtti::IsTypesEqual< T, DxVer::v11 >( ) ) {
 				strWndText += "D3D11";
-			}
-			else if ( Sys::Rtti::IsTypesEqual< T, DxVer::v12 >( ) ) {
+			} else if ( Sys::Rtti::IsTypesEqual< T, DxVer::v12 >( ) ) {
 				strWndText += "D3D12";
-			}
-			else 
+			} else {
 				strWndText += "Unknown DirectX version";
+			}
 			strWndText += ")";
 
 			strWndText += " (";

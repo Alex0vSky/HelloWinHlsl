@@ -1,13 +1,15 @@
-﻿// Dx/Tool/ConstantBuf/viaStruct/FactoryStrict.h - factory for deduce type of template wrapper, with input struct type checker, without using HLSL "packoffset"
-#pragma once
+﻿// Dx/Tool/ConstantBuf/viaStruct/FactoryStrict.h - factory for deduce 
+//	type of template wrapper, with input struct type checker, without using HLSL "packoffset"
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct {
 template<class T>
 class FactoryStrict {
 	const Ty::StDxCtx_ptr<T> m_stDxCtx;
-public:
+
+ public:
 	explicit FactoryStrict(Ty::StDxCtx_crefPtr<T> stDxCtx) 
 		: m_stDxCtx( stDxCtx ) 
-	{}
+	 {}
 
 #ifdef BOOST_PFR_ENABLED
 	template<class TConstBuf>
@@ -18,6 +20,5 @@ public:
 		return std::make_unique< Accessor< T, TConstBuf > >( m_stDxCtx, crst );
 	}
 #endif // BOOST_PFR_ENABLED
-
 };
 } // namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct

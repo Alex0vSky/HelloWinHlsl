@@ -1,5 +1,5 @@
 ﻿// Sys/HolderClientApp.h - helper for store value of template type
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace Sys { 
 class HolderClientApp {
 	union {
@@ -10,20 +10,20 @@ class HolderClientApp {
 		const void *m_pInitAll_;
 	};
 	const int m_iTypeId;
-public:
+	
+ public:
 	template<class T, typename = typename std::enable_if_t< std::is_base_of_v< DxVerBase, T > > >
 	explicit HolderClientApp(Ty::CurClientApp< T > *p) 
-		: m_pInitAll_( nullptr ), m_iTypeId( T::m_version )
-	{
-       if ( false ) ;
-       else if ( DxVer::v9::m_version == m_iTypeId )
-           m_pDx9 = (Ty::CurClientApp< DxVer::v9 > *)p;
-       else if ( DxVer::v10::m_version == m_iTypeId )
-           m_pDx10 = (Ty::CurClientApp< DxVer::v10 > *)p;
-       else if ( DxVer::v11::m_version == m_iTypeId )
-           m_pDx11 = (Ty::CurClientApp< DxVer::v11 > *)p;
-       else if ( DxVer::v12::m_version == m_iTypeId )
-           m_pDx12 = (Ty::CurClientApp< DxVer::v12 > *)p;
+		: m_pInitAll_( nullptr ), m_iTypeId( T::m_version ) {
+		if ( false ) {}
+		else if ( DxVer::v9::m_version == m_iTypeId )
+		   m_pDx9 = (Ty::CurClientApp< DxVer::v9 > *)p;
+		else if ( DxVer::v10::m_version == m_iTypeId )
+		   m_pDx10 = (Ty::CurClientApp< DxVer::v10 > *)p;
+		else if ( DxVer::v11::m_version == m_iTypeId )
+		   m_pDx11 = (Ty::CurClientApp< DxVer::v11 > *)p;
+		else if ( DxVer::v12::m_version == m_iTypeId )
+		   m_pDx12 = (Ty::CurClientApp< DxVer::v12 > *)p;
 		else 
 			Sys::ErrorHandler::showMsgAndExit( "select client app version" );
 	}

@@ -1,11 +1,11 @@
 ﻿// Dx/Tool/ConstantBuf/viaStruct/Accessor.h - wrapper for create and map/unmap
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct {
 
 template<class T, class TConstBuf> class Accessor; // primary template
 
 template<class TConstBuf>
-class Accessor< DxVer::v10,TConstBuf > {
+class Accessor< DxVer::v10, TConstBuf > {
 	using TInnerDxVer = DxVer::v10;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	struct Out_t {
@@ -19,15 +19,15 @@ class Accessor< DxVer::v10,TConstBuf > {
 	typedef uptr< Accessor > uptr_t;
 	Accessor(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx, const TConstBuf &crst) 
 		: m_stDxCtx( stDxCtx ) 
-		, m_oHolderAlignedMem( crst ) 
-	{ 
+		, m_oHolderAlignedMem( crst ) { 
 		D3D10_BUFFER_DESC cbDesc = { };
 		cbDesc.ByteWidth = ( ( ( sizeof( crst ) / c_uDxAlign ) + 1 ) * c_uDxAlign );
 		cbDesc.Usage = D3D10_USAGE_DYNAMIC;
 		cbDesc.BindFlags = D3D10_BIND_CONSTANT_BUFFER;
 		cbDesc.CPUAccessFlags = D3D10_CPU_ACCESS_WRITE;
 		D3D10_SUBRESOURCE_DATA InitData = { m_oHolderAlignedMem.getMem( ) };
-		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( &cbDesc, &InitData, m_stOut.m_pcConstantBuffer.ReleaseAndGetAddressOf( ) );
+		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( 
+			&cbDesc, &InitData, m_stOut.m_pcConstantBuffer.ReleaseAndGetAddressOf( ) );
 		if ( FAILED( hr ) ) 
 			throw _com_error( E_OUTOFMEMORY );
 		m_stOut.m_veConstantBuffers = { m_stOut.m_pcConstantBuffer.Get( ) };
@@ -53,7 +53,7 @@ class Accessor< DxVer::v10,TConstBuf > {
 };
 
 template<class TConstBuf>
-class Accessor< DxVer::v11,TConstBuf > {
+class Accessor< DxVer::v11, TConstBuf > {
 	using TInnerDxVer = DxVer::v11;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	struct Out_t {
@@ -67,15 +67,15 @@ class Accessor< DxVer::v11,TConstBuf > {
 	typedef uptr< Accessor > uptr_t;
 	Accessor(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx, const TConstBuf &crst) 
 		: m_stDxCtx( stDxCtx ) 
-		, m_oHolderAlignedMem( crst ) 
-	{ 
+		, m_oHolderAlignedMem( crst ) { 
 		D3D11_BUFFER_DESC cbDesc = { };
 		cbDesc.ByteWidth = ( ( ( sizeof( crst ) / c_uDxAlign ) + 1 ) * c_uDxAlign );
 		cbDesc.Usage = D3D11_USAGE_DYNAMIC;
 		cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 		cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		D3D11_SUBRESOURCE_DATA InitData = { m_oHolderAlignedMem.getMem( ) };
-		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( &cbDesc, &InitData, m_stOut.m_pcConstantBuffer.ReleaseAndGetAddressOf( ) );
+		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( 
+			&cbDesc, &InitData, m_stOut.m_pcConstantBuffer.ReleaseAndGetAddressOf( ) );
 		if ( FAILED( hr ) ) 
 			throw _com_error( E_OUTOFMEMORY );
 		m_stOut.m_veConstantBuffers = { m_stOut.m_pcConstantBuffer.Get( ) };
@@ -103,9 +103,12 @@ class Accessor< DxVer::v11,TConstBuf > {
 	}
 };
 
-// Supported types: float(Cpp) ->float(Hlsl), DirectX::XMFLOAT2(Cpp) ->float2(Hlsl), DirectX::XMUINT2(Cpp) ->uint2(Hlsl)
+// Supported types: 
+//	float(Cpp) ->float(Hlsl), 
+//	DirectX::XMFLOAT2(Cpp) ->float2(Hlsl), 
+//	DirectX::XMUINT2(Cpp) ->uint2(Hlsl)
 template<class TConstBuf>
-class Accessor< DxVer::v12,TConstBuf > {
+class Accessor< DxVer::v12, TConstBuf > {
 	using TInnerDxVer = DxVer::v12;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	HolderMem< TConstBuf > m_oHolderAlignedMem;
@@ -116,27 +119,28 @@ class Accessor< DxVer::v12,TConstBuf > {
 	Accessor(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx, const TConstBuf &crst) 
 		: m_stDxCtx( stDxCtx ) 
 		, m_oHolderAlignedMem( crst ) 
-	{}
+	 {}
 
 #ifdef BOOST_PFR_ENABLED
-	bool passToShader(const CPtr< ID3D12GraphicsCommandList > &pcCommandList, std::function< void(TConstBuf *) > clb = nullptr) {
+	bool passToShader(
+		const CPtr< ID3D12GraphicsCommandList > &pcCommandList
+		, std::function< void(TConstBuf *) > clb = nullptr
+	) {
 		TConstBuf *pConstData = static_cast<TConstBuf *>( m_oHolderAlignedMem.getMem( ) );
 		if ( clb )
 			clb( pConstData );
 		boost::pfr::for_each_field( *pConstData, [this](const auto& field) {
 				using field_t = std::decay_t< decltype( field ) >;
-				if constexpr ( false ) {}
-				else if constexpr ( ( std::is_same_v< field_t, float > ) ) {
+				if constexpr ( false ) {
+				} else if constexpr ( ( std::is_same_v< field_t, float > ) ) {
 					m_converter.wonnaPassHlslType.likeFloat_( ) ->float_( field );
-				}
-				else if constexpr ( ( std::is_same_v< field_t, DirectX::XMFLOAT2 > ) ) {
+				} else if constexpr ( ( std::is_same_v< field_t, DirectX::XMFLOAT2 > ) ) {
 					m_converter.wonnaPassHlslType.likeFloat_( ) ->float2_( { field.x, field.y } );
-				}
-				else if constexpr ( ( std::is_same_v< field_t, DirectX::XMUINT2 > ) ) {
+				} else if constexpr ( ( std::is_same_v< field_t, DirectX::XMUINT2 > ) ) {
 					m_converter.wonnaPassHlslType.likeUint_( ) ->uint2_( { field.x, field.y } );
-				}
-				else 
+				} else {
 					static_assert( Tpl::Trait::always_false_v< field_t >, "unsupport type" );
+				}
 			} );
 		return m_converter.send( pcCommandList );
 	}

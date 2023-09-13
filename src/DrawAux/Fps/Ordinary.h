@@ -1,13 +1,14 @@
 ﻿// DrawAux/Fps/Ordinary.h - second try "Direct2D/DXGI Interoperation Sample".
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 // It's interesting that everything works without "if (SUCCEEDED(CoInitialize(NULL)))".
-// You can no longer use "D3DX10CreateFont". https://stackoverflow.com/questions/42333236/cannot-open-source-file-d3dx10-h
-// @insp https://github.com/microsoft/Windows-classic-samples/blob/main/Samples/Win7Samples/multimedia/DirectWrite/HelloWorld/SimpleText.cpp
-// @insp https://docs.microsoft.com/en-us/samples/microsoft/windows-classic-samples/direct2ddxgi/
-// @insp https://github.com/microsoft/Windows-classic-samples/blob/main/Samples/Win7Samples/multimedia/Direct2D/DXGISample/DxgiSample.cpp
-// @insp https://github.com/Microsoft/DirectXTK/wiki/ComPtr
-// @insp https://www.unknowncheats.me/forum/d3d-tutorials-and-source/126704-drawing-function-directx-9-a.html
-// TODO: rename Fps/Ordinary to Fps/ToWindowSufrace or Fps/ToTexture or Fps/ToImage
-#pragma once
+// You can no longer use "D3DX10CreateFont"
+//	https://stackoverflow.com/questions/42333236/cannot-open-source-file-d3dx10-h
+// @insp https://github.com/microsoft/Windows-classic-samples/blob/main/Samples/Win7Samples/multimedia/DirectWrite/HelloWorld/SimpleText.cpp // NOLINT(whitespace/line_length)
+// @insp https://docs.microsoft.com/en-us/samples/microsoft/windows-classic-samples/direct2ddxgi/ // NOLINT(whitespace/line_length)
+// @insp https://github.com/microsoft/Windows-classic-samples/blob/main/Samples/Win7Samples/multimedia/Direct2D/DXGISample/DxgiSample.cpp // NOLINT(whitespace/line_length)
+// @insp https://github.com/Microsoft/DirectXTK/wiki/ComPtr // NOLINT(whitespace/line_length)
+// @insp https://www.unknowncheats.me/forum/d3d-tutorials-and-source/126704-drawing-function-directx-9-a.html // NOLINT(whitespace/line_length)
+// TODO(Alex0vSky): rename Fps/Ordinary to Fps/ToWindowSufrace or Fps/ToTexture or Fps/ToImage
 namespace prj_3d::HelloWinHlsl::DrawAux::Fps { 
 template<class T> class Ordinary; // primary template
 
@@ -29,7 +30,6 @@ struct BaseDrawCfg {
 };
 template<class T> struct DrawCfg; // primary template
 template<> struct DrawCfg<DxVer::v9> : public BaseDrawCfg {
-
 	static D3DCOLOR getColor() {
 		auto color = BaseDrawCfg::getColor( );
 		return D3DCOLOR_XRGB( BYTE(color.r*255.f), BYTE(color.g*255.f), BYTE(color.b*255.f) );
@@ -60,8 +60,8 @@ template<> struct DrawCfg<DxVer::v12> : public BaseDrawCfg {
 	static DirectX::SimpleMath::Vector2 getRect() {
 		auto r = BaseDrawCfg::getRect( );
 		return DirectX::SimpleMath::Vector2( 
-				(float)r.left
-				, (float)r.top
+				static_cast<float>( r.left )
+				, static_cast<float>( r.top )
 			);
 	}
 };
@@ -80,11 +80,12 @@ class FrameTime {
 	template<typename Ty> inline constexpr Ty max_(const Ty& _a, const Ty& _b) {
 		return _a > _b ? _a : _b;
 	}
-public:
+	
+ public:
 	float m_min, m_max, m_avg;
 	FrameTime() // = default;
 		: m_offset(0), m_values{ }, m_min(0), m_max(0), m_avg(0)
-	{}
+	 {}
 	void pushSample(float value) {
 		m_values[m_offset] = value;
 		m_offset = (m_offset + 1) % kNumSamples;
@@ -113,7 +114,7 @@ public:
 	}
 };
 
-} // namespace detail_ _
+} // namespace detail_
 
 template<> class Ordinary<DxVer::v9> {
 	using TInnerDxVer = DxVer::v9;
@@ -123,11 +124,11 @@ template<> class Ordinary<DxVer::v9> {
 	detail_::FrameTime stFrameTime;
 
 	CPtr< ID3DXFont > m_pcFont;
-public:
+
+ public:
     typedef uptr< Ordinary > uptr_t;
     explicit Ordinary(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx)
-        : m_stDxCtx( stDxCtx )
-	{
+        : m_stDxCtx( stDxCtx ) {
 		Sys::Hr hr = ::D3DXCreateFontW( 
 				m_stDxCtx ->m_pcD3dDevice.Get( )
 				, detail_::DrawCfg<TInnerDxVer>::getFontSize( ), 0
@@ -146,11 +147,11 @@ public:
 		m_llFrameTimeLast = llNow;
     	const double toMsCpu = 1000.0 / m_llCpuTimerFreq;
     	const double frameMs = llCpuTimeFrame * toMsCpu;
-    	stFrameTime.pushSample( float(frameMs) );
+    	stFrameTime.pushSample( static_cast<float>( frameMs ) );
         float fFps = 1000.0f / stFrameTime.m_avg;
 
         std::wstringstream stream;
-        stream << L"FPS " << (int)fFps;
+        stream << L"FPS " << static_cast<int>( fFps );
 
 		auto rect = detail_::DrawCfg<TInnerDxVer>::getRect( );
 		//HRESULT hr = 
@@ -171,11 +172,11 @@ template<> class Ordinary<DxVer::v10> {
 
 	int64_t m_llFrameTimeLast, m_llCpuTimerFreq;
 	detail_::FrameTime stFrameTime;
-public:
+	
+ public:
     typedef uptr< Ordinary > uptr_t;
     explicit Ordinary(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx)
-        : m_stDxCtx( stDxCtx )
-    {
+        : m_stDxCtx( stDxCtx ) {
         CPtr< IDWriteFactory > pcDWriteFactory;
         CPtr< ID2D1Factory > pcD2DFactory;
         Sys::Hr hr;
@@ -194,7 +195,8 @@ public:
 
         hr = pcDWriteFactory ->CreateTextFormat(
             detail_::DrawCfg<TInnerDxVer>::getFontFamily( ).c_str( ),
-            NULL,                       // Font collection (NULL sets it to use the system font collection).
+			// Font collection (NULL sets it to use the system font collection).
+            NULL,
             DWRITE_FONT_WEIGHT_REGULAR,
             DWRITE_FONT_STYLE_NORMAL,
             DWRITE_FONT_STRETCH_NORMAL,
@@ -256,9 +258,11 @@ public:
 
         // It is assumed that the window will change size.
         DXGI_SWAP_CHAIN_DESC stDxgiSwapChainDesc = {};
-        m_stDxCtx ->m_pcDxgiSwapChain->GetDesc(&stDxgiSwapChainDesc); // or IDXGISwapChain1::GetHwnd method (dxgi1_2.h)
+		// or IDXGISwapChain1::GetHwnd method (dxgi1_2.h)
+        m_stDxCtx ->m_pcDxgiSwapChain->GetDesc(&stDxgiSwapChainDesc);
         FLOAT dpiX, dpiY;
-        dpiX = dpiY = (FLOAT)::GetDpiForWindow(stDxgiSwapChainDesc.OutputWindow); //pcD2DFactory ->GetDesktopDpi( &dpiX, &dpiY ); // @depr
+		//pcD2DFactory ->GetDesktopDpi( &dpiX, &dpiY ); // @depr
+        dpiX = dpiY = (FLOAT)::GetDpiForWindow(stDxgiSwapChainDesc.OutputWindow);
         D2D1_RENDER_TARGET_PROPERTIES props2 = D2D1::RenderTargetProperties(
             D2D1_RENDER_TARGET_TYPE_DEFAULT,
             D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
@@ -288,11 +292,11 @@ public:
 		m_llFrameTimeLast = llNow;
     	const double toMsCpu = 1000.0 / m_llCpuTimerFreq;
     	const double frameMs = llCpuTimeFrame * toMsCpu;
-    	stFrameTime.pushSample( float(frameMs) );
+    	stFrameTime.pushSample( static_cast<float>( frameMs ) );
         float fFps = 1000.0f / stFrameTime.m_avg;
 
         std::wstringstream stream;
-        stream << L"FPS " << (int)fFps;
+        stream << L"FPS " << static_cast<int>( fFps );
 
         Sys::Hr hr;
         m_pcBackBufferRT ->BeginDraw( );
@@ -308,7 +312,7 @@ public:
     }
 };
 
-// TODO: dont repeat yourself, common code with DxVer::v10
+// TODO(Alex0vSky): dont repeat yourself, common code with DxVer::v10
 template<> class Ordinary<DxVer::v11> {
 	using TInnerDxVer = DxVer::v11;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
@@ -318,11 +322,11 @@ template<> class Ordinary<DxVer::v11> {
 
 	int64_t m_llFrameTimeLast, m_llCpuTimerFreq;
 	detail_::FrameTime stFrameTime;
-public:
+	
+ public:
     typedef uptr< Ordinary > uptr_t;
     explicit Ordinary(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx)
-        : m_stDxCtx( stDxCtx )
-    {
+        : m_stDxCtx( stDxCtx ) {
         CPtr< IDWriteFactory > pcDWriteFactory;
         CPtr< ID2D1Factory > pcD2DFactory;
         Sys::Hr hr;
@@ -341,7 +345,8 @@ public:
 
         hr = pcDWriteFactory ->CreateTextFormat(
             detail_::DrawCfg<TInnerDxVer>::getFontFamily( ).c_str( ),
-            NULL,                       // Font collection (NULL sets it to use the system font collection).
+			// Font collection (NULL sets it to use the system font collection).
+            NULL,
             DWRITE_FONT_WEIGHT_REGULAR,
             DWRITE_FONT_STYLE_NORMAL,
             DWRITE_FONT_STRETCH_NORMAL,
@@ -403,9 +408,11 @@ public:
 
         // It is assumed that the window will change size.
         DXGI_SWAP_CHAIN_DESC stDxgiSwapChainDesc = {};
-        m_stDxCtx ->m_pcDxgiSwapChain->GetDesc(&stDxgiSwapChainDesc); // or IDXGISwapChain1::GetHwnd method (dxgi1_2.h)
+		// or IDXGISwapChain1::GetHwnd method (dxgi1_2.h)
+        m_stDxCtx ->m_pcDxgiSwapChain->GetDesc(&stDxgiSwapChainDesc);
         FLOAT dpiX, dpiY;
-        dpiX = dpiY = (FLOAT)::GetDpiForWindow(stDxgiSwapChainDesc.OutputWindow); //pcD2DFactory ->GetDesktopDpi( &dpiX, &dpiY ); // @depr
+		//pcD2DFactory ->GetDesktopDpi( &dpiX, &dpiY ); // @depr
+        dpiX = dpiY = (FLOAT)::GetDpiForWindow(stDxgiSwapChainDesc.OutputWindow);
         D2D1_RENDER_TARGET_PROPERTIES props2 = D2D1::RenderTargetProperties(
             D2D1_RENDER_TARGET_TYPE_DEFAULT,
             D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
@@ -423,12 +430,11 @@ public:
 				// and resets it to zero.
 				, m_pcBackBufferRT.ReleaseAndGetAddressOf( )
 			);
-        // TODO: try to prevent this operator from being used in my code.
+        // TODO(Alex0vSky): try to prevent this operator from being used in my code.
 
         m_llFrameTimeLast = stFrameTime.getHPCounter( );
         //!< CPU timer frequency. Timestamps-per-second
         m_llCpuTimerFreq = stFrameTime.getHPFrequency( );
-
     }
     void renderOnTarget() {
 		int64_t llNow = stFrameTime.getHPCounter( );
@@ -437,11 +443,11 @@ public:
 		m_llFrameTimeLast = llNow;
     	const double toMsCpu = 1000.0 / m_llCpuTimerFreq;
     	const double frameMs = llCpuTimeFrame * toMsCpu;
-    	stFrameTime.pushSample( float(frameMs) );
+    	stFrameTime.pushSample( static_cast<float>( frameMs ) );
         float fFps = 1000.0f / stFrameTime.m_avg;
 
         std::wstringstream stream;
-        stream << L"FPS " << (int)fFps;
+        stream << L"FPS " << static_cast<int>( fFps );
 
         Sys::Hr hr;
         m_pcBackBufferRT ->BeginDraw( );
@@ -475,18 +481,16 @@ template<> class Ordinary<DxVer::v12> {
 
 	CPtr< ID3D12GraphicsCommandList > m_pc_CommandList;
 
-public:
+ public:
     typedef uptr< Ordinary > uptr_t;
     explicit Ordinary(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx)
-        : m_stDxCtx( stDxCtx )
-    {
-		using namespace DirectX;
+        : m_stDxCtx( stDxCtx ) {
 		auto device = m_stDxCtx ->m_pcD3dDevice12.Get( );
-		m_resourceDescriptors = std::make_unique<DescriptorHeap>(
+		m_resourceDescriptors = std::make_unique< DirectX::DescriptorHeap >(
 				device
 				, Descriptors::Count
 			);
-		ResourceUploadBatch resourceUpload( device );
+		DirectX::ResourceUploadBatch resourceUpload( device );
 
 		resourceUpload.Begin( );
 
@@ -495,7 +499,7 @@ public:
 		static_assert( std::is_array_v< return_t >, "expect only array" );
 		static_assert( std::rank_v< return_t > == 1, "expect only one dimension array" );
 		static_assert( std::extent_v< return_t > > 0, "expect only bounded array" );
-		m_font = std::make_unique<SpriteFont>(
+		m_font = std::make_unique< DirectX::SpriteFont >(
 				device
 				, resourceUpload
 				, arrayFont, sizeof( arrayFont )
@@ -503,15 +507,15 @@ public:
 				, m_resourceDescriptors->GetGpuHandle( Descriptors::MyFont )
 			);
 
-		RenderTargetState rtState(
+		DirectX::RenderTargetState rtState(
 				//m_deviceResources ->GetBackBufferFormat( )
 				//, m_deviceResources ->GetDepthBufferFormat( )
 				DXGI_FORMAT_R8G8B8A8_UNORM
 				, DXGI_FORMAT_R8G8B8A8_UNORM
 			);
 
-		SpriteBatchPipelineStateDescription pd( rtState );
-		m_spriteBatch = std::make_unique<SpriteBatch>( device, resourceUpload, pd );
+		DirectX::SpriteBatchPipelineStateDescription pd( rtState );
+		m_spriteBatch = std::make_unique< DirectX::SpriteBatch >( device, resourceUpload, pd );
 
 		m_fontPos = detail_::DrawCfg<TInnerDxVer>::getRect( );
 
@@ -531,15 +535,13 @@ public:
 		m_llFrameTimeLast = llNow;
     	const double toMsCpu = 1000.0 / m_llCpuTimerFreq;
     	const double frameMs = llCpuTimeFrame * toMsCpu;
-    	stFrameTime.pushSample( float(frameMs) );
+    	stFrameTime.pushSample( static_cast<float>( frameMs ) );
         float fFps = 1000.0f / stFrameTime.m_avg;
 
         std::wstringstream stream;
-        stream << L"FPS " << (int)fFps;
+        stream << L"FPS " << static_cast<int>( fFps );
 
 		Sys::Hr hr;
-		using namespace DirectX;
-
 		ID3D12DescriptorHeap* heaps[] = { m_resourceDescriptors ->Heap( ) };
 		m_pc_CommandList ->SetDescriptorHeaps(
 				static_cast< UINT >( std::size( heaps ) )
@@ -552,7 +554,7 @@ public:
 				m_spriteBatch.get( )
 				, stream.str( ).c_str( )
 				, m_fontPos
-				, Colors::White
+				, DirectX::Colors::White
 				, 0.f
 			);
 
@@ -565,6 +567,5 @@ public:
 	void setDx12CommandList(const CPtr< ID3D12GraphicsCommandList > &pcCommandList) {
 		m_pc_CommandList = pcCommandList;
 	}
-
 };
 } // namespace prj_3d::HelloWinHlsl::DrawAux::Fps

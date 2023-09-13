@@ -1,5 +1,5 @@
 ﻿// Dx/Ctx/CtxDx.h - structure of DirectX3D context
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Ctx {
 
 template<class T> struct CtxDx; // primary template
@@ -57,7 +57,7 @@ template<> struct CtxDx<DxVer::v12> : public detail_::CommonDxCtx<DxVer::v12> {
 		const UINT m_uFrameIndex;
 		const CD3DX12_VIEWPORT m_viewport;
 		const CD3DX12_RECT m_scissorRect;
-		// TODO: how to safe release under const? Need for SwapChain::ResizeBuffers()
+		// TODO(Alex0vSky): how to safe release under const? Need for SwapChain::ResizeBuffers()
 		const std::array< CPtr< ID3D12Resource >, FrameCount > m_renderTargets;
 		bool m_bTearingSupport;
 	} detail_;

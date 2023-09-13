@@ -1,5 +1,5 @@
 ﻿// Dx/Spec/D12/Waiter.h - wait frame ready
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Spec::D12 {
 class Waiter {
 	static const UINT FrameCount = 2;
@@ -25,7 +25,7 @@ class Waiter {
 		, m_pcDxgiSwapChain( pcDxgiSwapChain )
 		, m_aruFenceValues{ aruFenceValues }
 		, m_uFrameIndex( frameIndex )
-	{}
+	 {}
 	void set_frameIndex(UINT frameIndex) {
 		m_uFrameIndex = frameIndex;
 	}

@@ -1,23 +1,27 @@
 ﻿// Dx/Tool/Shader/ConstantSetterDx9.h - setter Dx9 shaders constants
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader {
 class ConstantSetterDx9 {
 	using TInnerDxVer = DxVer::v9;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
-public:
+	
+ public:
 	explicit ConstantSetterDx9(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx ) 
-	{}
+	 {}
 
 	class Setter {
 		const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 		const CPtr< ID3DXConstantTable > m_cpConstantTable;
+		
 	public:
 		typedef uptr< Setter > uptrc_t;
-		Setter(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx, const CPtr<ID3DXConstantTable> &cpConstantTable)
+		Setter(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx
+				, const CPtr<ID3DXConstantTable> &cpConstantTable
+			)
 			: m_stDxCtx( stDxCtx )
 			, m_cpConstantTable( cpConstantTable )
-		{}
+		 {}
 		bool setFloat4(const std::string &strNameConst, const D3DXVECTOR4 &value) const {
 			// variable can optimized/removed by fxc like "dead code" and get D3DERR_INVALIDCALL
 			if ( D3DXHANDLE h = m_cpConstantTable ->GetConstantByName( 0, strNameConst.c_str( ) ) )
@@ -48,14 +52,16 @@ public:
 		UINT uSizeData = 0;
 		if ( FAILED( cp ->GetFunction( nullptr, &uSizeData  ) ) ) 
 			return nullptr;
-		std::vector< char > veMemFunc( (size_t)uSizeData );
+		std::vector< char > veMemFunc( static_cast<size_t>( uSizeData ) );
 		if ( FAILED( cp ->GetFunction( &veMemFunc[ 0 ], &uSizeData ) ) ) 
 			return nullptr;
 		CPtr< ID3DXConstantTable > cpConstantTable;
-		if ( FAILED( ::D3DXGetShaderConstantTable( (DWORD *)&veMemFunc[ 0 ], cpConstantTable.ReleaseAndGetAddressOf( ) ) ) ) 
+		if ( FAILED( ::D3DXGetShaderConstantTable( 
+				reinterpret_cast<DWORD *>( &veMemFunc[ 0 ] )
+				, cpConstantTable.ReleaseAndGetAddressOf( ) ) ) 
+			) 
 			return nullptr;
 		return std::make_unique< Setter >( m_stDxCtx, cpConstantTable );
 	}
-
 };
 } // namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader

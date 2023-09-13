@@ -1,12 +1,11 @@
 ﻿// Dx/Ctx/Impl/Dx10CtxImpl.h - implementation for DirectX3D version 10
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Ctx::Impl {
 class Dx10CtxImpl {
-public:
+ public:
 	static 
 	Ty::StDxCtx_ptr<DxVer::v10>
-	create(Sys::Wnd::StToken::cref_t crstWndToken, const Dx::Adapter::Dx10Adapter &oAdapter) 
-	{
+	create(Sys::Wnd::StToken::cref_t crstWndToken, const Dx::Adapter::Dx10Adapter &oAdapter) {
 		Sys::Hr hr;
 
 		// Create Direct3D device and swap chain (double buffered)
@@ -24,19 +23,21 @@ public:
 		struDxgiSwapChainDesc.BufferCount = 2;
 		struDxgiSwapChainDesc.OutputWindow = crstWndToken.m_hWnd;
 		struDxgiSwapChainDesc.Windowed = TRUE;
-		// If it is recommended to use DXGI_SWAP_EFFECT_FLIP_DISCARD or DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL for a quick action, then the functionality needs to be redone.
+		// If it is recommended to use DXGI_SWAP_EFFECT_FLIP_DISCARD or DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL 
+		//	for a quick action, then the functionality needs to be redone.
 		struDxgiSwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-		UINT uFlags = 0
+		UINT uFlags = 0;
 #ifdef _DEBUG
-				// To display messages in Output, you still need to learn how to use ReportLiveObjects.
-				| D3D10_CREATE_DEVICE_DEBUG 
+		// To display messages in Output, you still need to learn how to use ReportLiveObjects.
+		uFlags |= D3D10_CREATE_DEVICE_DEBUG;
 #endif // _DEBUG
-				// To output FPS text.
-				| D3D10_CREATE_DEVICE_BGRA_SUPPORT
-			;
+		// To output FPS text.
+		uFlags |= D3D10_CREATE_DEVICE_BGRA_SUPPORT;
+
 		static const UINT uSDKVersion = D3D10_1_SDK_VERSION;
 		hr = ::D3D10CreateDeviceAndSwapChain1( 
-				// If you pass NULL here, then the warning is like this -- {DXGI WARNING: IDXGIFactory::CreateSwapChain: Blt-model swap effects (DXGI_SWAP_EFFECT_DISCARD and DXGI_SWAP_EFFECT_SEQUENTIAL) are legacy swap effects that are predominantly superceded by their flip-model counterparts (DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL and DXGI_SWAP_EFFECT_FLIP_DISCARD). Please consider updating your application to leverage flip-model swap effects to benefit from modern presentation enhancements. More information is available at http://aka.ms/dxgiflipmodel. [ MISCELLANEOUS WARNING #294: ]}
+				// If you pass NULL here, then the warning is like this -- 
+				// {DXGI WARNING: IDXGIFactory::CreateSwapChain: Blt-model swap effects (DXGI_SWAP_EFFECT_DISCARD and DXGI_SWAP_EFFECT_SEQUENTIAL) are legacy swap effects that are predominantly superceded by their flip-model counterparts (DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL and DXGI_SWAP_EFFECT_FLIP_DISCARD). Please consider updating your application to leverage flip-model swap effects to benefit from modern presentation enhancements. More information is available at http://aka.ms/dxgiflipmodel. [ MISCELLANEOUS WARNING #294: ]} // NOLINT(whitespace/line_length)
 				oAdapter
 				, D3D10_DRIVER_TYPE_HARDWARE
 				, NULL
@@ -56,7 +57,8 @@ public:
 		CPtr< ID3D10Texture2D > pcD3dTexture2DBackBuffer; // _Post_ _Notnull_ 
 		CPtr< ID3D10RenderTargetView > pcD3dRenderTargetView;
 		hr = pcDxgiSwapChain ->GetBuffer( 0, IID_PPV_ARGS( pcD3dTexture2DBackBuffer.ReleaseAndGetAddressOf( ) ) );
-		hr = pcD3dDevice10_0 ->CreateRenderTargetView( pcD3dTexture2DBackBuffer.Get( ), NULL, pcD3dRenderTargetView.ReleaseAndGetAddressOf( ) );
+		hr = pcD3dDevice10_0 ->CreateRenderTargetView( 
+			pcD3dTexture2DBackBuffer.Get( ), NULL, pcD3dRenderTargetView.ReleaseAndGetAddressOf( ) );
 		pcD3dDevice10_0 ->OMSetRenderTargets( 1, pcD3dRenderTargetView.GetAddressOf( ), NULL );
 
 		// Set Viewport

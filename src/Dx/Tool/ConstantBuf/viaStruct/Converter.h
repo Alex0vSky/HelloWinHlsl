@@ -1,11 +1,12 @@
 ﻿// Dx/Tool/ConstantBuf/viaStruct/Converter.h - conversion cpp types to hlsl types
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct {
 class Converter {
 	template<class T>
 	class ParametersPack {
 		const std::vector< T > m_holder32BitValuesToSet;
-	 public:
+
+	public:
 		 template<class T, size_t N>
 		 explicit ParametersPack(const std::array< T, N > &value)
 			 : m_Num32BitValuesToSet( N )
@@ -25,7 +26,7 @@ class Converter {
 			: m_holder32BitValuesToSet( std::move( o.m_holder32BitValuesToSet ) )
 			, m_Num32BitValuesToSet( std::move( o.m_Num32BitValuesToSet ) )
 			, m_pSrcData( m_holder32BitValuesToSet.data( ) )
-		{}
+		 {}
 		 
 		const UINT m_Num32BitValuesToSet;
 		const void *m_pSrcData;
@@ -41,22 +42,28 @@ class Converter {
 
 	finalSequence_t m_params;
 
-	class TypeSelector {
+	class 
+	TypeSelector {
 		finalSequence_t &m_refSequence;
 
 		template<class T>
-		class Base {
+		class 
+		Base {
 			typedef singleSeq_t< T > *ptr_SingleSequence_t;
+			
 		 protected:
 			ptr_SingleSequence_t m_curSequence;
+			
 		 public:
 			explicit Base(ptr_SingleSequence_t curSequence) 
 				: m_curSequence( curSequence )
-			{}
+			 {}
 		};
 
-		class MethodFloat : public Base< float > {
+		class 
+		MethodFloat : public Base< float > {
 			using Base< float >::Base;
+			
 		 public:
 			MethodFloat *float_(float value) {
 				m_curSequence ->push_back( ParametersPack< float >( value ) );
@@ -68,18 +75,22 @@ class Converter {
 			}
 		};
 
-		class MethodInt : public Base< int > {
+		class 
+		MethodInt : public Base< int > {
 			using Base< int >::Base;
-		public:
+			
+		 public:
 			MethodInt *int_(int value) {
 				m_curSequence ->push_back( ParametersPack< int >( value ) );
 				return this;
 			}
 		};
 
-		class MethodUint : public Base< uint32_t > {
+		class 
+		MethodUint : public Base< uint32_t > {
 			using Base< uint32_t >::Base;
-		public:
+			
+		 public:
 			MethodUint *uint_(uint32_t value) {
 				m_curSequence ->push_back( ParametersPack< uint32_t >( value ) );
 				return this;
@@ -94,7 +105,7 @@ class Converter {
 		singleSeq_t< T > *instance() {
 			// check if last used type is T
 			singleSeq_t< T > *singleSeq = nullptr;
-			{
+			 {
 				auto itLastElem = m_refSequence.rbegin( );
 				if ( m_refSequence.rend( ) != m_refSequence.rbegin( ) ) 
 					if ( std::holds_alternative< singleSeq_t< T > >( *itLastElem ) ) 
@@ -107,10 +118,11 @@ class Converter {
 			}
 			return singleSeq;
 		}
+		
 	 public:
 		explicit TypeSelector(finalSequence_t &sequence)
 			: m_refSequence( sequence )
-		{}
+		 {}
 
 		auto likeFloat_() { 
 			return std::make_shared< MethodFloat >( instance< float >( ) );
@@ -126,7 +138,7 @@ class Converter {
  public:
 	Converter() 
 		: wonnaPassHlslType( m_params )
-	{}
+	 {}
 	// Struct access to omit parentheses
 	TypeSelector wonnaPassHlslType;
 

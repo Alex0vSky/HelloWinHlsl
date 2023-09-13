@@ -1,5 +1,5 @@
 ﻿// Dx/Ctx/FactoryCtxs.h - factory of creating DirectX3D context
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Ctx {
 
 template<class T> struct CtxFactory; // Fwd decl
@@ -43,7 +43,7 @@ auto make_uniqueToolCtx(tup&& t, Args1&& ... args1) {
         },
         std::forward<tup>(t)
     );
-};
+}
 
 template<class T> 
 static 
@@ -122,7 +122,7 @@ ctorCtx(Ty::StDxCtx_crefPtr<T> psstDxCtx) {
 		);
 }
 
-template<class T,class TAdapter,class TCtxImpl>
+template<class T, class TAdapter, class TCtxImpl>
 struct BaseCtxFactory {
 	static 
 	Ty::StCtxs_ptr<T>

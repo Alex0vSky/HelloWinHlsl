@@ -1,13 +1,14 @@
 ﻿// ClientApp/Configurator/Config.h - result for builder pattern
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace ClientApp::Configurator { 
 struct Config {
 	bool m_bShowFps;
 	// Strong type
 	class BaseFps { 
 			unsigned int m_uLimitFps;
-		public:
-// TODO: the constructor is not yet clear, I want it to be clearly clear 
+			
+ public:
+// TODO(Alex0vSky): the constructor is not yet clear, I want it to be clearly clear 
 //	what I am creating with a frame limit (by setting a value) or without.
 			explicit BaseFps(unsigned int uLimitFps) : m_uLimitFps( uLimitFps ) {}
 			bool isLimited() const {
@@ -34,7 +35,7 @@ struct Config {
 		: m_bShowFps( bShowFps )
 		, m_oLimitFps( oLimitFps )
 		, m_enuGameLoop( enuGameLoop )
-	{}
+	 {}
 
 	static auto getBuilder() {
 		return std::make_unique< Builder >();
@@ -42,9 +43,10 @@ struct Config {
 
 	typedef uptr< const Config > uptrc_t;
 	typedef const uptrc_t &cref_ptr_t;
-private: 
+
+ private: 
 	Config(const Config &) = default; // only
 	friend class Builder;
 	friend class Predef;
 };
-} // namespace ClientApp::Configurator _
+} // namespace ClientApp::Configurator

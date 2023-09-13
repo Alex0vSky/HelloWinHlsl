@@ -1,8 +1,8 @@
 ﻿// ClientApp/Configurator/Predef.h - predefined result of the configurator.
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace ClientApp::Configurator { 
 class Predef { 
-public:
+ public:
 	// Default config.
 	static auto getDefault() {
 		// Abuse singleton pattern for headerOnly lib
@@ -17,4 +17,4 @@ public:
         return Config::uptrc_t( new Config( s_struConfig ) ); // without friend make_unique
 	}
 };
-} // namespace ClientApp::Configurator _
+} // namespace ClientApp::Configurator

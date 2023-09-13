@@ -1,15 +1,16 @@
 ﻿// Dx/Tool/Shader/Loader/SourceCode/FromMem.h - loader shader from shader source code placed in memory
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader::Loader::SourceCode {
-template<class TSPE,class T> class FromMem; // primary template
+template<class TSPE, class T> class FromMem; // primary template
 
-template<class T> class FromMem<DxVer::v9,T> {
+template<class T> class FromMem<DxVer::v9, T> {
 	using TInnerDxVer = DxVer::v9;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
-public:
+	
+ public:
 	explicit FromMem(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx )
-	{}
+	 {}
 
 	// preference vertex shader model version is 3_0
 	CPtr< IDirect3DVertexShader9 > 
@@ -86,13 +87,14 @@ public:
 	}
 };
 
-template<class T> class FromMem<DxVer::v10,T> {
+template<class T> class FromMem<DxVer::v10, T> {
 	using TInnerDxVer = DxVer::v10;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
-public:
+	
+ public:
 	explicit FromMem(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx )
-	{}
+	 {}
 
 	// preference vertex shader model version is 4_0
 	CPtr< ID3D10VertexShader > 
@@ -144,10 +146,9 @@ public:
 	// Load the pixel shader of the vs_4_0 model, from string.
 	CPtr<ID3D10PixelShader> 
 	Ps40(
-			const std::string &strShadeSourceCode
-			, const std::string &strEntryPointName = "main"
-		)
-	{
+		const std::string &strShadeSourceCode
+		, const std::string &strEntryPointName = "main"
+	) {
 		HRESULT hr;
 		CPtr<ID3D10Blob> pcBlob;
 		hr = ::D3D10CompileShader(
@@ -166,16 +167,16 @@ public:
 			return { };
 		return pcPS;
 	}
-
 };
 
-template<class T> class FromMem<DxVer::v11,T> {
+template<class T> class FromMem<DxVer::v11, T> {
 	using TInnerDxVer = DxVer::v11;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
-public:
+	
+ public:
 	explicit FromMem(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx )
-	{}
+	 {}
 
 	// preference vertex shader model version is 4_0
 	CPtr< ID3D11VertexShader > 
@@ -228,10 +229,9 @@ public:
 	// Load the pixel shader of the vs_4_0 model, from string.
 	CPtr< ID3D11PixelShader > 
 	Ps40(
-			const std::string &strShadeSourceCode
-			, const std::string &strEntryPointName = "main"
-		)
-	{
+		const std::string &strShadeSourceCode
+		, const std::string &strEntryPointName = "main"
+	) {
 		HRESULT hr;
 		CPtr< ID3DBlob > pcBlob;
 		hr = ::D3DCompile( 
@@ -252,17 +252,16 @@ public:
 			return { };
 		return pcPS;
 	}
-
 };
 
-template<class T> class FromMem<DxVer::v12,T> {
+template<class T> class FromMem<DxVer::v12, T> {
 	using TInnerDxVer = DxVer::v12;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	UINT m_compileFlags;
-public:
+	
+ public:
 	explicit FromMem(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
-		: m_stDxCtx( stDxCtx )
-	{
+		: m_stDxCtx( stDxCtx ) {
 		m_compileFlags = 0;
 		// Enable better shader debugging with the graphics debugging tools.
 #ifdef _DEBUG
@@ -312,10 +311,9 @@ public:
 	// Load the pixel shader of the vs_5_0 model, from string.
 	CPtr< ID3DBlob > 
 	Ps50(
-			const std::string &strShadeSourceCode
-			, const std::string &strEntryPointName = "main"
-		)
-	{
+		const std::string &strShadeSourceCode
+		, const std::string &strEntryPointName = "main"
+	) {
 		HRESULT hr;
 		CPtr< ID3DBlob > pcBlob;
 		hr = ::D3DCompile( 
@@ -327,6 +325,5 @@ public:
 			return { };
 		return pcBlob;
 	}
-
 };
 } // namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader::Loader::SourceCode

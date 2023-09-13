@@ -1,20 +1,21 @@
 ﻿// Tpl/Trait.h - something like class traits
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Tpl {
 struct Trait { 
-
 // For struct initialization
 // @insp stackoverflow.com/questions/35298989/using-c-aggregate-initialization-in-stdmake-shared
 template<class T>
 struct aggregate_adapter : public T {
 	template<class... Args>
-	aggregate_adapter(Args&&... args) : T{ std::forward<Args>(args)... } {}
+	aggregate_adapter(Args&&... args) : T{ std::forward<Args>(args)... } {} // NOLINT(runtime/explicit)
 };
 // For struct initialization in make_unique when empty parrent
 template<class T>
 struct aggregate_adapter_empty_parent : public T {
 	template<class... Args>
-	aggregate_adapter_empty_parent(Args&&... args) : T{ { }, std::forward<Args>(args)... } {}
+	aggregate_adapter_empty_parent(Args&&... args) // NOLINT(runtime/explicit)
+		: T{ { }, std::forward<Args>(args)... } 
+	{} 
 };
 
 // make unique_ptr from tuple, aggregate_adapter allow make unique_ptr from struct
@@ -29,7 +30,7 @@ auto make_unique_struct_from_tuple(tup&& t) {
         },
         std::forward<tup>(t)
     );
-};
+}
 template<typename obj, typename tup>
 static 
 auto make_unique_class_from_tuple(tup&& t) {
@@ -40,7 +41,7 @@ auto make_unique_class_from_tuple(tup&& t) {
         },
         std::forward<tup>(t)
     );
-};
+}
 
 // For empty std deleter
 struct nop { template <typename T> void operator() (T const &) const noexcept {} };
@@ -49,7 +50,8 @@ struct nop { template <typename T> void operator() (T const &) const noexcept {}
 template<class> inline static constexpr bool always_false_v = false;
 
 // @insp stackoverflow.com/questions/17254425/getting-the-size-in-bytes-of-a-vector
-template<class T> static size_t vectorsizeof(const typename std::vector< T >& vec) { return sizeof( T ) * vec.size( ); }
-
+template<class T> static size_t vectorsizeof(const typename std::vector< T >& vec) { 
+	return sizeof( T ) * vec.size( ); 
+}
 };
 } // namespace prj_3d::HelloWinHlsl::Tpl

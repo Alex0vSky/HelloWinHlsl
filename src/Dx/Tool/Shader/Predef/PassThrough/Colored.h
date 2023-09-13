@@ -1,9 +1,9 @@
 ﻿// Dx/Tool/Shader/Predef/PassThrough/Colored.h - predefined pass-through shaders await layout with color 
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader::Predef::PassThrough {
-template<class TSPE,class T> class Colored; // primary template, ,class T=TSPE
+template<class TSPE, class T> class Colored; // primary template
 
-template<class T> class Colored<DxVer::v9,T> {
+template<class T> class Colored<DxVer::v9, T> {
 	const Ty::StDxCtx_ptr<T> m_stDxCtx;
 	typename Tool::Shader::Loader::Composite<T>::sptr_t m_psoShaderLoader;
 #pragma region shader
@@ -25,7 +25,8 @@ float4 ps_shader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGE
 }
 )A0S_HEREDOC";
 #pragma endregion
-public:
+
+ public:
 	typedef uptr< Colored > uptr_t;
 	Colored(
 		Ty::StDxCtx_crefPtr<T> stDxCtx
@@ -33,7 +34,7 @@ public:
 	) 
 		: m_stDxCtx( stDxCtx )
 		, m_psoShaderLoader( psoShaderLoader )
-	{}
+	 {}
 
 	struct Out_t {
 		CPtr< IDirect3DVertexShader9 > m_pcVs;
@@ -51,7 +52,8 @@ public:
 	}
 	uptr_Out_t get_Vs_Ps_InputLayout() {
 		Out_t sOut;
-		sOut.m_pcVs = m_psoShaderLoader ->sourceCode( ) ->fromMem( ) ->Vs( m_szShaderSource, "vs_shader", std::addressof( sOut.m_pcBuffer ) );
+		sOut.m_pcVs = m_psoShaderLoader ->sourceCode( ) ->fromMem( ) ->Vs( 
+			m_szShaderSource, "vs_shader", std::addressof( sOut.m_pcBuffer ) );
 		if ( !sOut.m_pcVs )
 			return nullptr;
 		sOut.m_pcPs = getPs( );
@@ -83,7 +85,8 @@ float4 ps_shader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGE
 }
 )A0S_HEREDOC";
 #pragma endregion
-public:
+
+ public:
 	typedef uptr< Colored > uptr_t;
 	Colored(
 		Ty::StDxCtx_crefPtr<T> stDxCtx
@@ -91,7 +94,7 @@ public:
 	) 
 		: m_stDxCtx( stDxCtx )
 		, m_psoShaderLoader( psoShaderLoader )
-	{}
+	 {}
 
 	struct Out_t {
 		CPtr< ID3D10VertexShader > m_pcVs;
@@ -110,7 +113,8 @@ public:
 	}
 	uptr_Out_t get_Vs_Ps_InputLayout() {
 		Out_t sOut;
-		sOut.m_pcVs = m_psoShaderLoader ->sourceCode( ) ->fromMem( ) ->Vs( m_szShaderSource, "vs_shader", std::addressof( sOut.m_cpVsBlob ) );
+		sOut.m_pcVs = m_psoShaderLoader ->sourceCode( ) ->fromMem( ) ->Vs( 
+			m_szShaderSource, "vs_shader", std::addressof( sOut.m_cpVsBlob ) );
 		if ( !sOut.m_pcVs )
 			return nullptr;
 		sOut.m_pcPs = getPs( );
@@ -134,7 +138,6 @@ public:
 
 		return uptr_Out_t( new Out_t( sOut ) );
 	}
-
 };
 
 template<class T> class Colored<DxVer::v11, T> {
@@ -159,7 +162,8 @@ float4 ps_shader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGE
 }
 )A0S_HEREDOC";
 #pragma endregion
-public:
+
+ public:
 	typedef uptr< Colored > uptr_t;
 	Colored(
 		Ty::StDxCtx_crefPtr<T> stDxCtx
@@ -167,7 +171,7 @@ public:
 	) 
 		: m_stDxCtx( stDxCtx )
 		, m_psoShaderLoader( psoShaderLoader )
-	{}
+	 {}
 
 	struct Out_t {
 		CPtr< ID3D11VertexShader > m_pcVs;
@@ -186,7 +190,8 @@ public:
 	}
 	uptr_Out_t get_Vs_Ps_InputLayout() {
 		Out_t sOut;
-		sOut.m_pcVs = m_psoShaderLoader ->sourceCode( ) ->fromMem( ) ->Vs( m_szShaderSource, "vs_shader", std::addressof( sOut.m_cpVsBlob ) );
+		sOut.m_pcVs = m_psoShaderLoader ->sourceCode( ) ->fromMem( ) ->Vs( 
+			m_szShaderSource, "vs_shader", std::addressof( sOut.m_cpVsBlob ) );
 		if ( !sOut.m_pcVs )
 			return nullptr;
 		sOut.m_pcPs = getPs( );
@@ -210,7 +215,6 @@ public:
 
 		return uptr_Out_t( new Out_t( sOut ) );
 	}
-
 };
 
 template<class T> class Colored<DxVer::v12, T> {
@@ -235,7 +239,8 @@ float4 ps_shader(PSInput input) : SV_TARGET {
 }
 )A0S_HEREDOC";
 #pragma endregion
-public:
+
+ public:
 	typedef uptr< Colored > uptr_t;
 	Colored(
 		Ty::StDxCtx_crefPtr<T> stDxCtx
@@ -243,7 +248,7 @@ public:
 	) 
 		: m_stDxCtx( stDxCtx )
 		, m_psoShaderLoader( psoShaderLoader )
-	{}
+	 {}
 
 	struct Out_t {
 		CPtr< ID3DBlob > m_pcVs;
@@ -282,6 +287,5 @@ public:
 
 		return uptr_Out_t( new Out_t( sOut ) );
 	}
-
 };
 } // namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader::Predef::PassThrough

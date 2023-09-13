@@ -1,5 +1,5 @@
 ﻿// GameLoop/BaseInSeparateThread.h - base logic for game loop in new/separeate thread
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::GameLoop {
 namespace detail_ {
 
@@ -34,7 +34,8 @@ class BaseInSeparateThread_ : virtual public ABaseWndProcHolderAware<T> {
 
 						if ( base_t::m_pfnCallbackBeforeRender )
 							base_t::m_pfnCallbackBeforeRender( );
-						base_t::m_puoClientApp ->render_frame( base_t::m_stCtx ->m_psstDxCtx, base_t::m_psoDynamicData ->forClient( ) );
+						base_t::m_puoClientApp ->render_frame( 
+							base_t::m_stCtx ->m_psstDxCtx, base_t::m_psoDynamicData ->forClient( ) );
 
 						// show fps
 						if ( base_t::m_puoDrawAuxFps )
@@ -45,14 +46,15 @@ class BaseInSeparateThread_ : virtual public ABaseWndProcHolderAware<T> {
 						// limit fps
 						base_t::m_puoFrameLimiter ->limit( );
 
-						base_t::m_puoClientApp ->present_to_screen( base_t::m_stCtx ->m_psstDxCtx, base_t::m_psoDynamicData ->forClient( ) );
+						base_t::m_puoClientApp ->present_to_screen( 
+							base_t::m_stCtx ->m_psstDxCtx, base_t::m_psoDynamicData ->forClient( ) );
 						if ( base_t::m_pfnCallbackAfterPresent ) 
 							base_t::m_pfnCallbackAfterPresent( );
 					} while ( !bStopThread );
 				} 
 			);
 
-		MSG msg = {};
+		MSG msg = { };
 		while ( GetMessage( &msg, NULL, 0, 0 ) ) {
 			//::OutputDebugStringA( "message\n" );
 			TranslateMessage( &msg );
@@ -60,12 +62,12 @@ class BaseInSeparateThread_ : virtual public ABaseWndProcHolderAware<T> {
 		}
 		bStopThread = true;
 		oMsgHandleThread.join( );
-        return (int) msg.wParam;
+        return static_cast<int>( msg.wParam );
 	}
 
-public:
+ public:
 	virtual ~BaseInSeparateThread_() 
-	{}
+	 {}
 };
-} // namespace detail_;
+} // namespace detail_
 } // namespace prj_3d::HelloWinHlsl::GameLoop

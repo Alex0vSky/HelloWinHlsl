@@ -1,6 +1,7 @@
 ﻿// HelloWinHlsl.h - the main include file for the client to use this library.
-#pragma once
-#include "_pch\stdafx.h"
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
+#include "_pch\stdafx.h" // NOLINT(build/include_subdir)
+
 
 #pragma comment( lib, "dxgi" )
 // toDrawFps
@@ -20,11 +21,12 @@
 #pragma comment( lib, "d3dcompiler" )
 
 
-#include "..\resource\resource.h"
+#include "..\resource\resource.h" // NOLINT(build/include_subdir)
 #ifndef A0S_HWH_YOUROWN_ENTRY
-// Avoid error LNK2019: 'MSVCRTD.lib(exe_winmain.obj) : error LNK2019: unresolved external symbol _WinMain@16 referenced in function "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ)'
+// Avoid error LNK2019: unresolved external symbol _WinMain@16
 //  due conflict entry point from static lib
-//	if you include PCH (stdaxf.h), then the library cannot be transferred to the client via pragma, but must be directly in the options.
+//	if you include PCH (stdaxf.h), then the library cannot be transferred to 
+//	the client via pragma, but must be directly in the options.
 #pragma comment( linker, "/ENTRY:\"wWinMainCRTStartup\"" )
 #endif // A0S_HWH_YOUROWN_ENTRY
 
@@ -32,7 +34,7 @@
 template<class T> class CPtr : public Microsoft::WRL::ComPtr<T> {
 	using Microsoft::WRL::ComPtr<T>::ComPtr;
 	// Remove danger operator
-    Microsoft::WRL::Details::ComPtrRef< Microsoft::WRL::ComPtr<T> > operator&() 
+    Microsoft::WRL::Details::ComPtrRef< Microsoft::WRL::ComPtr<T> > operator&() // NOLINT(runtime/operator)
 #ifndef A0S_cppcheck__
 		throw( ) 
 #endif // A0S_cppcheck__
@@ -127,9 +129,9 @@ namespace prj_3d::HelloWinHlsl::Ty {
 // Alias
 namespace prj_3d::HelloWinHlsl::Ty {
 	template<class T> using CurClientApp = ClientApp::Present::AOrdinary<T>;
-} // namespace prj_3d::HelloWinHlsl
+} // namespace prj_3d::HelloWinHlsl::Ty
 
-// TODO: make it for all includes?
+// TODO(Alex0vSky): make it for all includes?
 namespace prj_3d::HelloWinHlsl { 
 #include "Sys/HolderClientApp.h"
 #include "Sys/HolderType.h"
@@ -145,7 +147,7 @@ namespace prj_3d::HelloWinHlsl::ClientTy {
 	template<class T> using Adjust = Dx::AdjustAux< T >;
 	template<class T> using Dynamic = Dx::ClientDynamicData< T >;
 	typedef ClientApp::Configurator::Config Config;
-	template<class T> using CurClientApp= Ty::CurClientApp< T >;
+	template<class T> using CurClientApp = Ty::CurClientApp< T >;
 	// Only declared, client code must define
 	//	Point of entry.
 	uptr<Sys::HolderClientApp> entryPoint();

@@ -1,6 +1,6 @@
 ﻿// Sys/Hr.h - throws an exception when an erroneous "HRESULT" is assigned.
 // @insp https://stackoverflow.com/questions/46416029/finding-the-calling-functions-address-in-visual-c-safely
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Sys {
 class Hr {
     HRESULT m_hr;
@@ -14,7 +14,8 @@ class Hr {
         m_bstrDescription = oComError.ErrorMessage( );
 	        //throw oComError;
 
-		// TODO: convert all known values to string representation, like 0x8876086c to "D3DERR_INVALIDCALL"
+		// TODO(Alex0vSky): convert all known values to string representation, 
+		//	like 0x8876086c to "D3DERR_INVALIDCALL"
 		//	@insp https://github.com/brainexcerpts/Dxerr
         ICreateErrorInfo* createErrInfo = NULL;
         IErrorInfo* errInfo = NULL;
@@ -23,7 +24,9 @@ class Hr {
         createErrInfo ->SetGUID( IID_IErrorInfo ); // hr
         std::wstringstream stream;
         stream << m_bstrDescription.operator wchar_t *() << std::endl;
-        stream << L"ret 0x" << std::hex << std::uppercase << (size_t) xAddr << std::endl;
+        stream << L"ret 0x" 
+			<< std::hex << std::uppercase 
+			<< reinterpret_cast<size_t>( xAddr ) << std::endl;
         _bstr_t bstrDesc( stream.str( ).c_str( ) );
         createErrInfo ->SetDescription( bstrDesc ); // hr
         createErrInfo ->QueryInterface( IID_IErrorInfo, reinterpret_cast<void**>( &errInfo ) ); // hr
@@ -39,14 +42,14 @@ class Hr {
         //        SysFreeString( bstrDescription );
         //}
     }
-public:
+
+ public:
     Hr() 
         :m_hr ( S_OK )
     {}
 	// Its converting constructor
-    Hr(HRESULT hrValue) // cppcheck-suppress noExplicitConstructor
-        :m_hr ( hrValue )
-    {
+    Hr(HRESULT hrValue) // cppcheck-suppress noExplicitConstructor; NOLINT(runtime/explicit)
+        :m_hr ( hrValue ) {
         check( _ReturnAddress( ) );
     }
     // non copy-and-swap idiom

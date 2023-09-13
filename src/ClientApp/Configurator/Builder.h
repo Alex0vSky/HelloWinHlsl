@@ -1,12 +1,13 @@
 ﻿// ClientApp/Configurator/Builder.h - builder for builder pattern
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace ClientApp::Configurator { 
 class Builder {
 	Config m_oConfig;
-public:
+
+ public:
 	Builder() 
 		: m_oConfig( *( Predef::getDefault( ) ) ) 
-	{}
+	 {}
     auto build() const {
         return Config::uptrc_t( new Config( m_oConfig ) );
     }
@@ -27,4 +28,4 @@ public:
 		return this;
 	}
 };
-} // namespace ClientApp::Configurator _
+} // namespace ClientApp::Configurator

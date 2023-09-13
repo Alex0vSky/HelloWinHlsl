@@ -1,6 +1,7 @@
-﻿// GameLoop/InCurrentThread.h - the usual game loop, at the same time guarantees the correct order of calling destructors.
+﻿// GameLoop/InCurrentThread.h - the usual game loop, 
+//	at the same time guarantees the correct order of calling destructors.
 // @insp https://gist.github.com/lynxluna/4242170
-#pragma once
+#pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::GameLoop {
 
 // primary template
@@ -22,8 +23,7 @@ class InCurrentThread : public detail_ ::BaseInCurrentThread_< T > {
 template<>
 class InCurrentThread< DxVer::v12 > 
 	: public Dx::Spec::D12::GameLoopPart
-	, public detail_ ::BaseInCurrentThread_< DxVer::v12 > 
-{
+	, public detail_ ::BaseInCurrentThread_< DxVer::v12 > {
 	using Dx::Spec::D12::GameLoopPart::GameLoopPart;
 	using detail_::BaseInCurrentThread_< DxVer::v12 >::BaseInCurrentThread_;
 
