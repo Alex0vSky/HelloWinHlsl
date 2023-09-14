@@ -108,6 +108,9 @@
     <Filter Include="Header Files\DxtkFont">
       <UniqueIdentifier>{8a4a4244-aeb7-4551-a8ad-7136ef3de0d0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Dx\Tool\Shader\Loader\ArrayC">
+      <UniqueIdentifier>{9a9fe266-cbd0-4ad8-8f69-72bebcf09516}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\HelloWinHlsl.cpp">
@@ -369,6 +372,12 @@
     </ClInclude>
     <ClInclude Include="src\_pch\targetver.h">
       <Filter>_pch</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\ChainArrayC.h">
+      <Filter>Header Files\Dx\Tool\Shader\Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\ArrayC\FromHeader.h">
+      <Filter>Header Files\Dx\Tool\Shader\Loader\ArrayC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

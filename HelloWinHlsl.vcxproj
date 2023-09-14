@@ -135,7 +135,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <AdditionalIncludeDirectories>.;src;src\_pch;ThirdParty;resource;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
@@ -245,6 +245,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\ArrayC\FromHeader.h" />
+    <ClInclude Include="src\Dx\Tool\Shader\Loader\ChainArrayC.h" />
     <ClInclude Include="src\_pch\framework.h" />
     <ClInclude Include="src\_pch\sysw.h" />
     <ClInclude Include="src\_pch\targetver.h" />
