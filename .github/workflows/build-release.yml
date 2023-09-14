@@ -59,11 +59,6 @@ jobs:
           MSBuild . -noLogo -verbosity:minimal -m -p:Platform=x86 -p:Configuration=Release
           MSBuild . -noLogo -verbosity:minimal -m -p:Platform=x64 -p:Configuration=Debug
           MSBuild . -noLogo -verbosity:minimal -m -p:Platform=x64 -p:Configuration=Release
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ${{ env.release_artifact_name }}
-          path: |
-            ${{ env.dirLib }}\**\*.${{ env.strOutExt }}
 
       - name: Renaming to versioning names
         run: | 
