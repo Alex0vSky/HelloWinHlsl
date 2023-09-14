@@ -71,10 +71,15 @@ jobs:
           mv -v ${{ github.workspace }}\lib\x86\Release\${{ env.strOutName }}.${{ env.strOutExt }} ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x86-Release.${{ env.strOutExt }}
           mv -v ${{ github.workspace }}\lib\x64\Debug\${{ env.strOutName }}.${{ env.strOutExt }} ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x64-Debug.${{ env.strOutExt }}
           mv -v ${{ github.workspace }}\lib\x64\Release\${{ env.strOutName }}.${{ env.strOutExt }} ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x64-Release.${{ env.strOutExt }}
+          
+          Compress-Archive -Path ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x86-Debug.${{ env.strOutExt }}    ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x86-Debug.${{ env.strOutExt }}.zip
+          Compress-Archive -Path ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x86-Release.${{ env.strOutExt }}  ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x86-Release.${{ env.strOutExt }}.zip
+          Compress-Archive -Path ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x64-Debug.${{ env.strOutExt }}    ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x64-Debug.${{ env.strOutExt }}.zip
+          Compress-Archive -Path ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x64-Release.${{ env.strOutExt }}  ${{ runner.temp }}\${{ env.strOutName }}-${{ env.strTag }}-x64-Release.${{ env.strOutExt }}.zip
 
       - name: Replace '\\' for softprops/action-gh-release
         run: | 
-          $strGlob="${{ runner.temp }}/${{ env.strOutName }}-${{ env.strTag }}-*.${{ env.strOutExt }}";
+          $strGlob="${{ runner.temp }}/${{ env.strOutName }}-${{ env.strTag }}-*.${{ env.strOutExt }}.zip";
           $strGlob = $strGlob -replace '\\','/';
           echo "strGlob=$strGlob" >> $env:GITHUB_ENV
 
