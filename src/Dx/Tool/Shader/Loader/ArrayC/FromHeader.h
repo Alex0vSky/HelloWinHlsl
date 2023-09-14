@@ -27,12 +27,15 @@ template<class T> class FromHeader<DxVer::v9, T> {
 	explicit FromHeader(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx )
 	 {}
-	// Load the vertex shader bytecode.
-	CPtr<IDirect3DVertexShader9> Vs(
-		const std::wstring& strRelFileName
-		, std::vector<char>* pveShaderByte = nullptr
+	// Load the vertex shader.
+	template <typename TCALLABLE> 
+	CPtr< IDirect3DVertexShader9 > Vs(
+		TCALLABLE fn
+		, std::vector<BYTE>* pveShaderByte = nullptr
 	) {
-		auto veMem = detail_::read( strRelFileName );
+		const auto &arrayC = fn( );
+		detail_::checkArray< decltype( arrayC ) >{ };
+		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
 		CPtr<IDirect3DVertexShader9> pcVS;
@@ -53,7 +56,7 @@ template<class T> class FromHeader<DxVer::v9, T> {
 	template <typename TCALLABLE> 
 	CPtr<IDirect3DPixelShader9> Ps(TCALLABLE fn) {
 		const auto &arrayC = fn( );
-		checkArray< decltype( arrayC ) >{ };
+		detail_::checkArray< decltype( arrayC ) >{ };
 		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
@@ -77,43 +80,18 @@ template<class T> class FromHeader<DxVer::v10, T> {
 		: m_stDxCtx( stDxCtx )
 	 {}
 
-	// Load effect bytecode.
-	CPtr<ID3D10Effect> Fx(const std::wstring& strRelFileName) {
-		auto veMem = detail_::read( strRelFileName );
+	// Load the vertex shader.
+	template <typename TCALLABLE> 
+	CPtr< ID3D10VertexShader > Vs(
+		TCALLABLE fn
+		, std::vector<BYTE>* pveShaderByte = nullptr
+	) {
+		const auto &arrayC = fn( );
+		detail_::checkArray< decltype( arrayC ) >{ };
+		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
-		// Read the D3DX effect file
-		DWORD dwShaderFlags = D3D10_SHADER_ENABLE_STRICTNESS;
-#ifdef _DEBUG
-		// Set the D3D10_SHADER_DEBUG flag to embed debug information in the shaders.
-		// Setting this flag improves the shader debugging experience, but still allows 
-		// the shaders to be optimized and to run exactly the way they will run in 
-		// the release configuration of this program.
-		dwShaderFlags |= D3D10_SHADER_DEBUG;
-		// Otherwise, there will be a warning in VsGa: "This draw call uses 
-		//	system-value semantics that interfere with pixel history computation"
-		dwShaderFlags |= D3D10_SHADER_SKIP_OPTIMIZATION;
-#endif // _DEBUG
-
-		CPtr<ID3D10Blob> pcD3dBlobErrorMsg = nullptr;
-		CPtr<ID3D10Effect> pcEffect10 = nullptr;
-		::D3DX10CreateEffectFromMemory( veMem.data( ), veMem.size( ), NULL,  NULL, NULL
-				, "fx_4_0", dwShaderFlags, 0, m_stDxCtx ->m_pcD3dDevice.Get( ), NULL
-				, NULL, pcEffect10.ReleaseAndGetAddressOf( ), pcD3dBlobErrorMsg.ReleaseAndGetAddressOf( ), NULL 
-			);
-		if ( pcD3dBlobErrorMsg ) {
-			// TODO(Alex0vSky): Use a trace class that can change the functionality.
-			::OutputDebugStringA( static_cast<char *>( pcD3dBlobErrorMsg ->GetBufferPointer( ) ) );
-		}
-		return pcEffect10;
-	}
-
-	// Load the vertex shader bytecode.
-	CPtr<ID3D10VertexShader> Vs(const std::wstring& strRelFileName, std::vector<char>* pveShaderByte = nullptr) {
-		auto veMem = detail_::read( strRelFileName );
-		if ( !veMem.size( ) )
-			return { };
-		CPtr<ID3D10VertexShader> pcVS;
+		CPtr< ID3D10VertexShader > pcVS;
 		// If you compile the shader in fxc.exe with "vs_2_0" (as in the examples for Dx9), 
 		//	then it is not accepted in CreateVertexShader().
 		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateVertexShader( 
@@ -125,9 +103,12 @@ template<class T> class FromHeader<DxVer::v10, T> {
 		return pcVS;
 	}
 
-	// Load the pixel shader bytecode.
-	CPtr<ID3D10PixelShader> Ps(const std::wstring& strRelFileName) {
-		auto veMem = detail_::read( strRelFileName );
+	// Load the pixel shader.
+	template <typename TCALLABLE> 
+	CPtr< ID3D10PixelShader > Ps(TCALLABLE fn) {
+		const auto &arrayC = fn( );
+		detail_::checkArray< decltype( arrayC ) >{ };
+		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
 		CPtr<ID3D10PixelShader> pcPS;
@@ -148,12 +129,15 @@ template<class T> class FromHeader<DxVer::v11, T> {
 		: m_stDxCtx( stDxCtx )
 	 {}
 
-	// Load the vertex shader bytecode.
+	// Load the vertex shader.
+	template <typename TCALLABLE> 
 	CPtr< ID3D11VertexShader > Vs(
-		const std::wstring& strRelFileName
-		, std::vector<char>* pveShaderByte = nullptr
+		TCALLABLE fn
+		, std::vector<BYTE>* pveShaderByte = nullptr
 	) {
-		auto veMem = detail_::read( strRelFileName );
+		const auto &arrayC = fn( );
+		detail_::checkArray< decltype( arrayC ) >{ };
+		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
 		CPtr< ID3D11VertexShader > pcVS;
@@ -168,9 +152,12 @@ template<class T> class FromHeader<DxVer::v11, T> {
 		return pcVS;
 	}
 
-	// Load the pixel shader bytecode.
-	CPtr< ID3D11PixelShader > Ps(const std::wstring& strRelFileName) {
-		auto veMem = detail_::read( strRelFileName );
+	// Load the pixel shader.
+	template <typename TCALLABLE> 
+	CPtr< ID3D11PixelShader > Ps(TCALLABLE fn) {
+		const auto &arrayC = fn( );
+		detail_::checkArray< decltype( arrayC ) >{ };
+		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
 		CPtr< ID3D11PixelShader > pcPS;
@@ -191,25 +178,37 @@ template<class T> class FromHeader<DxVer::v12, T> {
 		: m_stDxCtx( stDxCtx )
 	 {}
 
-	// Load the vertex shader bytecode.
-	CPtr< ID3DBlob > Vs(const std::wstring& strRelFileName) {
+	// Load the vertex shader.
+	template <typename TCALLABLE> 
+	CPtr< ID3DBlob > Vs(TCALLABLE fn) {
+		const auto &arrayC = fn( );
+		detail_::checkArray< decltype( arrayC ) >{ };
+
 		CPtr< ID3DBlob > pcVS;
-		const std::wstring strFullFileName = Shader::Locator::locate( strRelFileName );
-		HRESULT hr = ::D3DReadFileToBlob( 
-			strFullFileName.c_str( ), pcVS.ReleaseAndGetAddressOf( ) );
+		HRESULT hr = ::D3DCreateBlob( 
+				sizeof( arrayC )
+				, pcVS.ReleaseAndGetAddressOf( ) 
+			);
 		if ( FAILED( hr ) )
 			return { };
+		memcpy_s( pcVS ->GetBufferPointer( ), pcVS ->GetBufferSize( ), arrayC, sizeof( arrayC ) );
 		return pcVS;
 	}
 
-	// Load the pixel shader bytecode.
-	CPtr< ID3DBlob > Ps(const std::wstring& strRelFileName) {
+	// Load the pixel shader.
+	template <typename TCALLABLE> 
+	CPtr< ID3DBlob > Ps(TCALLABLE fn) {
+		const auto &arrayC = fn( );
+		detail_::checkArray< decltype( arrayC ) >{ };
+
 		CPtr< ID3DBlob > pcPS;
-		const std::wstring strFullFileName = Shader::Locator::locate( strRelFileName );
-		HRESULT hr = ::D3DReadFileToBlob( 
-			strFullFileName.c_str( ), pcPS.ReleaseAndGetAddressOf( ) );
+		HRESULT hr = ::D3DCreateBlob( 
+				sizeof( arrayC )
+				, pcPS.ReleaseAndGetAddressOf( ) 
+			);
 		if ( FAILED( hr ) )
 			return { };
+		memcpy_s( pcPS ->GetBufferPointer( ), pcPS ->GetBufferSize( ), arrayC, sizeof( arrayC ) );
 		return pcPS;
 	}
 };

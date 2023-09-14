@@ -72,7 +72,7 @@ template<> class Quad<DxVer::v10> {
 		, m_psoVertexBuf( psoVertexBuf )
 	 {}
 
-	CPtr< ID3D10InputLayout > createLayout(const std::vector<char> &veShaderByte) {
+	CPtr< ID3D10InputLayout > createLayout(const std::vector<BYTE> &veShaderByte) {
 		CPtr< ID3D10InputLayout > cpLayout;
 		D3D10_INPUT_ELEMENT_DESC stLayout[] = { 
 				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D10_INPUT_PER_VERTEX_DATA, 0 }
@@ -129,7 +129,7 @@ template<> class Quad<DxVer::v11> {
 		, m_psoVertexBuf( psoVertexBuf )
 	 {}
 
-	CPtr< ID3D11InputLayout > createLayout(const std::vector<char> &veShaderByte) {
+	CPtr< ID3D11InputLayout > createLayout(const std::vector<BYTE> &veShaderByte) {
 		CPtr< ID3D11InputLayout > cpLayout;
 		D3D11_INPUT_ELEMENT_DESC stLayout[] = { 
 				{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 }
