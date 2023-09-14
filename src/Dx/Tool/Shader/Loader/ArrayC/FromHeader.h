@@ -8,12 +8,15 @@ static std::vector<char> read(const std::wstring &strRelFileName) {
 	std::ifstream file( strFullFileName, std::ios::binary );
 	return std::vector<char>( std::istreambuf_iterator<char>( file ), {} );
 }
+// TODO(Alex0vSky): simplifyme
 template<typename T> 
-struct checkArray {
+struct check {
 	typedef std::remove_cv_t< std::remove_reference_t< T > > type;
 	static_assert( std::is_array_v< type >, "expect only array" );
 	static_assert( std::rank_v< type > == 1, "expect only one dimension array" );
 	static_assert( std::extent_v< type > > 0, "expect only bounded array" );
+	static void array() {
+	}
 };
 } // namespace detail_
 
@@ -34,7 +37,7 @@ template<class T> class FromHeader<DxVer::v9, T> {
 		, std::vector<BYTE>* pveShaderByte = nullptr
 	) {
 		const auto &arrayC = fn( );
-		detail_::checkArray< decltype( arrayC ) >{ };
+		detail_::check< decltype( arrayC ) >::array( );
 		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
@@ -56,7 +59,7 @@ template<class T> class FromHeader<DxVer::v9, T> {
 	template <typename TCALLABLE> 
 	CPtr<IDirect3DPixelShader9> Ps(TCALLABLE fn) {
 		const auto &arrayC = fn( );
-		detail_::checkArray< decltype( arrayC ) >{ };
+		detail_::check< decltype( arrayC ) >::array( );
 		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
@@ -87,7 +90,7 @@ template<class T> class FromHeader<DxVer::v10, T> {
 		, std::vector<BYTE>* pveShaderByte = nullptr
 	) {
 		const auto &arrayC = fn( );
-		detail_::checkArray< decltype( arrayC ) >{ };
+		detail_::check< decltype( arrayC ) >::array( );
 		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
@@ -107,7 +110,7 @@ template<class T> class FromHeader<DxVer::v10, T> {
 	template <typename TCALLABLE> 
 	CPtr< ID3D10PixelShader > Ps(TCALLABLE fn) {
 		const auto &arrayC = fn( );
-		detail_::checkArray< decltype( arrayC ) >{ };
+		detail_::check< decltype( arrayC ) >::array( );
 		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
@@ -136,7 +139,7 @@ template<class T> class FromHeader<DxVer::v11, T> {
 		, std::vector<BYTE>* pveShaderByte = nullptr
 	) {
 		const auto &arrayC = fn( );
-		detail_::checkArray< decltype( arrayC ) >{ };
+		detail_::check< decltype( arrayC ) >::array( );
 		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
@@ -156,7 +159,7 @@ template<class T> class FromHeader<DxVer::v11, T> {
 	template <typename TCALLABLE> 
 	CPtr< ID3D11PixelShader > Ps(TCALLABLE fn) {
 		const auto &arrayC = fn( );
-		detail_::checkArray< decltype( arrayC ) >{ };
+		detail_::check< decltype( arrayC ) >::array( );
 		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
@@ -182,7 +185,7 @@ template<class T> class FromHeader<DxVer::v12, T> {
 	template <typename TCALLABLE> 
 	CPtr< ID3DBlob > Vs(TCALLABLE fn) {
 		const auto &arrayC = fn( );
-		detail_::checkArray< decltype( arrayC ) >{ };
+		detail_::check< decltype( arrayC ) >::array( );
 
 		CPtr< ID3DBlob > pcVS;
 		HRESULT hr = ::D3DCreateBlob( 
@@ -199,7 +202,7 @@ template<class T> class FromHeader<DxVer::v12, T> {
 	template <typename TCALLABLE> 
 	CPtr< ID3DBlob > Ps(TCALLABLE fn) {
 		const auto &arrayC = fn( );
-		detail_::checkArray< decltype( arrayC ) >{ };
+		detail_::check< decltype( arrayC ) >::array( );
 
 		CPtr< ID3DBlob > pcPS;
 		HRESULT hr = ::D3DCreateBlob( 
