@@ -1,6 +1,6 @@
-﻿// Dx/Tool/Shader/Loader/ByteCode/FromFile.h - loader shader compiled bytecode from file
+﻿// Dx/Tool/Shader/Loader/ArrayC/FromHeader.h - loader shader compiled bytecode from header file
 #pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
-namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader::Loader::ByteCode {
+namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader::Loader::ArrayC {
 // common reader
 namespace detail_ { 
 static std::vector<char> read(const std::wstring &strRelFileName) {
@@ -8,16 +8,23 @@ static std::vector<char> read(const std::wstring &strRelFileName) {
 	std::ifstream file( strFullFileName, std::ios::binary );
 	return std::vector<char>( std::istreambuf_iterator<char>( file ), {} );
 }
+template<typename T> 
+struct checkArray {
+	typedef std::remove_cv_t< std::remove_reference_t< T > > type;
+	static_assert( std::is_array_v< type >, "expect only array" );
+	static_assert( std::rank_v< type > == 1, "expect only one dimension array" );
+	static_assert( std::extent_v< type > > 0, "expect only bounded array" );
+};
 } // namespace detail_
 
-template<class TSPE, class T> class FromFile; // primary template
+template<class TSPE, class T> class FromHeader; // primary template
 
-template<class T> class FromFile<DxVer::v9, T> {
+template<class T> class FromHeader<DxVer::v9, T> {
 	using TInnerDxVer = DxVer::v9;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	
  public:
-	explicit FromFile(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
+	explicit FromHeader(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx )
 	 {}
 	// Load the vertex shader bytecode.
@@ -41,9 +48,13 @@ template<class T> class FromFile<DxVer::v9, T> {
 			*pveShaderByte = veMem;
 		return pcVS;
 	}
-	// Load the pixel shader bytecode.
-	CPtr<IDirect3DPixelShader9> Ps(const std::wstring& strRelFileName) {
-		auto veMem = detail_::read( strRelFileName );
+
+	// Load the pixel shader
+	template <typename TCALLABLE> 
+	CPtr<IDirect3DPixelShader9> Ps(TCALLABLE fn) {
+		const auto &arrayC = fn( );
+		checkArray< decltype( arrayC ) >{ };
+		std::vector<BYTE> veMem( arrayC, arrayC + sizeof( arrayC ) );
 		if ( !veMem.size( ) )
 			return { };
 		CPtr<IDirect3DPixelShader9> pcPS;
@@ -57,12 +68,12 @@ template<class T> class FromFile<DxVer::v9, T> {
 	}
 };
 
-template<class T> class FromFile<DxVer::v10, T> {
+template<class T> class FromHeader<DxVer::v10, T> {
 	using TInnerDxVer = DxVer::v10;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	
  public:
-	explicit FromFile(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
+	explicit FromHeader(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx )
 	 {}
 
@@ -128,12 +139,12 @@ template<class T> class FromFile<DxVer::v10, T> {
 	}
 };
 
-template<class T> class FromFile<DxVer::v11, T> {
+template<class T> class FromHeader<DxVer::v11, T> {
 	using TInnerDxVer = DxVer::v11;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	
  public:
-	explicit FromFile(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
+	explicit FromHeader(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx )
 	 {}
 
@@ -171,12 +182,12 @@ template<class T> class FromFile<DxVer::v11, T> {
 	}
 };
 
-template<class T> class FromFile<DxVer::v12, T> {
+template<class T> class FromHeader<DxVer::v12, T> {
 	using TInnerDxVer = DxVer::v12;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
 	
  public:
-	explicit FromFile(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
+	explicit FromHeader(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 
 		: m_stDxCtx( stDxCtx )
 	 {}
 
@@ -202,4 +213,4 @@ template<class T> class FromFile<DxVer::v12, T> {
 		return pcPS;
 	}
 };
-} // namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader::Loader::ByteCode
+} // namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader::Loader::ArrayC
