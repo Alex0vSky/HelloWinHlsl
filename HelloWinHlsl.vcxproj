@@ -185,7 +185,7 @@
     </ResourceCompile>
     <Lib>
       <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\Release</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -241,7 +241,7 @@
     </ResourceCompile>
     <Lib>
       <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\Release</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
