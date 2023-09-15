@@ -98,9 +98,9 @@ float4 ps_shader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGE
 
 	struct Out_t {
 		CPtr< ID3D10VertexShader > m_pcVs;
-		CPtr <ID3D10Blob > m_cpVsBlob;
+		CPtr <ID3D10Blob > m_pcVsBlob;
 		CPtr< ID3D10PixelShader > m_pcPs;
-		CPtr< ID3D10InputLayout > m_cpLayout;
+		CPtr< ID3D10InputLayout > m_pcLayout;
 		// Useful to omit decltype
 		auto getVetrexContainer() {
 			return std::vector< Vertex< T > >( );
@@ -114,7 +114,7 @@ float4 ps_shader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGE
 	uptr_Out_t get_Vs_Ps_InputLayout() {
 		Out_t sOut;
 		sOut.m_pcVs = m_psoShaderLoader ->sourceCode( ) ->fromMem( ) ->Vs( 
-			m_szShaderSource, "vs_shader", std::addressof( sOut.m_cpVsBlob ) );
+			m_szShaderSource, "vs_shader", std::addressof( sOut.m_pcVsBlob ) );
 		if ( !sOut.m_pcVs )
 			return nullptr;
 		sOut.m_pcPs = getPs( );
@@ -130,8 +130,8 @@ float4 ps_shader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGE
 			};
         HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateInputLayout(
                 arrDescLayout, _countof( arrDescLayout )
-				, sOut.m_cpVsBlob ->GetBufferPointer( ), sOut.m_cpVsBlob ->GetBufferSize( )
-				, sOut.m_cpLayout.ReleaseAndGetAddressOf( ) 
+				, sOut.m_pcVsBlob ->GetBufferPointer( ), sOut.m_pcVsBlob ->GetBufferSize( )
+				, sOut.m_pcLayout.ReleaseAndGetAddressOf( ) 
             );
 		if ( FAILED( hr ) )
 			return nullptr;
@@ -175,9 +175,9 @@ float4 ps_shader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGE
 
 	struct Out_t {
 		CPtr< ID3D11VertexShader > m_pcVs;
-		CPtr< ID3DBlob > m_cpVsBlob;
+		CPtr< ID3DBlob > m_pcVsBlob;
 		CPtr< ID3D11PixelShader > m_pcPs;
-		CPtr< ID3D11InputLayout > m_cpLayout;
+		CPtr< ID3D11InputLayout > m_pcLayout;
 		// Useful to omit decltype
 		auto getVetrexContainer() {
 			return std::vector< Vertex< T > >( );
@@ -191,7 +191,7 @@ float4 ps_shader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGE
 	uptr_Out_t get_Vs_Ps_InputLayout() {
 		Out_t sOut;
 		sOut.m_pcVs = m_psoShaderLoader ->sourceCode( ) ->fromMem( ) ->Vs( 
-			m_szShaderSource, "vs_shader", std::addressof( sOut.m_cpVsBlob ) );
+			m_szShaderSource, "vs_shader", std::addressof( sOut.m_pcVsBlob ) );
 		if ( !sOut.m_pcVs )
 			return nullptr;
 		sOut.m_pcPs = getPs( );
@@ -207,8 +207,8 @@ float4 ps_shader(float4 position : SV_POSITION, float4 color : COLOR) : SV_TARGE
 			};
         HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateInputLayout(
                 arrDescLayout, _countof( arrDescLayout )
-				, sOut.m_cpVsBlob ->GetBufferPointer( ), sOut.m_cpVsBlob ->GetBufferSize( )
-				, sOut.m_cpLayout.ReleaseAndGetAddressOf( ) 
+				, sOut.m_pcVsBlob ->GetBufferPointer( ), sOut.m_pcVsBlob ->GetBufferSize( )
+				, sOut.m_pcLayout.ReleaseAndGetAddressOf( ) 
             );
 		if ( FAILED( hr ) )
 			return nullptr;

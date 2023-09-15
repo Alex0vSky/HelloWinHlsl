@@ -28,25 +28,25 @@ template<> class IndexBuf<DxVer::v9> {
 		if ( D3DFORMAT::D3DFMT_UNKNOWN == enuFormat )
 			return uptr< indexBuf_t >{ }; // nullptr;
 
-		CPtr< IDirect3DIndexBuffer9 > cpIndexBuf;
+		CPtr< IDirect3DIndexBuffer9 > pcIndexBuf;
 		size_t si = veMem.size( ) * sizeof( TVE );
 		DWORD dwUsage = 0;
 		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateIndexBuffer( 
 				si
                 , dwUsage, enuFormat
-                , D3DPOOL_DEFAULT, cpIndexBuf.ReleaseAndGetAddressOf( ), nullptr
+                , D3DPOOL_DEFAULT, pcIndexBuf.ReleaseAndGetAddressOf( ), nullptr
 			);
 		if ( FAILED( hr ) )
 			return uptr< indexBuf_t >{ }; // nullptr;
 		void *pVertices;
-		hr = cpIndexBuf ->Lock( 0, si, &pVertices, 0 );
+		hr = pcIndexBuf ->Lock( 0, si, &pVertices, 0 );
 		if ( FAILED( hr ) )
 			return uptr< indexBuf_t >{ }; // nullptr;
 		memcpy( pVertices, &veMem[ 0 ], si );
-		cpIndexBuf ->Unlock();
+		pcIndexBuf ->Unlock();
 
 		indexBuf_t stBuf{ 
-				cpIndexBuf 
+				pcIndexBuf 
 				, enuFormat
 			};
 		return std::make_unique< indexBuf_t >( stBuf );
@@ -85,13 +85,13 @@ template<> class IndexBuf<DxVer::v10> {
 		stBufferDesc.ByteWidth = sizeof( TVE ) * veMemNdcLH.size( );
 		stBufferDesc.Usage = D3D10_USAGE_DEFAULT;
 		stBufferDesc.BindFlags = D3D10_BIND_INDEX_BUFFER;
-		CPtr< ID3D10Buffer > cpIndexBuf;
+		CPtr< ID3D10Buffer > pcIndexBuf;
 		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( 
-			&stBufferDesc, &stInitData, cpIndexBuf.ReleaseAndGetAddressOf( ) );
+			&stBufferDesc, &stInitData, pcIndexBuf.ReleaseAndGetAddressOf( ) );
 		if ( FAILED( hr ) )
 			return uptr< indexBuf_t >{ }; // nullptr;
 		indexBuf_t stBuf{ 
-				cpIndexBuf 
+				pcIndexBuf 
 				, enuDxgiFormat
 			};
 		return std::make_unique< indexBuf_t >( stBuf );

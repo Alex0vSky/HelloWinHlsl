@@ -39,26 +39,26 @@ template<class T2> class VertexBuf<DxVer::v9, T2> {
 				el.xyz.y = ( ( stViewport.Height * ( 1 - el.xyz.y ) / 2.0f ) );
 			}
 
-		CPtr< IDirect3DVertexBuffer9 > cpVertexBuf;
+		CPtr< IDirect3DVertexBuffer9 > pcVertexBuf;
 		size_t si = veMemOrthLH.size( ) * sizeof( TVE );
 		DWORD dwFVF = D3DFVF_XYZRHW | D3DFVF_DIFFUSE;
 		DWORD dwUsage = 0;
 		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateVertexBuffer( 
 				(UINT)si
                 , dwUsage, dwFVF
-                , D3DPOOL_DEFAULT, cpVertexBuf.ReleaseAndGetAddressOf( ), NULL
+                , D3DPOOL_DEFAULT, pcVertexBuf.ReleaseAndGetAddressOf( ), NULL
 			);
 		if ( FAILED( hr ) )
 			return uptr< OutVertexBuf >{ }; // nullptr;
 		void *pVertices;
-		hr = cpVertexBuf ->Lock( 0, (UINT)si, &pVertices, 0 );
+		hr = pcVertexBuf ->Lock( 0, (UINT)si, &pVertices, 0 );
 		if ( FAILED( hr ) )
 			return uptr< OutVertexBuf >{ }; // nullptr;
 		memcpy( pVertices, &veMemOrthLH[ 0 ], si );
-		cpVertexBuf ->Unlock();
+		pcVertexBuf ->Unlock();
 
 		OutVertexBuf stBuf{ 
-				cpVertexBuf 
+				pcVertexBuf 
 				, dwFVF
 				, sizeof( TVE )
 			};
@@ -95,14 +95,14 @@ template<class T> class VertexBuf<DxVer::v10, T> {
 		stBufferDesc.ByteWidth = (UINT)( sizeof( TVE ) * veMemNdcLH.size( ) );
 		stBufferDesc.Usage = D3D10_USAGE_DEFAULT;
 		stBufferDesc.BindFlags = D3D10_BIND_VERTEX_BUFFER;
-		CPtr< ID3D10Buffer > cpVertexBuf;
+		CPtr< ID3D10Buffer > pcVertexBuf;
 		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( 
-			&stBufferDesc, &stInitData, cpVertexBuf.ReleaseAndGetAddressOf( ) );
+			&stBufferDesc, &stInitData, pcVertexBuf.ReleaseAndGetAddressOf( ) );
 		if ( FAILED( hr ) )
 			return uptr< OutVertexBuf >{ }; // nullptr;
 		OutVertexBuf stBuf{ 
-				cpVertexBuf 
-				, { cpVertexBuf.Get( ) }
+				pcVertexBuf 
+				, { pcVertexBuf.Get( ) }
 				, { sizeof( TVE ) }
 				, { 0 }
 			};
@@ -139,14 +139,14 @@ template<class T> class VertexBuf<DxVer::v11, T> {
 		stBufferDesc.ByteWidth = (UINT)( sizeof( TVE ) * veMemNdcLH.size( ) );
 		stBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 		stBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		CPtr< ID3D11Buffer > cpVertexBuf;
+		CPtr< ID3D11Buffer > pcVertexBuf;
 		HRESULT hr = m_stDxCtx ->m_pcD3dDevice ->CreateBuffer( 
-			&stBufferDesc, &stInitData, cpVertexBuf.ReleaseAndGetAddressOf( ) );
+			&stBufferDesc, &stInitData, pcVertexBuf.ReleaseAndGetAddressOf( ) );
 		if ( FAILED( hr ) )
 			return uptr< OutVertexBuf >{ }; // nullptr;
 		OutVertexBuf stBuf{ 
-				cpVertexBuf 
-				, { cpVertexBuf.Get( ) }
+				pcVertexBuf 
+				, { pcVertexBuf.Get( ) }
 				, { sizeof( TVE ) }
 				, { 0 }
 			};
