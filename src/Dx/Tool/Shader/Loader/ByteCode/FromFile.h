@@ -3,10 +3,10 @@
 namespace prj_3d::HelloWinHlsl::Dx::Tool::Shader::Loader::ByteCode {
 // common reader
 namespace detail_ { 
-static std::vector<char> read(const std::wstring &strRelFileName) {
+static std::vector<BYTE> read(const std::wstring &strRelFileName) {
 	const std::wstring strFullFileName = Shader::Locator::locate( strRelFileName );
 	std::ifstream file( strFullFileName, std::ios::binary );
-	return std::vector<char>( std::istreambuf_iterator<char>( file ), {} );
+	return std::vector<BYTE>( std::istreambuf_iterator<char>( file ), {} );
 }
 } // namespace detail_
 
@@ -23,7 +23,7 @@ template<class T> class FromFile<DxVer::v9, T> {
 	// Load the vertex shader bytecode.
 	CPtr<IDirect3DVertexShader9> Vs(
 		const std::wstring& strRelFileName
-		, std::vector<char>* pveShaderByte = nullptr
+		, std::vector<BYTE>* pveShaderByte = nullptr
 	) {
 		auto veMem = detail_::read( strRelFileName );
 		if ( !veMem.size( ) )
@@ -98,7 +98,7 @@ template<class T> class FromFile<DxVer::v10, T> {
 	}
 
 	// Load the vertex shader bytecode.
-	CPtr<ID3D10VertexShader> Vs(const std::wstring& strRelFileName, std::vector<char>* pveShaderByte = nullptr) {
+	CPtr<ID3D10VertexShader> Vs(const std::wstring& strRelFileName, std::vector<BYTE>* pveShaderByte = nullptr) {
 		auto veMem = detail_::read( strRelFileName );
 		if ( !veMem.size( ) )
 			return { };
@@ -140,7 +140,7 @@ template<class T> class FromFile<DxVer::v11, T> {
 	// Load the vertex shader bytecode.
 	CPtr< ID3D11VertexShader > Vs(
 		const std::wstring& strRelFileName
-		, std::vector<char>* pveShaderByte = nullptr
+		, std::vector<BYTE>* pveShaderByte = nullptr
 	) {
 		auto veMem = detail_::read( strRelFileName );
 		if ( !veMem.size( ) )
