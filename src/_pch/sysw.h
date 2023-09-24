@@ -25,10 +25,3 @@
 #include <queue>
 
 #include <intrin.h>
-
-// Boost pfr
-#ifndef __INTELLISENSE__
-#	ifndef A0S_cppcheck__
-//#		include "boost\pfr.hpp"
-#	endif // A0S_cppcheck__
-#endif // __INTELLISENSE__
