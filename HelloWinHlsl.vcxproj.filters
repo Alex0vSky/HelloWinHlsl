@@ -286,7 +286,7 @@
     <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\FactoryPackoffsetAware.h">
       <Filter>Header Files\Dx\Tool\ConstantBuf\viaStruct</Filter>
     </ClInclude>
-    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\FactoryStrict.h">
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\Factory.h">
       <Filter>Header Files\Dx\Tool\ConstantBuf\viaStruct</Filter>
     </ClInclude>
     <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\HolderMem.h">

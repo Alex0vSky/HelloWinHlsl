@@ -270,7 +270,7 @@
     <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\Accessor.h" />
     <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\Converter.h" />
     <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\FactoryPackoffsetAware.h" />
-    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\FactoryStrict.h" />
+    <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\Factory.h" />
     <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\HolderMem.h" />
     <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\RootSignatureCreator.h" />
     <ClInclude Include="src\Dx\Tool\ConstantBuf\viaStruct\z_example_.h" />

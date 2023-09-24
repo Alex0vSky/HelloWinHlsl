@@ -85,7 +85,7 @@ namespace prj_3d::HelloWinHlsl::Ty {
 #include "Dx/Tool/ConstantBuf/viaStruct/Converter.h"
 #include "Dx/Tool/ConstantBuf/viaStruct/HolderMem.h"
 #include "Dx/Tool/ConstantBuf/viaStruct/Accessor.h"
-#include "Dx/Tool/ConstantBuf/viaStruct/FactoryStrict.h"
+#include "Dx/Tool/ConstantBuf/viaStruct/Factory.h"
 #include "Dx/Tool/ConstantBuf/viaStruct/RootSignatureCreator.h"
 #include "Dx/Tool/Vertex.h"
 #include "Dx/Tool/Shader/Locator.h"

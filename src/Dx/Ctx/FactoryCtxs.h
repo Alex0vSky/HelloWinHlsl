@@ -26,7 +26,7 @@ auto getTupleBaseArgs(Ty::StDxCtx_crefPtr<T> psstDxCtx) {
 			, std::make_unique< Dx::Tool::Shader::Predef::Composite<T> >( psstDxCtx, psoShaderLoader )
 			, psoVertexBuf
 			, std::make_unique< Tool::Predef::Quad<T> >( psstDxCtx, psoVertexBuf )
-			, std::make_unique< Tool::ConstantBuf::viaStruct::FactoryStrict<T> >( psstDxCtx )
+			, std::make_unique< Tool::ConstantBuf::viaStruct::Factory<T> >( psstDxCtx )
 		);
 }
 

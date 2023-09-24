@@ -1,12 +1,12 @@
-﻿// Dx/Tool/ConstantBuf/viaStruct/FactoryStrict.h - factory
+﻿// Dx/Tool/ConstantBuf/viaStruct/Factory.h - factory
 #pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct {
 template<class T>
-class FactoryStrict {
+class Factory {
 	const Ty::StDxCtx_ptr<T> m_stDxCtx;
 
  public:
-	explicit FactoryStrict(Ty::StDxCtx_crefPtr<T> stDxCtx) 
+	explicit Factory(Ty::StDxCtx_crefPtr<T> stDxCtx) 
 		: m_stDxCtx( stDxCtx ) 
 	 {}
 

@@ -7,7 +7,7 @@ namespace prj_3d::HelloWinHlsl::Dx {
 	namespace Tool { template<class TSPE, class T = TSPE> class VertexBuf; }
 	namespace Tool { template<class T> class IndexBuf; }
 	namespace Tool { namespace Predef { template<class T> class Quad; } }
-	namespace Tool { namespace ConstantBuf { namespace viaStruct { template<class T> class FactoryStrict; } } }
+	namespace Tool { namespace ConstantBuf { namespace viaStruct { template<class T> class Factory; } } }
 	namespace Tool { namespace ConstantBuf { namespace viaStruct { class RootSignatureCreator; } } }
 	namespace Tool { namespace Shader { class ConstantSetterDx9; } }
 }
@@ -25,7 +25,7 @@ struct CommonToolCtx {
 	uptr< Tool::Shader::Predef::Composite<T> > m_puoShaderPredef;
 	const sptr< Tool::VertexBuf<T> > m_psoVertexBuf;
 	uptr< Tool::Predef::Quad<T> > m_puoQuad;
-	uptr< Tool::ConstantBuf::viaStruct::FactoryStrict<T> > m_puoCBufAccessorFactory;
+	uptr< Tool::ConstantBuf::viaStruct::Factory<T> > m_puoCBufAccessorFactory;
 
 	typedef uptr< const CtxTool<T> > uptrc_t;
 	typedef const uptrc_t &cref_ptr_t;
