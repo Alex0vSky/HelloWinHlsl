@@ -103,10 +103,6 @@ class Accessor< DxVer::v11, TConstBuf > {
 	}
 };
 
-// Supported types: 
-//	float(Cpp) ->float(Hlsl), 
-//	DirectX::XMFLOAT2(Cpp) ->float2(Hlsl), 
-//	DirectX::XMUINT2(Cpp) ->uint2(Hlsl)
 template<class TConstBuf>
 class Accessor< DxVer::v12, TConstBuf > {
 	using TInnerDxVer = DxVer::v12;
