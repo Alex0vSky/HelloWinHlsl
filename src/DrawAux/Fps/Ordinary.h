@@ -274,10 +274,6 @@ template<> class Ordinary<DxVer::v10> {
         hr = pcD2DFactory ->CreateDxgiSurfaceRenderTarget(
 				pcBackBuffer.Get( )
 				, &props2
-				// I prefer "ReleaseAndGetAddressOf" instead of 
-				// the "ComPtr<TInnerDxVer>::operator&" operator, although 
-				// the operator returns "TInnerDxVer**", it releases it 
-				// and resets it to zero.
 				, m_pcBackBufferRT.ReleaseAndGetAddressOf( )
 			);
 
@@ -424,13 +420,8 @@ template<> class Ordinary<DxVer::v11> {
         hr = pcD2DFactory ->CreateDxgiSurfaceRenderTarget(
 				pcBackBuffer.Get( )
 				, &props2
-				// I prefer "ReleaseAndGetAddressOf" instead of 
-				// the "ComPtr<TInnerDxVer>::operator&" operator, although 
-				// the operator returns "TInnerDxVer**", it releases it 
-				// and resets it to zero.
 				, m_pcBackBufferRT.ReleaseAndGetAddressOf( )
 			);
-        // TODO(Alex0vSky): try to prevent this operator from being used in my code.
 
         m_llFrameTimeLast = stFrameTime.getHPCounter( );
         //!< CPU timer frequency. Timestamps-per-second
@@ -482,10 +473,158 @@ template<> class Ordinary<DxVer::v12> {
 
 	CPtr< ID3D12GraphicsCommandList > m_pc_CommandList;
 
+    CPtr<ID2D1RenderTarget> m_pcBackBufferRT;
+    CPtr<ID2D1SolidColorBrush> m_pcBackBufferTextBrush;
+    CPtr<IDWriteTextFormat> m_pcTextFormat;
+
  public:
     typedef uptr< Ordinary > uptr_t;
     explicit Ordinary(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx)
         : m_stDxCtx( stDxCtx ) {
+		//*
+        CPtr< IDWriteFactory > pcDWriteFactory;
+        CPtr< ID2D1Factory > pcD2DFactory;
+        Sys::Hr hr;
+
+        // It's CreateDeviceIndependentResources()
+        hr = D2D1CreateFactory(
+				D2D1_FACTORY_TYPE_SINGLE_THREADED
+				, pcD2DFactory.ReleaseAndGetAddressOf( )
+			);
+
+        hr = DWriteCreateFactory(
+				DWRITE_FACTORY_TYPE_SHARED
+				, __uuidof( IDWriteFactory )
+				, reinterpret_cast< IUnknown** >( pcDWriteFactory.ReleaseAndGetAddressOf( ) )
+			);
+
+        hr = pcDWriteFactory ->CreateTextFormat(
+            detail_::DrawCfg<TInnerDxVer>::getFontFamily( ).c_str( ),
+			// Font collection (NULL sets it to use the system font collection).
+            NULL,
+            DWRITE_FONT_WEIGHT_REGULAR,
+            DWRITE_FONT_STYLE_NORMAL,
+            DWRITE_FONT_STRETCH_NORMAL,
+            detail_::DrawCfg<TInnerDxVer>::getFontSize( ),
+            L"en-us",
+            m_pcTextFormat.ReleaseAndGetAddressOf( )
+        );
+        // Center align (horizontally) the text.
+        hr = m_pcTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+        hr = m_pcTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
+
+		// @insp https://stackoverflow.com/questions/35568302/what-is-the-d3d12-equivalent-of-d3d11-createtexture2d?noredirect=1&lq=1 // NOLINT
+		CPtr< ID3D12Resource > textureUploadHeap;
+		CPtr< ID3D12Resource > m_texture;
+		// Describe and create a Texture2D.
+		D3D12_RESOURCE_DESC textureDesc = {};
+		textureDesc.MipLevels = 1;
+		textureDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;//DXGI_FORMAT_R8G8B8A8_UNORM;
+		textureDesc.Width = 512;
+		textureDesc.Height = 512;
+		// D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		// ??? textureDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+		textureDesc.Flags = D3D12_RESOURCE_FLAG_NONE;
+		textureDesc.DepthOrArraySize = 1;
+		textureDesc.SampleDesc.Count = 1;
+		textureDesc.SampleDesc.Quality = 0;
+		textureDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+		hr = m_stDxCtx ->m_pcD3dDevice12 ->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
+			D3D12_HEAP_FLAG_NONE,
+			&textureDesc,
+			D3D12_RESOURCE_STATE_COPY_DEST,
+			nullptr,
+			IID_PPV_ARGS( m_texture.ReleaseAndGetAddressOf( ) ));
+
+		const UINT64 uploadBufferSize = ::GetRequiredIntermediateSize(m_texture.Get(), 0, 1);
+
+		// Create the GPU upload buffer.
+		hr = m_stDxCtx ->m_pcD3dDevice12 ->CreateCommittedResource(
+			&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
+			D3D12_HEAP_FLAG_NONE,
+			&CD3DX12_RESOURCE_DESC::Buffer(uploadBufferSize),
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS( textureUploadHeap.ReleaseAndGetAddressOf( ) ));
+		//// Copy data to the intermediate upload heap and then schedule a copy 
+		//// from the upload heap to the Texture2D.
+		//std::vector<UINT8> texture = GenerateTextureData( );
+
+		// old
+		//CPtr< ID3D11Texture2D > pcOffscreenTexture;
+		//// Allocate a offscreen D3D surface for D2D to render our 2D content into
+		//D3D11_TEXTURE2D_DESC texDesc;
+		//texDesc.ArraySize = 1;
+		//texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		//texDesc.CPUAccessFlags = 0;
+		//texDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+		//texDesc.Height = 512;
+		//texDesc.Width = 512;
+		//texDesc.MipLevels = 1;
+		//texDesc.MiscFlags = 0;
+		//texDesc.SampleDesc.Count = 1;
+		//texDesc.SampleDesc.Quality = 0;
+		//texDesc.Usage = D3D11_USAGE_DEFAULT;
+		//hr = m_stDxCtx ->m_pcD3dDevice12 ->CreateTexture2D( 
+		//		&texDesc
+		//		, NULL
+		//		, pcOffscreenTexture.ReleaseAndGetAddressOf( ) 
+		//	);
+
+		CPtr< IDXGISurface2 > pcDxgiSurface;
+		HRESULT hr_;
+		hr_ = textureUploadHeap.As( std::addressof( pcDxgiSurface ) );
+		hr_ = m_texture.As( std::addressof( pcDxgiSurface ) );
+
+        // Create the DXGI Surface Render Target.
+        D2D1_RENDER_TARGET_PROPERTIES props = D2D1::RenderTargetProperties(
+            D2D1_RENDER_TARGET_TYPE_DEFAULT,
+            D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
+            96,
+            96
+        );
+		CPtr< ID2D1RenderTarget > pcRenderTarget;
+        hr = pcD2DFactory ->CreateDxgiSurfaceRenderTarget(
+				pcDxgiSurface.Get( )
+				, &props
+				, pcRenderTarget.ReleaseAndGetAddressOf( )
+			);
+
+        // Create a red brush for text drawn into the back buffer
+        hr = pcRenderTarget ->CreateSolidColorBrush(
+            detail_::DrawCfg<TInnerDxVer>::getColor( )
+            , m_pcBackBufferTextBrush.ReleaseAndGetAddressOf()
+        );
+		CPtr< IDXGISurface > pcBackBuffer;
+        // Get a surface in the swap chain
+        hr = m_stDxCtx ->m_pcDxgiSwapChain->GetBuffer(
+				0
+				, IID_PPV_ARGS( pcBackBuffer.ReleaseAndGetAddressOf( ) )
+			);
+
+        // It is assumed that the window will change size.
+        DXGI_SWAP_CHAIN_DESC stDxgiSwapChainDesc = {};
+		// or IDXGISwapChain1::GetHwnd method (dxgi1_2.h)
+        m_stDxCtx ->m_pcDxgiSwapChain->GetDesc(&stDxgiSwapChainDesc);
+        FLOAT dpiX, dpiY;
+		//pcD2DFactory ->GetDesktopDpi( &dpiX, &dpiY ); // @depr
+        dpiX = dpiY = (FLOAT)::GetDpiForWindow(stDxgiSwapChainDesc.OutputWindow);
+        D2D1_RENDER_TARGET_PROPERTIES props2 = D2D1::RenderTargetProperties(
+            D2D1_RENDER_TARGET_TYPE_DEFAULT,
+            D2D1::PixelFormat(DXGI_FORMAT_UNKNOWN, D2D1_ALPHA_MODE_PREMULTIPLIED),
+            dpiX,
+            dpiY
+        );
+
+        // Create a D2D render target which can draw into the surface in the swap chain
+        hr = pcD2DFactory ->CreateDxgiSurfaceRenderTarget(
+				pcBackBuffer.Get( )
+				, &props2
+				, m_pcBackBufferRT.ReleaseAndGetAddressOf( )
+			);
+		//*/
+
 		auto device = m_stDxCtx ->m_pcD3dDevice12.Get( );
 		m_resourceDescriptors = std::make_unique< DirectX::DescriptorHeap >(
 				device
