@@ -41,6 +41,7 @@ template<> struct CtxDx<DxVer::v11> : public detail_::CommonDxCtx<DxVer::v11> {
     const CPtr< ID3D11DeviceContext > m_pcDeviceContext;
 };
 template<> struct CtxDx<DxVer::v12> : public detail_::CommonDxCtx<DxVer::v12> {
+	// TODO(Alex0vSky): to class Const
     static const UINT FrameCount = 2;
     const CPtr< ID3D12Device > m_pcD3dDevice12;
 	const CPtr< IDXGISwapChain3 > m_pcDxgiSwapChain;
@@ -50,6 +51,8 @@ template<> struct CtxDx<DxVer::v12> : public detail_::CommonDxCtx<DxVer::v12> {
 	const CPtr< ID3D12CommandQueue > m_pcCommandQueue;
 	const D3D12_GRAPHICS_PIPELINE_STATE_DESC m_psoDesc;
 	const CPtr< ID3D12RootSignature > m_initialRootSignature;
+	const std::array< CPtr< ID3D12DescriptorHeap >, FrameCount > m_arpcDescriptorHeap;
+	const std::array< CPtr< ID3D12Resource >, FrameCount > m_arpcResUploadHeap;
 	struct detail_ {
 		const CPtr< ID3D12Fence > m_pcFence;
 		const HANDLE m_hFenceEvent;

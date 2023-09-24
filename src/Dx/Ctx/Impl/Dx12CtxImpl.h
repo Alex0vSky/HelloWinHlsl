@@ -1,4 +1,4 @@
-﻿// Dx/Ctx/Impl/Dx12CtxImpl.h - implementation for DirectX3D version 11
+﻿// Dx/Ctx/Impl/Dx12CtxImpl.h - implementation for DirectX3D version 12
 #pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Ctx::Impl {
 class Dx12CtxImpl {
@@ -105,7 +105,7 @@ class Dx12CtxImpl {
 					pcRtvHeap ->GetCPUDescriptorHandleForHeapStart( ) 
 				);
 			// Create a RTV for each frame.
-			for (UINT n = 0; n < FrameCount; n++) {
+			for ( UINT n = 0; n < FrameCount; n++ ) {
 				hr = swapChain3 ->GetBuffer( 
 						  n
 						, IID_PPV_ARGS( renderTargets[ n ].ReleaseAndGetAddressOf( ) ) 
@@ -161,7 +161,7 @@ class Dx12CtxImpl {
 					, IID_PPV_ARGS( fence.ReleaseAndGetAddressOf( ) )
 				);
 			
-			for (UINT n = 0; n < FrameCount; n++) {
+			for ( UINT n = 0; n < FrameCount; n++ ) {
 				hr = pcD3dDevice12 ->CreateCommandAllocator(
 						D3D12_COMMAND_LIST_TYPE_DIRECT
 						, IID_PPV_ARGS( arpcCommandAllocators[ n ].ReleaseAndGetAddressOf( ) )
@@ -176,6 +176,36 @@ class Dx12CtxImpl {
 			}
 		}
 
+		// this heap will store the descripor to our constant buffer
+		std::array< CPtr< ID3D12DescriptorHeap >, FrameCount > arpcDescriptorHeap;
+		// this is the memory on the gpu where our constant buffer will be placed.
+		std::array< CPtr< ID3D12Resource >, FrameCount > arpcResUploadHeap;
+		 {
+			D3D12_DESCRIPTOR_HEAP_TYPE descriptorHeapDescType = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+			D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc = { };
+			descriptorHeapDesc.Type = descriptorHeapDescType;
+			descriptorHeapDesc.NumDescriptors = 1;
+			descriptorHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+			for ( UINT n = 0; n < FrameCount; n++ ) {
+				hr = pcD3dDevice12 ->CreateDescriptorHeap(
+						&descriptorHeapDesc
+						, IID_PPV_ARGS( arpcDescriptorHeap[ n ].ReleaseAndGetAddressOf( ) )
+					);
+				hr = pcD3dDevice12 ->CreateCommittedResource(
+						// this heap will be used to upload the constant buffer data
+						&CD3DX12_HEAP_PROPERTIES( D3D12_HEAP_TYPE_UPLOAD ), 
+						D3D12_HEAP_FLAG_NONE,
+						// size of the resource heap. Must be a multiple of 64KB for single-textures and constant buffers
+						&CD3DX12_RESOURCE_DESC::Buffer(1024 * 64), 
+						// will be data that is read from so we keep it in the generic read state
+						D3D12_RESOURCE_STATE_GENERIC_READ, 
+						// we do not have use an optimized clear value for constant buffers
+						nullptr, 
+						IID_PPV_ARGS( arpcResUploadHeap[ n ].ReleaseAndGetAddressOf( ) )
+					);
+				arpcResUploadHeap[ n ] ->SetName( L"Constant Buffer Upload Resource Heap" );
+			}
+		}
 
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC psoDesc = { };
 		// part1 Create the pipeline state, which includes compiling and loading shaders.
@@ -200,6 +230,8 @@ class Dx12CtxImpl {
 				, commandQueue
 				, psoDesc
 				, rootSignature
+				, arpcDescriptorHeap
+				, arpcResUploadHeap
 				, fence
 				, fenceEvent
 				, aruFenceValues

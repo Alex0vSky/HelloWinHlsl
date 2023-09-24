@@ -15,35 +15,55 @@ class RootSignatureCreator {
 		: m_stDxCtx( stDxCtx ) 
 	 {}
 
-#ifdef BOOST_PFR_ENABLED
+	// @insp https://www.braynzarsoft.net/viewtutorial/q16390-directx-12-constant-buffers-root-descriptor-tables // NOLINT
 	template<class TConstBuf>
 	auto fromStruct() {
-		std::vector< D3D12_ROOT_PARAMETER > vecParam;
-		UINT shaderRegister = 0;
-		boost::pfr::for_each_field( TConstBuf{ }, [&vecParam, &shaderRegister](const auto& field) {
-			UINT num32BitValues = 0;
-			CD3DX12_ROOT_PARAMETER param;
-			using field_t = std::decay_t< decltype( field ) >;
-			if constexpr ( false ) {
-			} else if constexpr ( ( std::is_same_v< field_t, float > ) ) {
-				param = InitAsConstants_( num32BitValues = 1, shaderRegister++ );
-			} else if constexpr ( ( std::is_same_v< field_t, DirectX::XMFLOAT2 > ) ) {
-				param = InitAsConstants_( num32BitValues = 2, shaderRegister++ );
-			} else if constexpr ( ( std::is_same_v< field_t, DirectX::XMUINT2 > ) ) {
-				param = InitAsConstants_( num32BitValues = 2, shaderRegister++ );
-			} else {
-				static_assert( Tpl::Trait::always_false_v< field_t >, "unsupport type" );
-			}
-			vecParam.push_back( param );
-		} );
+		// create a descriptor range (descriptor table) and fill it out
+		// this is a range of descriptors inside a descriptor heap
+
+		// only one range right now
+		D3D12_DESCRIPTOR_RANGE descriptorTableRanges[ 1 ];
+		// this is a range of constant buffer views (descriptors)
+		descriptorTableRanges[ 0 ].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
+		// we only have one constant buffer, so the range is only 1
+		descriptorTableRanges[ 0 ].NumDescriptors = 1;
+		// start index of the shader registers in the range
+		descriptorTableRanges[ 0 ].BaseShaderRegister = 0;
+		// space 0. can usually be zero
+		descriptorTableRanges[ 0 ].RegisterSpace = 0;
+		// this appends the range to the end of the root signature descriptor tables
+		descriptorTableRanges[ 0 ].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+    
+		// create a descriptor table
+		D3D12_ROOT_DESCRIPTOR_TABLE descriptorTable;
+		// we only have one range
+		descriptorTable.NumDescriptorRanges = _countof( descriptorTableRanges );
+		// the pointer to the beginning of our ranges array
+		descriptorTable.pDescriptorRanges = &descriptorTableRanges[ 0 ];
+
+		// create a root parameter and fill it out
+
+		// only one parameter right now
+		D3D12_ROOT_PARAMETER rootParameters[ 1 ];
+		// this is a descriptor table
+		rootParameters[ 0 ].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+		// this is our descriptor table for this root parameter
+		rootParameters[ 0 ].DescriptorTable = descriptorTable;
+		// our pixel shader will be the only shader accessing this parameter for now
+		rootParameters[ 0 ].ShaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
 
 		Sys::Hr hr;
 		CPtr< ID3D12RootSignature > pcRootSignature;
 		CD3DX12_ROOT_SIGNATURE_DESC stRootSignature;
+		UINT numStaticSamplers = 0;
 		stRootSignature.Init( 
-				(UINT)vecParam.size( ), vecParam.data( )
-				, 0
+				// we have 1 root parameter
+				_countof( rootParameters )
+				// a pointer to the beginning of our root parameters array
+				, rootParameters
+				, numStaticSamplers
 				, nullptr
+				// we can deny shader stages here for better performance
 				, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT 
 			);
 
@@ -62,6 +82,5 @@ class RootSignatureCreator {
 			);
 		return pcRootSignature;
 	}
-#endif // BOOST_PFR_ENABLED
 };
 } // namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct

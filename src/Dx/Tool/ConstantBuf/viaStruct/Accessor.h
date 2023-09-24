@@ -114,36 +114,53 @@ class Accessor< DxVer::v12, TConstBuf > {
 	HolderMem< TConstBuf > m_oHolderAlignedMem;
 	prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct::Converter m_converter;
 
+	// this is a pointer to the memory location we get when we map our constant buffer
+	UINT8* cbColorMultiplierGPUAddress[ Ty::StDxCtx_ptr<TInnerDxVer>::element_type::FrameCount ];
+
  public:
 	typedef uptr< Accessor > uptr_t;
 	Accessor(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx, const TConstBuf &crst) 
 		: m_stDxCtx( stDxCtx ) 
-		, m_oHolderAlignedMem( crst ) 
-	 {}
+		, m_oHolderAlignedMem( crst ) {
+		Sys::Hr hr;
+		for ( UINT n = 0; n < m_stDxCtx ->FrameCount; n++ ) {
+			D3D12_CONSTANT_BUFFER_VIEW_DESC CBVDesc = { };
+			CBVDesc.BufferLocation = m_stDxCtx ->m_arpcResUploadHeap[ n ] ->GetGPUVirtualAddress( );
+			// TODO: align to separate class // CB size is required to be 256-byte aligned.
+			CBVDesc.SizeInBytes = ( sizeof( TConstBuf ) + 255 ) & ~255;
+			m_stDxCtx ->m_pcD3dDevice12 ->CreateConstantBufferView(
+					&CBVDesc
+					, m_stDxCtx ->m_arpcDescriptorHeap[ n ]->GetCPUDescriptorHandleForHeapStart( )
+				);
+			// We do not intend to read from this resource on the CPU. (End is less than or equal to begin)
+			CD3DX12_RANGE readRange( 0, 0 );
+			UINT Subresource = 0;
+			hr = m_stDxCtx ->m_arpcResUploadHeap[ n ] ->Map(
+					Subresource
+					, &readRange
+					, reinterpret_cast<void**>( &cbColorMultiplierGPUAddress[ n ] )
+				);
+			memcpy( 
+					cbColorMultiplierGPUAddress[ n ]
+					, m_oHolderAlignedMem.getMem( )
+					, sizeof( TConstBuf )
+				);
+		}
+	}
 
-#ifdef BOOST_PFR_ENABLED
 	bool passToShader(
-		const CPtr< ID3D12GraphicsCommandList > &pcCommandList
+		UINT frameIndex
 		, std::function< void(TConstBuf *) > clb = nullptr
 	) {
 		TConstBuf *pConstData = static_cast<TConstBuf *>( m_oHolderAlignedMem.getMem( ) );
 		if ( clb )
 			clb( pConstData );
-		boost::pfr::for_each_field( *pConstData, [this](const auto& field) {
-				using field_t = std::decay_t< decltype( field ) >;
-				if constexpr ( false ) {
-				} else if constexpr ( ( std::is_same_v< field_t, float > ) ) {
-					m_converter.wonnaPassHlslType.likeFloat_( ) ->float_( field );
-				} else if constexpr ( ( std::is_same_v< field_t, DirectX::XMFLOAT2 > ) ) {
-					m_converter.wonnaPassHlslType.likeFloat_( ) ->float2_( { field.x, field.y } );
-				} else if constexpr ( ( std::is_same_v< field_t, DirectX::XMUINT2 > ) ) {
-					m_converter.wonnaPassHlslType.likeUint_( ) ->uint2_( { field.x, field.y } );
-				} else {
-					static_assert( Tpl::Trait::always_false_v< field_t >, "unsupport type" );
-				}
-			} );
-		return m_converter.send( pcCommandList );
+		memcpy( 
+				cbColorMultiplierGPUAddress[ frameIndex ]
+				, m_oHolderAlignedMem.getMem( )
+				, sizeof( TConstBuf )
+			);
+		return true;
 	}
-#endif // BOOST_PFR_ENABLED
 };
 } // namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct

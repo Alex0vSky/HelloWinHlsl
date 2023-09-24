@@ -278,8 +278,9 @@ template<> class AdjustAux<DxVer::v12> {
 			);
 
 		// Create the command list.
+		UINT nodeMask = 0;
 		hr = m_psstDxCtx ->m_pcD3dDevice12 ->CreateCommandList( 
-				0
+				nodeMask
 				, D3D12_COMMAND_LIST_TYPE_DIRECT
 				, m_psstDxCtx ->m_arpcCommandAllocators[ m_pWaiter ->get_frameIndex( ) ].Get( )
 				, m_pcPipelineState.Get( )

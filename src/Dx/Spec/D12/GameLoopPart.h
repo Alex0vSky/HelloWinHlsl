@@ -93,6 +93,17 @@ class GameLoopPart : virtual public GameLoop::detail_::ABaseWndProcHolderAware<D
 
 					// Set necessary state.
 					m_pc_CommandList ->SetGraphicsRootSignature( m_pcRootSignature.Get( ) );
+
+					// set constant buffer descriptor heap
+					ID3D12DescriptorHeap* descriptorHeaps[] = { m_stCtx ->m_psstDxCtx ->m_arpcDescriptorHeap[ frameIndex ].Get( ) };
+					m_pc_CommandList ->SetDescriptorHeaps( _countof( descriptorHeaps ), descriptorHeaps );
+					// set the root descriptor table 0 to the constant buffer descriptor heap
+					UINT RootParameterIndex = 0;
+					m_pc_CommandList ->SetGraphicsRootDescriptorTable(
+							RootParameterIndex
+							, m_stCtx ->m_psstDxCtx ->m_arpcDescriptorHeap[ frameIndex ] ->GetGPUDescriptorHandleForHeapStart( )
+						);
+
 					m_pc_CommandList ->RSSetViewports( 1, &m_psoResizer ->getViewport( ) );
 					m_pc_CommandList ->RSSetScissorRects( 1, &m_psoResizer ->getScissorRect( ) );
 					// Indicate that the back buffer will be used as a render target.
@@ -112,6 +123,7 @@ class GameLoopPart : virtual public GameLoop::detail_::ABaseWndProcHolderAware<D
 					m_psoDynamicData ->setRtvHandle( rtvHandle );
 					m_psoDynamicData ->setWindowed( m_puoWnd ->isWindowed( ) );
 					m_psoDynamicData ->setWindowHandle( m_puoWnd ->getWndToken( ).m_hWnd );
+					m_psoDynamicData ->setFrameIndex( m_psoWaiter ->get_frameIndex( ) );
 				}
 			);
 		this ->setCallbackAfterRender(

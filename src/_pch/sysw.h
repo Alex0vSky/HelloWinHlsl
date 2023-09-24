@@ -29,10 +29,6 @@
 // Boost pfr
 #ifndef __INTELLISENSE__
 #	ifndef A0S_cppcheck__
-#		include "boost\pfr.hpp"
+//#		include "boost\pfr.hpp"
 #	endif // A0S_cppcheck__
 #endif // __INTELLISENSE__
-//	for IntelliSence methods list
-#ifndef BOOST_PFR_ENABLED
-#	define BOOST_PFR_ENABLED
-#endif // BOOST_PFR_ENABLED

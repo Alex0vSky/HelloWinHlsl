@@ -21,6 +21,7 @@ struct ClientDynamicData<DxVer::v12> : public detail_::CommonClientDynamicData<D
 	const D3D12_CPU_DESCRIPTOR_HANDLE m_stRtvHandle;
 	const bool m_isWindowed;
 	const HWND m_hWnd;
+	const UINT m_uFrameIndex;
 };
 
 // primary template, "typename = void" for partial specialization
@@ -61,6 +62,7 @@ template<> struct DynamicData<DxVer::v12> : public detail_::CommonDynamicData<Dx
 	D3D12_CPU_DESCRIPTOR_HANDLE m_stRtvHandle;
 	bool m_isWindowed;
 	HWND m_hWnd;
+	UINT m_uFrameIndex;
 	auto setCommandList(const CPtr< ID3D12GraphicsCommandList > pcCommandList) {
 		m_pcCommandList = pcCommandList;
 	}
@@ -77,12 +79,17 @@ template<> struct DynamicData<DxVer::v12> : public detail_::CommonDynamicData<Dx
 		m_hWnd = hWnd;
 	}
 
+	void setFrameIndex(UINT uFrameIndex) {
+		m_uFrameIndex = uFrameIndex;
+	}
+
 	auto forClient() const {
 		return std::make_unique< Tpl::Trait::aggregate_adapter_empty_parent< ClientDynamicData< DxVer::v12 > > >(
 				m_pcCommandList
 				, m_stRtvHandle
 				, m_isWindowed
 				, m_hWnd
+				, m_uFrameIndex
 			);
 	}
 };

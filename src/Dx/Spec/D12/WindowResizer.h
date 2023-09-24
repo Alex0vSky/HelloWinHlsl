@@ -174,8 +174,8 @@ class WindowResizer : public Sys::Wnd::AWndProcHolder {
 			catch (_com_error& e) {
 				UNREFERENCED_PARAMETER( e );
 				// Get the settings of the primary display
-				DEVMODE devMode = { };
-				devMode.dmSize = sizeof(DEVMODE);
+				DEVMODEW devMode = { };
+				devMode.dmSize = sizeof( devMode );
 				::EnumDisplaySettingsW( nullptr, ENUM_CURRENT_SETTINGS, &devMode );
 				fullscreenWindowRect = {
 						devMode.dmPosition.x

@@ -11,7 +11,6 @@ struct BaseCreator {
 	inCurrentThread(HINSTANCE hInstance, Ty::CurClientApp<T> *poClientApp) {
 		auto upWndProc = Sys::Wnd::Proc::z_make_unique( hInstance );
 
-		UINT uWidth = 800, uHeight = 600;
 		WNDCLASSEXW wcex = { }; // C++20 { .cbSize = sizeof( WNDCLASSEX ) };
 		wcex.cbSize = sizeof( wcex );
 		wcex.lpfnWndProc = (WNDPROC)&Sys::Wnd::Proc::systemCallback;
@@ -24,6 +23,9 @@ struct BaseCreator {
 		wcex.hIconSm = ::LoadIconW( wcex.hInstance, MAKEINTRESOURCE( IDI_SMALL ) );
 		if ( !::RegisterClassExW( &wcex ) )
 			return { };
+		// TODO(Alex): calc borders and menu sizes
+		// Preview Images for a Jekyll // UINT uWidth = 800, uHeight = 600;
+		UINT uWidth = 1200 + 14 + 2, uHeight = 630 + 7 + 4;
 		RECT stRectDesk = { };
 		if ( !::GetWindowRect( ::GetDesktopWindow( ), &stRectDesk ) )
 			return { };

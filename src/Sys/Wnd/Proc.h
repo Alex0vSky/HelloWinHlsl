@@ -84,7 +84,7 @@ class Proc {
 				case IDM_ABOUT:
 					::DialogBoxParamW( 
 							m_hInstance
-							, MAKEINTRESOURCE( IDD_ABOUTBOX )
+							, MAKEINTRESOURCEW( IDD_ABOUTBOX )
 							, m_hWnd
 							, About_
 							, 0 

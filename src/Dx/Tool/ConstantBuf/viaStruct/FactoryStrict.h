@@ -1,5 +1,4 @@
-﻿// Dx/Tool/ConstantBuf/viaStruct/FactoryStrict.h - factory for deduce 
-//	type of template wrapper, with input struct type checker, without using HLSL "packoffset"
+﻿// Dx/Tool/ConstantBuf/viaStruct/FactoryStrict.h - factory
 #pragma once // Copyright 2023 Alex0vSky (https://github.com/Alex0vSky)
 namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct {
 template<class T>
@@ -11,14 +10,9 @@ class FactoryStrict {
 		: m_stDxCtx( stDxCtx ) 
 	 {}
 
-#ifdef BOOST_PFR_ENABLED
 	template<class TConstBuf>
 	auto createAccessor(const TConstBuf &crst) {
-		boost::pfr::for_each_field(TConstBuf{} , [](const auto& field, size_t ) {
-				static_assert( ( sizeof( field ) >= 4 ), "size of field idx not padded correctly" );
-			} );
 		return std::make_unique< Accessor< T, TConstBuf > >( m_stDxCtx, crst );
 	}
-#endif // BOOST_PFR_ENABLED
 };
 } // namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct
