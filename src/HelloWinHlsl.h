@@ -159,6 +159,16 @@ namespace prj_3d::HelloWinHlsl::ClientTy {
 
 // For your own entryPoint
 #include "DxtkFont/CompiledToBinary.h"
+#include "SdfFont/CompiledToBinary.h"
+#include "DrawAux/Fps/Spec/D12/mix.h"
+#include "DrawAux/Fps/Spec/D12/BinaryReader.h"
+#include "DrawAux/Fps/Spec/D12/VertexTypes.h"
+#include "DrawAux/Fps/Spec/D12/DescriptorHeap.h"
+#include "DrawAux/Fps/Spec/D12/LinearAllocator.h"
+#include "DrawAux/Fps/Spec/D12/GraphicsMemory.h"
+#include "DrawAux/Fps/Spec/D12/ResourceUploadBatch.h"
+#include "DrawAux/Fps/Spec/D12/SpriteBatch.h"
+#include "DrawAux/Fps/Spec/D12/SpriteFont.h"
 #include "DrawAux/Fps/Ordinary.h"
 #include "FrameLimiter/ABase.h"
 #include "FrameLimiter/ViaSleep.h"

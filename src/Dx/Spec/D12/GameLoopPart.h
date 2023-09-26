@@ -5,7 +5,7 @@ class GameLoopPart : virtual public GameLoop::detail_::ABaseWndProcHolderAware<D
 	using ABaseWndProcHolderAware<DxVer::v12>::ABaseWndProcHolderAware;
 
  protected:
-	uptr< DirectX::GraphicsMemory > m_graphicsMemory;
+	uptr< DrawAux::Fps::Spec::D12::GraphicsMemory > m_graphicsMemory;
 	sptr< Dx::Spec::D12::Waiter > m_psoWaiter;
 	sptr< Dx::Spec::D12::Resizer > m_psoResizer;
 	CPtr< ID3D12RootSignature > m_pcRootSignature;
@@ -60,7 +60,7 @@ class GameLoopPart : virtual public GameLoop::detail_::ABaseWndProcHolderAware<D
 			m_puoDrawAuxFps ->setDx12Viewport( m_psoResizer ->getViewport( ) );
 			m_puoDrawAuxFps ->setDx12CommandList( m_pc_CommandList );
 		}
-		m_graphicsMemory = std::make_unique< DirectX::GraphicsMemory >( 
+		m_graphicsMemory = std::make_unique< DrawAux::Fps::Spec::D12::GraphicsMemory >( 
 			m_stCtx ->m_psstDxCtx ->m_pcD3dDevice12.Get( ) );
 
 		this ->setCallbackAfterPresent(

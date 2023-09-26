@@ -36,12 +36,8 @@
 #	define __D3D12_PROPERTY_LAYOUT_FORMAT_TABLE_H__
 #	include "d3dx12.h"
 #	include <DirectXMath.h>
+#	include <DirectXColors.h>
 
-#	define HAS_DIRECTXTK12
-#	include "DirectXTK12\SpriteFont.h"
-#	include "DirectXTK12\DescriptorHeap.h"
-#	include "DirectXTK12\ResourceUploadBatch.h"
-#	include "DirectXTK12\SimpleMath.h"
 //d3dx12_core.h
 #	ifdef _DEBUG
 #		include <dxgidebug.h>

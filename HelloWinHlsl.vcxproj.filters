@@ -111,6 +111,15 @@
     <Filter Include="Header Files\Dx\Tool\Shader\Loader\ArrayC">
       <UniqueIdentifier>{9a9fe266-cbd0-4ad8-8f69-72bebcf09516}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SdfFont">
+      <UniqueIdentifier>{6d4c800e-c97d-4ad7-936e-b297cf31492a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DrawAux\Fps\Spec">
+      <UniqueIdentifier>{08e542f6-121a-4fa5-9497-6d6f04dbfc55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DrawAux\Fps\Spec\D12">
+      <UniqueIdentifier>{6c412d8e-44bb-401a-ae85-80d76726a0b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\HelloWinHlsl.cpp">
@@ -379,6 +388,36 @@
     <ClInclude Include="src\Dx\Tool\Shader\Loader\ArrayC\FromHeader.h">
       <Filter>Header Files\Dx\Tool\Shader\Loader\ArrayC</Filter>
     </ClInclude>
+    <ClInclude Include="src\SdfFont\CompiledToBinary.h">
+      <Filter>Header Files\SdfFont</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\DescriptorHeap.h">
+      <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\mix.h">
+      <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\SpriteFont.h">
+      <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\SpriteBatch.h">
+      <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\BinaryReader.h">
+      <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\VertexTypes.h">
+      <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\ResourceUploadBatch.h">
+      <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\GraphicsMemory.h">
+      <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\LinearAllocator.h">
+      <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\HelloWinHlsl.ico">
@@ -397,5 +436,6 @@
     <None Include="resource\resource.h">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

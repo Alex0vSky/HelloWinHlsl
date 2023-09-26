@@ -22,7 +22,6 @@ class Composite {
 	auto byteCode() {
 		return m_puoChainByteCode.get( );
 	}
-	// TODO(Alex): makeme
 	auto arrayC() {
 		return m_puoChainArrayC.get( );
 	}

@@ -1,0 +1,485 @@
+﻿// DrawAux/Fps/Spec/D12/VertexTypes.h - from DirectXTK
+#pragma once // NOLINT copyright
+namespace prj_3d::HelloWinHlsl::DrawAux::Fps::Spec::D12 {
+
+// Vertex struct holding position information.
+struct VertexPosition
+{
+    VertexPosition() = default;
+
+    VertexPosition(const VertexPosition&) = default;
+    VertexPosition& operator=(const VertexPosition&) = default;
+
+    VertexPosition(VertexPosition&&) = default;
+    VertexPosition& operator=(VertexPosition&&) = default;
+
+    VertexPosition(XMFLOAT3 const& iposition) noexcept
+        : position(iposition)
+    {
+    }
+
+    VertexPosition(FXMVECTOR iposition) noexcept
+    {
+        XMStoreFloat3(&this->position, iposition);
+    }
+
+    XMFLOAT3 position;
+
+    static const D3D12_INPUT_LAYOUT_DESC InputLayout;
+
+private:
+    static constexpr unsigned int InputElementCount = 1;
+    static const D3D12_INPUT_ELEMENT_DESC InputElements[InputElementCount];
+};
+
+
+// Vertex struct holding position and color information.
+struct VertexPositionColor
+{
+    VertexPositionColor() = default;
+
+    VertexPositionColor(const VertexPositionColor&) = default;
+    VertexPositionColor& operator=(const VertexPositionColor&) = default;
+
+    VertexPositionColor(VertexPositionColor&&) = default;
+    VertexPositionColor& operator=(VertexPositionColor&&) = default;
+
+    VertexPositionColor(XMFLOAT3 const& iposition, XMFLOAT4 const& icolor) noexcept
+        : position(iposition),
+        color(icolor)
+    {
+    }
+
+    VertexPositionColor(FXMVECTOR iposition, FXMVECTOR icolor) noexcept
+    {
+        XMStoreFloat3(&this->position, iposition);
+        XMStoreFloat4(&this->color, icolor);
+    }
+
+    XMFLOAT3 position;
+    XMFLOAT4 color;
+
+    static const D3D12_INPUT_LAYOUT_DESC InputLayout;
+
+private:
+    static constexpr unsigned int InputElementCount = 2;
+    static const D3D12_INPUT_ELEMENT_DESC InputElements[InputElementCount];
+};
+
+
+// Vertex struct holding position and texture mapping information.
+struct VertexPositionTexture
+{
+    VertexPositionTexture() = default;
+
+    VertexPositionTexture(const VertexPositionTexture&) = default;
+    VertexPositionTexture& operator=(const VertexPositionTexture&) = default;
+
+    VertexPositionTexture(VertexPositionTexture&&) = default;
+    VertexPositionTexture& operator=(VertexPositionTexture&&) = default;
+
+    VertexPositionTexture(XMFLOAT3 const& iposition, XMFLOAT2 const& itextureCoordinate) noexcept
+        : position(iposition),
+        textureCoordinate(itextureCoordinate)
+    {
+    }
+
+    VertexPositionTexture(FXMVECTOR iposition, FXMVECTOR itextureCoordinate) noexcept
+    {
+        XMStoreFloat3(&this->position, iposition);
+        XMStoreFloat2(&this->textureCoordinate, itextureCoordinate);
+    }
+
+    XMFLOAT3 position;
+    XMFLOAT2 textureCoordinate;
+
+    static const D3D12_INPUT_LAYOUT_DESC InputLayout;
+
+private:
+    static constexpr unsigned int InputElementCount = 2;
+    static const D3D12_INPUT_ELEMENT_DESC InputElements[InputElementCount];
+};
+
+
+// Vertex struct holding position and dual texture mapping information.
+struct VertexPositionDualTexture
+{
+    VertexPositionDualTexture() = default;
+
+    VertexPositionDualTexture(const VertexPositionDualTexture&) = default;
+    VertexPositionDualTexture& operator=(const VertexPositionDualTexture&) = default;
+
+    VertexPositionDualTexture(VertexPositionDualTexture&&) = default;
+    VertexPositionDualTexture& operator=(VertexPositionDualTexture&&) = default;
+
+    VertexPositionDualTexture(
+        XMFLOAT3 const& iposition,
+        XMFLOAT2 const& itextureCoordinate0,
+        XMFLOAT2 const& itextureCoordinate1) noexcept
+        : position(iposition),
+        textureCoordinate0(itextureCoordinate0),
+        textureCoordinate1(itextureCoordinate1)
+    {
+    }
+
+    VertexPositionDualTexture(
+        FXMVECTOR iposition,
+        FXMVECTOR itextureCoordinate0,
+        FXMVECTOR itextureCoordinate1) noexcept
+    {
+        XMStoreFloat3(&this->position, iposition);
+        XMStoreFloat2(&this->textureCoordinate0, itextureCoordinate0);
+        XMStoreFloat2(&this->textureCoordinate1, itextureCoordinate1);
+    }
+
+    XMFLOAT3 position;
+    XMFLOAT2 textureCoordinate0;
+    XMFLOAT2 textureCoordinate1;
+
+    static const D3D12_INPUT_LAYOUT_DESC InputLayout;
+
+private:
+    static constexpr unsigned int InputElementCount = 3;
+    static const D3D12_INPUT_ELEMENT_DESC InputElements[InputElementCount];
+};
+
+
+// Vertex struct holding position and normal vector.
+struct VertexPositionNormal
+{
+    VertexPositionNormal() = default;
+
+    VertexPositionNormal(const VertexPositionNormal&) = default;
+    VertexPositionNormal& operator=(const VertexPositionNormal&) = default;
+
+    VertexPositionNormal(VertexPositionNormal&&) = default;
+    VertexPositionNormal& operator=(VertexPositionNormal&&) = default;
+
+    VertexPositionNormal(XMFLOAT3 const& iposition, XMFLOAT3 const& inormal) noexcept
+        : position(iposition),
+        normal(inormal)
+    {
+    }
+
+    VertexPositionNormal(FXMVECTOR iposition, FXMVECTOR inormal) noexcept
+    {
+        XMStoreFloat3(&this->position, iposition);
+        XMStoreFloat3(&this->normal, inormal);
+    }
+
+    XMFLOAT3 position;
+    XMFLOAT3 normal;
+
+    static const D3D12_INPUT_LAYOUT_DESC InputLayout;
+
+private:
+    static constexpr unsigned int InputElementCount = 2;
+    static const D3D12_INPUT_ELEMENT_DESC InputElements[InputElementCount];
+};
+
+
+// Vertex struct holding position, color, and texture mapping information.
+struct VertexPositionColorTexture
+{
+    VertexPositionColorTexture() = default;
+
+    VertexPositionColorTexture(const VertexPositionColorTexture&) = default;
+    VertexPositionColorTexture& operator=(const VertexPositionColorTexture&) = default;
+
+    VertexPositionColorTexture(VertexPositionColorTexture&&) = default;
+    VertexPositionColorTexture& operator=(VertexPositionColorTexture&&) = default;
+
+    VertexPositionColorTexture(XMFLOAT3 const& iposition, XMFLOAT4 const& icolor, XMFLOAT2 const& itextureCoordinate) noexcept
+        : position(iposition),
+        color(icolor),
+        textureCoordinate(itextureCoordinate)
+    {
+    }
+
+    VertexPositionColorTexture(FXMVECTOR iposition, FXMVECTOR icolor, FXMVECTOR itextureCoordinate) noexcept
+    {
+        XMStoreFloat3(&this->position, iposition);
+        XMStoreFloat4(&this->color, icolor);
+        XMStoreFloat2(&this->textureCoordinate, itextureCoordinate);
+    }
+
+    XMFLOAT3 position;
+    XMFLOAT4 color;
+    XMFLOAT2 textureCoordinate;
+
+    static const D3D12_INPUT_LAYOUT_DESC InputLayout;
+
+private:
+    static constexpr unsigned int InputElementCount = 3;
+    static const D3D12_INPUT_ELEMENT_DESC InputElements[InputElementCount];
+};
+
+
+// Vertex struct holding position, normal vector, and color information.
+struct VertexPositionNormalColor
+{
+    VertexPositionNormalColor() = default;
+
+    VertexPositionNormalColor(const VertexPositionNormalColor&) = default;
+    VertexPositionNormalColor& operator=(const VertexPositionNormalColor&) = default;
+
+    VertexPositionNormalColor(VertexPositionNormalColor&&) = default;
+    VertexPositionNormalColor& operator=(VertexPositionNormalColor&&) = default;
+
+    VertexPositionNormalColor(XMFLOAT3 const& iposition, XMFLOAT3 const& inormal, XMFLOAT4 const& icolor) noexcept
+        : position(iposition),
+        normal(inormal),
+        color(icolor)
+    {
+    }
+
+    VertexPositionNormalColor(FXMVECTOR iposition, FXMVECTOR inormal, FXMVECTOR icolor) noexcept
+    {
+        XMStoreFloat3(&this->position, iposition);
+        XMStoreFloat3(&this->normal, inormal);
+        XMStoreFloat4(&this->color, icolor);
+    }
+
+    XMFLOAT3 position;
+    XMFLOAT3 normal;
+    XMFLOAT4 color;
+
+    static const D3D12_INPUT_LAYOUT_DESC InputLayout;
+
+private:
+    static constexpr unsigned int InputElementCount = 3;
+    static const D3D12_INPUT_ELEMENT_DESC InputElements[InputElementCount];
+};
+
+
+// Vertex struct holding position, normal vector, and texture mapping information.
+struct VertexPositionNormalTexture
+{
+    VertexPositionNormalTexture() = default;
+
+    VertexPositionNormalTexture(const VertexPositionNormalTexture&) = default;
+    VertexPositionNormalTexture& operator=(const VertexPositionNormalTexture&) = default;
+
+    VertexPositionNormalTexture(VertexPositionNormalTexture&&) = default;
+    VertexPositionNormalTexture& operator=(VertexPositionNormalTexture&&) = default;
+
+    VertexPositionNormalTexture(XMFLOAT3 const& iposition, XMFLOAT3 const& inormal, XMFLOAT2 const& itextureCoordinate) noexcept
+        : position(iposition),
+        normal(inormal),
+        textureCoordinate(itextureCoordinate)
+    {
+    }
+
+    VertexPositionNormalTexture(FXMVECTOR iposition, FXMVECTOR inormal, FXMVECTOR itextureCoordinate) noexcept
+    {
+        XMStoreFloat3(&this->position, iposition);
+        XMStoreFloat3(&this->normal, inormal);
+        XMStoreFloat2(&this->textureCoordinate, itextureCoordinate);
+    }
+
+    XMFLOAT3 position;
+    XMFLOAT3 normal;
+    XMFLOAT2 textureCoordinate;
+
+    static const D3D12_INPUT_LAYOUT_DESC InputLayout;
+
+private:
+    static constexpr unsigned int InputElementCount = 3;
+    static const D3D12_INPUT_ELEMENT_DESC InputElements[InputElementCount];
+};
+
+
+// Vertex struct holding position, normal vector, color, and texture mapping information.
+struct VertexPositionNormalColorTexture
+{
+    VertexPositionNormalColorTexture() = default;
+
+    VertexPositionNormalColorTexture(const VertexPositionNormalColorTexture&) = default;
+    VertexPositionNormalColorTexture& operator=(const VertexPositionNormalColorTexture&) = default;
+
+    VertexPositionNormalColorTexture(VertexPositionNormalColorTexture&&) = default;
+    VertexPositionNormalColorTexture& operator=(VertexPositionNormalColorTexture&&) = default;
+
+    VertexPositionNormalColorTexture(
+        XMFLOAT3 const& iposition,
+        XMFLOAT3 const& inormal,
+        XMFLOAT4 const& icolor,
+        XMFLOAT2 const& itextureCoordinate) noexcept
+        : position(iposition),
+        normal(inormal),
+        color(icolor),
+        textureCoordinate(itextureCoordinate)
+    {
+    }
+
+    VertexPositionNormalColorTexture(FXMVECTOR iposition, FXMVECTOR inormal, FXMVECTOR icolor, CXMVECTOR itextureCoordinate) noexcept
+    {
+        XMStoreFloat3(&this->position, iposition);
+        XMStoreFloat3(&this->normal, inormal);
+        XMStoreFloat4(&this->color, icolor);
+        XMStoreFloat2(&this->textureCoordinate, itextureCoordinate);
+    }
+
+    XMFLOAT3 position;
+    XMFLOAT3 normal;
+    XMFLOAT4 color;
+    XMFLOAT2 textureCoordinate;
+
+    static const D3D12_INPUT_LAYOUT_DESC InputLayout;
+
+private:
+    static constexpr unsigned int InputElementCount = 4;
+    static const D3D12_INPUT_ELEMENT_DESC InputElements[InputElementCount];
+};
+
+//--------------------------------------------------------------------------------------
+// Vertex struct holding position information.
+const D3D12_INPUT_ELEMENT_DESC VertexPosition::InputElements[] =
+{
+    { "SV_Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+};
+
+static_assert(sizeof(VertexPosition) == 12, "Vertex struct/layout mismatch");
+
+const D3D12_INPUT_LAYOUT_DESC VertexPosition::InputLayout =
+{
+    VertexPosition::InputElements,
+    VertexPosition::InputElementCount
+};
+
+//--------------------------------------------------------------------------------------
+// Vertex struct holding position and color information.
+const D3D12_INPUT_ELEMENT_DESC VertexPositionColor::InputElements[] =
+{
+    { "SV_Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "COLOR",       0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+};
+
+static_assert(sizeof(VertexPositionColor) == 28, "Vertex struct/layout mismatch");
+
+const D3D12_INPUT_LAYOUT_DESC VertexPositionColor::InputLayout =
+{
+    VertexPositionColor::InputElements,
+    VertexPositionColor::InputElementCount
+};
+
+//--------------------------------------------------------------------------------------
+// Vertex struct holding position and texture mapping information.
+const D3D12_INPUT_ELEMENT_DESC VertexPositionTexture::InputElements[] =
+{
+    { "SV_Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "TEXCOORD",    0, DXGI_FORMAT_R32G32_FLOAT,       0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+};
+
+static_assert(sizeof(VertexPositionTexture) == 20, "Vertex struct/layout mismatch");
+
+const D3D12_INPUT_LAYOUT_DESC VertexPositionTexture::InputLayout =
+{
+    VertexPositionTexture::InputElements,
+    VertexPositionTexture::InputElementCount
+};
+
+//--------------------------------------------------------------------------------------
+// Vertex struct holding position and dual texture mapping information.
+const D3D12_INPUT_ELEMENT_DESC VertexPositionDualTexture::InputElements[] =
+{
+    { "SV_Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "TEXCOORD",    0, DXGI_FORMAT_R32G32_FLOAT,       0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "TEXCOORD",    1, DXGI_FORMAT_R32G32_FLOAT,       0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+};
+
+static_assert(sizeof(VertexPositionDualTexture) == 28, "Vertex struct/layout mismatch");
+
+const D3D12_INPUT_LAYOUT_DESC VertexPositionDualTexture::InputLayout =
+{
+    VertexPositionDualTexture::InputElements,
+    VertexPositionDualTexture::InputElementCount
+};
+
+//--------------------------------------------------------------------------------------
+// Vertex struct holding position and normal vector.
+const D3D12_INPUT_ELEMENT_DESC VertexPositionNormal::InputElements[] =
+{
+    { "SV_Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "NORMAL",      0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+};
+
+static_assert(sizeof(VertexPositionNormal) == 24, "Vertex struct/layout mismatch");
+
+const D3D12_INPUT_LAYOUT_DESC VertexPositionNormal::InputLayout =
+{
+    VertexPositionNormal::InputElements,
+    VertexPositionNormal::InputElementCount
+};
+
+//--------------------------------------------------------------------------------------
+// Vertex struct holding position, color, and texture mapping information.
+const D3D12_INPUT_ELEMENT_DESC VertexPositionColorTexture::InputElements[] =
+{
+    { "SV_Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "COLOR",       0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "TEXCOORD",    0, DXGI_FORMAT_R32G32_FLOAT,       0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+};
+
+static_assert(sizeof(VertexPositionColorTexture) == 36, "Vertex struct/layout mismatch");
+
+const D3D12_INPUT_LAYOUT_DESC VertexPositionColorTexture::InputLayout =
+{
+    VertexPositionColorTexture::InputElements,
+    VertexPositionColorTexture::InputElementCount
+};
+
+
+//--------------------------------------------------------------------------------------
+// Vertex struct holding position, normal vector, and color information.
+const D3D12_INPUT_ELEMENT_DESC VertexPositionNormalColor::InputElements[] =
+{
+    { "SV_Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "NORMAL",      0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "COLOR",       0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+};
+
+static_assert(sizeof(VertexPositionNormalColor) == 40, "Vertex struct/layout mismatch");
+
+const D3D12_INPUT_LAYOUT_DESC VertexPositionNormalColor::InputLayout =
+{
+    VertexPositionNormalColor::InputElements,
+    VertexPositionNormalColor::InputElementCount
+};
+
+//--------------------------------------------------------------------------------------
+// Vertex struct holding position, normal vector, and texture mapping information.
+const D3D12_INPUT_ELEMENT_DESC VertexPositionNormalTexture::InputElements[] =
+{
+    { "SV_Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "NORMAL",      0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "TEXCOORD",    0, DXGI_FORMAT_R32G32_FLOAT,       0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+};
+
+static_assert(sizeof(VertexPositionNormalTexture) == 32, "Vertex struct/layout mismatch");
+
+const D3D12_INPUT_LAYOUT_DESC VertexPositionNormalTexture::InputLayout =
+{
+    VertexPositionNormalTexture::InputElements,
+    VertexPositionNormalTexture::InputElementCount
+};
+
+//--------------------------------------------------------------------------------------
+// Vertex struct holding position, normal vector, color, and texture mapping information.
+const D3D12_INPUT_ELEMENT_DESC VertexPositionNormalColorTexture::InputElements[] =
+{
+    { "SV_Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "NORMAL",      0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "COLOR",       0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+    { "TEXCOORD",    0, DXGI_FORMAT_R32G32_FLOAT,       0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+};
+
+static_assert(sizeof(VertexPositionNormalColorTexture) == 48, "Vertex struct/layout mismatch");
+
+const D3D12_INPUT_LAYOUT_DESC VertexPositionNormalColorTexture::InputLayout =
+{
+    VertexPositionNormalColorTexture::InputElements,
+    VertexPositionNormalColorTexture::InputElementCount
+};
+
+} // namespace prj_3d::HelloWinHlsl::DrawAux::Fps::Spec::D12

@@ -25,3 +25,5 @@
 #include <queue>
 
 #include <intrin.h>
+
+#include <future>

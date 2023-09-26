@@ -245,11 +245,22 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\BinaryReader.h" />
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\DescriptorHeap.h" />
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\GraphicsMemory.h" />
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\LinearAllocator.h" />
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\mix.h" />
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\ResourceUploadBatch.h" />
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\SpriteBatch.h" />
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\SpriteFont.h" />
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\VertexTypes.h" />
     <ClInclude Include="src\Dx\Tool\Shader\Loader\ArrayC\FromHeader.h" />
     <ClInclude Include="src\Dx\Tool\Shader\Loader\ChainArrayC.h" />
+    <ClInclude Include="src\SdfFont\CompiledToBinary.h" />
     <ClInclude Include="src\_pch\framework.h" />
     <ClInclude Include="src\_pch\sysw.h" />
     <ClInclude Include="src\_pch\targetver.h" />
+    <None Include="cpp.hint" />
     <None Include="resource\resource.h" />
     <ClInclude Include="src\ClientApp\Configurator\Builder.h" />
     <ClInclude Include="src\ClientApp\Configurator\Predef.h" />
