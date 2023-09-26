@@ -159,7 +159,6 @@ namespace prj_3d::HelloWinHlsl::ClientTy {
 
 // For your own entryPoint
 #include "DxtkFont/CompiledToBinary.h"
-#include "SdfFont/CompiledToBinary.h"
 #include "DrawAux/Fps/Spec/D12/mix.h"
 #include "DrawAux/Fps/Spec/D12/PrecompiledShaderCode.h"
 #include "DrawAux/Fps/Spec/D12/BinaryReader.h"

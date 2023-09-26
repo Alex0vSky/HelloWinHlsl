@@ -477,7 +477,6 @@ template<> class Ordinary<DxVer::v12> {
     typedef uptr< Ordinary > uptr_t;
     explicit Ordinary(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx)
         : m_stDxCtx( stDxCtx ) {
-
 #pragma region TakeFont
 		const auto &arrayFont = DxtkFont::CompiledToBinary::getArial28( );
 		typedef std::remove_cv_t< std::remove_reference_t< decltype( arrayFont ) > > return_t;

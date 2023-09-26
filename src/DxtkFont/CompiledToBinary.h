@@ -13,7 +13,7 @@ struct CompiledToBinary {
 	static const auto & getArial28() {
 		static 
 #ifndef __INTELLISENSE__
-#	include "../resource/DXTKfont_Arial28.h"
+#	include "../resource/Font/DXTKfont_Arial28.h"
 #endif // __INTELLISENSE__
 		return s_lpDXTKfont_Arial28;
 	}

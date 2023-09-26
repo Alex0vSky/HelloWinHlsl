@@ -37,7 +37,6 @@
 #	include "d3dx12.h"
 #	include <DirectXMath.h>
 #	include <DirectXColors.h>
-
 //d3dx12_core.h
 #	ifdef _DEBUG
 #		include <dxgidebug.h>
