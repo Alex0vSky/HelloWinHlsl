@@ -120,6 +120,9 @@
     <Filter Include="Header Files\DrawAux\Fps\Spec\D12">
       <UniqueIdentifier>{6c412d8e-44bb-401a-ae85-80d76726a0b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\ShadersDirectXTK12-apr2023">
+      <UniqueIdentifier>{e0c5512f-242f-4354-b7a5-8d3f5cdf9aa5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\HelloWinHlsl.cpp">
@@ -418,6 +421,9 @@
     <ClInclude Include="src\DrawAux\Fps\Spec\D12\LinearAllocator.h">
       <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
     </ClInclude>
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\PrecompiledShaderCode.h">
+      <Filter>Header Files\DrawAux\Fps\Spec\D12</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resource\HelloWinHlsl.ico">
@@ -437,5 +443,31 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="cpp.hint" />
+    <None Include="resource\ShadersDirectXTK12-apr2023\Structures.fxh">
+      <Filter>Resource Files\ShadersDirectXTK12-apr2023</Filter>
+    </None>
+    <None Include="resource\ShadersDirectXTK12-apr2023\RootSig.fxh">
+      <Filter>Resource Files\ShadersDirectXTK12-apr2023</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\GenerateMips_main.hlsl">
+      <Filter>Resource Files\ShadersDirectXTK12-apr2023</Filter>
+    </FxCompile>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\SpriteEffect.fx">
+      <Filter>Resource Files\ShadersDirectXTK12-apr2023</Filter>
+    </FxCompile>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\SpriteEffect_SpriteVertexShader.hlsl">
+      <Filter>Resource Files\ShadersDirectXTK12-apr2023</Filter>
+    </FxCompile>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\SpriteEffect_SpritePixelShader.hlsl">
+      <Filter>Resource Files\ShadersDirectXTK12-apr2023</Filter>
+    </FxCompile>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\SpriteEffect_SpritePixelShaderHeap.hlsl">
+      <Filter>Resource Files\ShadersDirectXTK12-apr2023</Filter>
+    </FxCompile>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\SpriteEffect_SpriteVertexShaderHeap.hlsl">
+      <Filter>Resource Files\ShadersDirectXTK12-apr2023</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

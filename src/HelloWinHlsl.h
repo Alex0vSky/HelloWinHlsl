@@ -161,6 +161,7 @@ namespace prj_3d::HelloWinHlsl::ClientTy {
 #include "DxtkFont/CompiledToBinary.h"
 #include "SdfFont/CompiledToBinary.h"
 #include "DrawAux/Fps/Spec/D12/mix.h"
+#include "DrawAux/Fps/Spec/D12/PrecompiledShaderCode.h"
 #include "DrawAux/Fps/Spec/D12/BinaryReader.h"
 #include "DrawAux/Fps/Spec/D12/VertexTypes.h"
 #include "DrawAux/Fps/Spec/D12/DescriptorHeap.h"

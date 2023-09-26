@@ -143,7 +143,6 @@
       <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -163,7 +162,6 @@
       <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -184,7 +182,6 @@
       <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\Release</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -202,7 +199,6 @@
       <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -221,7 +217,6 @@
       <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -240,7 +235,6 @@
       <ResourceOutputFileName>$(ProjectDir)resource\%(Filename).res</ResourceOutputFileName>
     </ResourceCompile>
     <Lib>
-      <AdditionalDependencies>DirectXTK12.lib; </AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)lib\$(PlatformTarget)\Release</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -250,6 +244,7 @@
     <ClInclude Include="src\DrawAux\Fps\Spec\D12\GraphicsMemory.h" />
     <ClInclude Include="src\DrawAux\Fps\Spec\D12\LinearAllocator.h" />
     <ClInclude Include="src\DrawAux\Fps\Spec\D12\mix.h" />
+    <ClInclude Include="src\DrawAux\Fps\Spec\D12\PrecompiledShaderCode.h" />
     <ClInclude Include="src\DrawAux\Fps\Spec\D12\ResourceUploadBatch.h" />
     <ClInclude Include="src\DrawAux\Fps\Spec\D12\SpriteBatch.h" />
     <ClInclude Include="src\DrawAux\Fps\Spec\D12\SpriteFont.h" />
@@ -343,6 +338,8 @@
     <ClInclude Include="src\Sys\Wnd\Creator.h" />
     <ClInclude Include="src\_pch\dx.h" />
     <ClInclude Include="src\_pch\stdafx.h" />
+    <None Include="resource\ShadersDirectXTK12-apr2023\RootSig.fxh" />
+    <None Include="resource\ShadersDirectXTK12-apr2023\Structures.fxh" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\HelloWinHlsl.cpp" />
@@ -361,6 +358,47 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource\HelloWinHlsl.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\GenerateMips_main.hlsl">
+      <HeaderFileOutput Condition="true">$(ProjectDir)ThirdParty\%(Filename).hlsl.h</HeaderFileOutput>
+      <ObjectFileOutput Condition="true">
+      </ObjectFileOutput>
+      <VariableName Condition="true">GenerateMips_main</VariableName>
+      <ShaderType Condition="true">Compute</ShaderType>
+      <ShaderModel Condition="true">6.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\SpriteEffect.fx">
+      <ExcludedFromBuild Condition="true">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\SpriteEffect_SpritePixelShader.hlsl">
+      <ShaderModel Condition="true">6.0</ShaderModel>
+      <ShaderType Condition="true">Pixel</ShaderType>
+      <EntryPointName Condition="true">SpritePixelShader</EntryPointName>
+      <HeaderFileOutput Condition="true">$(ProjectDir)ThirdParty\%(Filename).hlsl.h</HeaderFileOutput>
+      <VariableName Condition="true">%(Filename)</VariableName>
+    </FxCompile>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\SpriteEffect_SpritePixelShaderHeap.hlsl">
+      <ShaderModel Condition="true">6.0</ShaderModel>
+      <ShaderType Condition="true">Pixel</ShaderType>
+      <EntryPointName Condition="true">SpritePixelShaderHeap</EntryPointName>
+      <HeaderFileOutput Condition="true">$(ProjectDir)ThirdParty\%(Filename).hlsl.h</HeaderFileOutput>
+      <VariableName Condition="true">%(Filename)</VariableName>
+    </FxCompile>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\SpriteEffect_SpriteVertexShader.hlsl">
+      <ShaderType Condition="true">Vertex</ShaderType>
+      <ShaderModel Condition="true">6.0</ShaderModel>
+      <HeaderFileOutput Condition="true">$(ProjectDir)ThirdParty\%(Filename).hlsl.h</HeaderFileOutput>
+      <VariableName Condition="true">%(Filename)</VariableName>
+      <EntryPointName Condition="true">SpriteVertexShader</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="resource\ShadersDirectXTK12-apr2023\SpriteEffect_SpriteVertexShaderHeap.hlsl">
+      <ShaderModel Condition="true">6.0</ShaderModel>
+      <ShaderType Condition="true">Vertex</ShaderType>
+      <EntryPointName Condition="true">SpriteVertexShaderHeap</EntryPointName>
+      <HeaderFileOutput Condition="true">$(ProjectDir)ThirdParty\%(Filename).hlsl.h</HeaderFileOutput>
+      <VariableName Condition="true">%(Filename)</VariableName>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>
