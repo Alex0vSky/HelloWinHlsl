@@ -127,6 +127,7 @@ private:
 #   include <unordered_set>
 #endif
 
+inline 
 LinearAllocatorPage::LinearAllocatorPage() noexcept
     : pPrevPage(nullptr)
     , pNextPage(nullptr)
@@ -136,9 +137,9 @@ LinearAllocatorPage::LinearAllocatorPage() noexcept
     , mOffset(0)
     , mSize(0)
     , mRefCount(1)
-{
-}
+{}
 
+inline 
 size_t LinearAllocatorPage::Suballocate(_In_ size_t size, _In_ size_t alignment)
 {
     const size_t offset = AlignUp(mOffset, alignment);
@@ -152,6 +153,7 @@ size_t LinearAllocatorPage::Suballocate(_In_ size_t size, _In_ size_t alignment)
     return offset;
 }
 
+inline 
 void LinearAllocatorPage::Release() noexcept
 {
     assert(mRefCount > 0);
@@ -164,6 +166,7 @@ void LinearAllocatorPage::Release() noexcept
 }
 
 //--------------------------------------------------------------------------------------
+inline 
 LinearAllocator::LinearAllocator(
     _In_ ID3D12Device* pDevice,
     _In_ size_t pageSize,
@@ -199,6 +202,7 @@ LinearAllocator::LinearAllocator(
         IID_GRAPHICS_PPV_ARGS(m_fence.ReleaseAndGetAddressOf())));
 }
 
+inline 
 LinearAllocator::~LinearAllocator()
 {
     // Must wait for all pending fences!
@@ -219,6 +223,7 @@ LinearAllocator::~LinearAllocator()
     m_increment = 0;
 }
 
+inline 
 LinearAllocatorPage* LinearAllocator::FindPageForAlloc(_In_ size_t size, _In_ size_t alignment)
 {
 #ifdef _DEBUG
@@ -240,6 +245,7 @@ LinearAllocatorPage* LinearAllocator::FindPageForAlloc(_In_ size_t size, _In_ si
 }
 
 // Call this after you submit your work to the driver.
+inline 
 void LinearAllocator::FenceCommittedPages(_In_ ID3D12CommandQueue* commandQueue)
 {
     // No pending pages
@@ -297,6 +303,7 @@ void LinearAllocator::FenceCommittedPages(_In_ ID3D12CommandQueue* commandQueue)
 
 // Call this once a frame after all of your driver submissions.
 // (immediately before or after Present-time)
+inline 
 void LinearAllocator::RetirePendingPages() noexcept
 {
     const uint64_t fenceValue = m_fence->GetCompletedValue();
@@ -320,6 +327,7 @@ void LinearAllocator::RetirePendingPages() noexcept
     }
 }
 
+inline 
 void LinearAllocator::Shrink() noexcept
 {
     FreePages(m_unusedPages);
@@ -330,6 +338,7 @@ void LinearAllocator::Shrink() noexcept
 #endif
 }
 
+inline 
 LinearAllocatorPage* LinearAllocator::GetCleanPageForAlloc()
 {
     // Grab the first unused page, if one exists. Else, allocate a new page.
@@ -353,6 +362,7 @@ LinearAllocatorPage* LinearAllocator::GetCleanPageForAlloc()
     return page;
 }
 
+inline 
 LinearAllocatorPage* LinearAllocator::GetPageForAlloc(
     size_t sizeBytes,
     size_t alignment)
@@ -373,6 +383,7 @@ LinearAllocatorPage* LinearAllocator::GetPageForAlloc(
     return page;
 }
 
+inline 
 LinearAllocatorPage* LinearAllocator::FindPageForAlloc(
     LinearAllocatorPage* list,
     size_t sizeBytes,
@@ -387,6 +398,7 @@ LinearAllocatorPage* LinearAllocator::FindPageForAlloc(
     return nullptr;
 }
 
+inline 
 LinearAllocatorPage* LinearAllocator::GetNewPage()
 {
     const CD3DX12_HEAP_PROPERTIES uploadHeapProperties(D3D12_HEAP_TYPE_UPLOAD);
@@ -439,6 +451,7 @@ LinearAllocatorPage* LinearAllocator::GetNewPage()
     return page;
 }
 
+inline 
 void LinearAllocator::UnlinkPage(LinearAllocatorPage* page) noexcept
 {
     if (page->pPrevPage)
@@ -463,6 +476,7 @@ void LinearAllocator::UnlinkPage(LinearAllocatorPage* page) noexcept
 #endif
 }
 
+inline 
 void LinearAllocator::LinkPageChain(LinearAllocatorPage* page, LinearAllocatorPage*& list) noexcept
 {
 #if VALIDATE_LISTS
@@ -490,6 +504,7 @@ void LinearAllocator::LinkPageChain(LinearAllocatorPage* page, LinearAllocatorPa
 #endif
 }
 
+inline 
 void LinearAllocator::LinkPage(LinearAllocatorPage* page, LinearAllocatorPage*& list) noexcept
 {
 #if VALIDATE_LISTS
@@ -514,6 +529,7 @@ void LinearAllocator::LinkPage(LinearAllocatorPage* page, LinearAllocatorPage*& 
 #endif
 }
 
+inline 
 void LinearAllocator::ReleasePage(LinearAllocatorPage* page) noexcept
 {
     assert(m_numPending > 0);
@@ -534,6 +550,7 @@ void LinearAllocator::ReleasePage(LinearAllocatorPage* page) noexcept
 #endif
 }
 
+inline 
 void LinearAllocator::FreePages(LinearAllocatorPage* page) noexcept
 {
     while (page != nullptr)
@@ -549,6 +566,7 @@ void LinearAllocator::FreePages(LinearAllocatorPage* page) noexcept
 }
 
 #if VALIDATE_LISTS
+inline 
 void LinearAllocator::ValidateList(LinearAllocatorPage* list)
 {
     for (auto page = list, *lastPage = nullptr;
@@ -571,6 +589,7 @@ void LinearAllocator::ValidatePageLists()
 #endif
 
 #if defined(_DEBUG) || defined(PROFILE)
+inline 
 void LinearAllocator::SetDebugName(const char* name)
 {
     wchar_t wname[MAX_PATH] = {};
@@ -581,6 +600,7 @@ void LinearAllocator::SetDebugName(const char* name)
     }
 }
 
+inline 
 void LinearAllocator::SetDebugName(const wchar_t* name)
 {
     m_debugName = name;
@@ -592,6 +612,7 @@ void LinearAllocator::SetDebugName(const wchar_t* name)
     SetPageDebugName(m_unusedPages);
 }
 
+inline 
 void LinearAllocator::SetPageDebugName(LinearAllocatorPage* list) noexcept
 {
     for (auto page = list; page != nullptr; page = page->pNextPage)

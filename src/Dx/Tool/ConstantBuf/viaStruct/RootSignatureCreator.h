@@ -4,11 +4,6 @@ namespace prj_3d::HelloWinHlsl::Dx::Tool::ConstantBuf::viaStruct {
 class RootSignatureCreator {
 	using TInnerDxVer = DxVer::v12;
 	const Ty::StDxCtx_ptr<TInnerDxVer> m_stDxCtx;
-	static CD3DX12_ROOT_PARAMETER InitAsConstants_(UINT num32BitValues, UINT shaderRegister) {
-		CD3DX12_ROOT_PARAMETER Out;
-		CD3DX12_ROOT_PARAMETER::InitAsConstants( Out, num32BitValues, shaderRegister );
-		return Out;
-	}
 
  public:
 	explicit RootSignatureCreator(Ty::StDxCtx_crefPtr<TInnerDxVer> stDxCtx) 

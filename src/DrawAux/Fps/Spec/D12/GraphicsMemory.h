@@ -57,7 +57,7 @@ public:
     SharedGraphicsResource(SharedGraphicsResource&&) noexcept;
     SharedGraphicsResource&& operator= (SharedGraphicsResource&&) noexcept;
 
-    SharedGraphicsResource(GraphicsResource&&);
+    explicit SharedGraphicsResource(GraphicsResource&&);
     SharedGraphicsResource&& operator= (GraphicsResource&&);
 
     SharedGraphicsResource(const SharedGraphicsResource&) noexcept;
@@ -232,7 +232,7 @@ namespace
     class DeviceAllocator
     {
     public:
-        DeviceAllocator(_In_ ID3D12Device* device) noexcept(false)
+        explicit DeviceAllocator(_In_ ID3D12Device* device) noexcept(false)
             : mDevice(device)
         {
             if (!device)
@@ -333,7 +333,7 @@ namespace
 
             ScopedLock lock(mMutex);
 
-            for (auto& i : mPools)
+            for (const auto& i : mPools)
             {
                 if (i)
                 {
@@ -367,7 +367,7 @@ namespace
 class GraphicsMemory::Impl
 {
 public:
-    Impl(GraphicsMemory* owner) noexcept(false)
+    explicit Impl(GraphicsMemory* owner) noexcept(false)
         : mOwner(owner)
         , m_peakCommited(0)
         , m_peakBytes(0)
@@ -476,8 +476,10 @@ private:
 };
 
 #if (defined(_XBOX_ONE) && defined(_TITLE)) || defined(_GAMING_XBOX)
+inline
 GraphicsMemory::Impl* GraphicsMemory::Impl::s_graphicsMemory = nullptr;
 #else
+inline
 std::map<ID3D12Device*, GraphicsMemory::Impl*> GraphicsMemory::Impl::s_graphicsMemory;
 #endif
 
@@ -486,6 +488,7 @@ std::map<ID3D12Device*, GraphicsMemory::Impl*> GraphicsMemory::Impl::s_graphicsM
 //--------------------------------------------------------------------------------------
 
 // Public constructor.
+inline 
 GraphicsMemory::GraphicsMemory(_In_ ID3D12Device* device)
     : pImpl(std::make_unique<Impl>(this))
 {
@@ -494,6 +497,7 @@ GraphicsMemory::GraphicsMemory(_In_ ID3D12Device* device)
 
 
 // Move constructor.
+inline 
 GraphicsMemory::GraphicsMemory(GraphicsMemory&& moveFrom) noexcept
     : pImpl(std::move(moveFrom.pImpl))
 {
@@ -502,6 +506,7 @@ GraphicsMemory::GraphicsMemory(GraphicsMemory&& moveFrom) noexcept
 
 
 // Move assignment.
+inline 
 GraphicsMemory& GraphicsMemory::operator= (GraphicsMemory&& moveFrom) noexcept
 {
     pImpl = std::move(moveFrom.pImpl);
@@ -511,9 +516,11 @@ GraphicsMemory& GraphicsMemory::operator= (GraphicsMemory&& moveFrom) noexcept
 
 
 // Public destructor.
+inline 
 GraphicsMemory::~GraphicsMemory() = default;
 
 
+inline 
 GraphicsResource GraphicsMemory::Allocate(size_t size, size_t alignment)
 {
     assert(alignment >= 4); // Should use at least DWORD alignment
@@ -521,17 +528,20 @@ GraphicsResource GraphicsMemory::Allocate(size_t size, size_t alignment)
 }
 
 
+inline 
 void GraphicsMemory::Commit(_In_ ID3D12CommandQueue* commandQueue)
 {
     pImpl->Commit(commandQueue);
 }
 
 
+inline 
 void GraphicsMemory::GarbageCollect()
 {
     pImpl->GarbageCollect();
 }
 
+inline 
 GraphicsMemoryStatistics GraphicsMemory::GetStatistics()
 {
     GraphicsMemoryStatistics stats;
@@ -539,12 +549,14 @@ GraphicsMemoryStatistics GraphicsMemory::GetStatistics()
     return stats;
 }
 
+inline 
 void GraphicsMemory::ResetStatistics()
 {
     pImpl->ResetStatistics();
 }
 
 #if (defined(_XBOX_ONE) && defined(_TITLE)) || defined(_GAMING_XBOX)
+inline 
 GraphicsMemory& GraphicsMemory::Get(_In_opt_ ID3D12Device*)
 {
     if (!Impl::s_graphicsMemory || !Impl::s_graphicsMemory->mOwner)
@@ -553,6 +565,7 @@ GraphicsMemory& GraphicsMemory::Get(_In_opt_ ID3D12Device*)
     return *Impl::s_graphicsMemory->mOwner;
 }
 #else
+inline 
 GraphicsMemory& GraphicsMemory::Get(_In_opt_ ID3D12Device* device)
 {
     if (Impl::s_graphicsMemory.empty())
@@ -584,6 +597,7 @@ GraphicsMemory& GraphicsMemory::Get(_In_opt_ ID3D12Device* device)
 // GraphicsResource smart-pointer interface
 //--------------------------------------------------------------------------------------
 
+inline 
 GraphicsResource::GraphicsResource() noexcept
     : mPage(nullptr)
     , mGpuAddress{}
@@ -594,6 +608,7 @@ GraphicsResource::GraphicsResource() noexcept
 {
 }
 
+inline 
 GraphicsResource::GraphicsResource(
     _In_ LinearAllocatorPage_t* page,
     _In_ D3D12_GPU_VIRTUAL_ADDRESS gpuAddress,
@@ -612,6 +627,7 @@ GraphicsResource::GraphicsResource(
     mPage->AddRef();
 }
 
+inline 
 GraphicsResource::GraphicsResource(GraphicsResource&& other) noexcept
     : mPage(nullptr)
     , mGpuAddress{}
@@ -623,6 +639,7 @@ GraphicsResource::GraphicsResource(GraphicsResource&& other) noexcept
     Reset(std::move(other));
 }
 
+inline 
 GraphicsResource::~GraphicsResource()
 {
     if (mPage)
@@ -632,12 +649,14 @@ GraphicsResource::~GraphicsResource()
     }
 }
 
+inline 
 GraphicsResource&& GraphicsResource::operator= (GraphicsResource&& other) noexcept
 {
     Reset(std::move(other));
     return std::move(*this);
 }
 
+inline 
 void GraphicsResource::Reset() noexcept
 {
     if (mPage)
@@ -653,6 +672,7 @@ void GraphicsResource::Reset() noexcept
     mSize = 0;
 }
 
+inline 
 void GraphicsResource::Reset(GraphicsResource&& alloc) noexcept
 {
     if (mPage)
@@ -682,63 +702,75 @@ void GraphicsResource::Reset(GraphicsResource&& alloc) noexcept
 // SharedGraphicsResource
 //--------------------------------------------------------------------------------------
 
+inline 
 SharedGraphicsResource::SharedGraphicsResource() noexcept
     : mSharedResource(nullptr)
 {
 }
 
+inline 
 SharedGraphicsResource::SharedGraphicsResource(GraphicsResource&& resource) noexcept(false)
     : mSharedResource(std::make_shared<GraphicsResource>(std::move(resource)))
 {
 }
 
+inline 
 SharedGraphicsResource::SharedGraphicsResource(SharedGraphicsResource&& resource) noexcept
     : mSharedResource(std::move(resource.mSharedResource))
 {
 }
 
+inline 
 SharedGraphicsResource::SharedGraphicsResource(const SharedGraphicsResource& resource) noexcept
     : mSharedResource(resource.mSharedResource)
 {
 }
 
+inline 
 SharedGraphicsResource::~SharedGraphicsResource()
 {
 }
 
+inline 
 SharedGraphicsResource&& SharedGraphicsResource::operator= (SharedGraphicsResource&& resource) noexcept
 {
     mSharedResource = std::move(resource.mSharedResource);
     return std::move(*this);
 }
 
+inline 
 SharedGraphicsResource&& SharedGraphicsResource::operator= (GraphicsResource&& resource)
 {
     mSharedResource = std::make_shared<GraphicsResource>(std::move(resource));
     return std::move(*this);
 }
 
+inline 
 SharedGraphicsResource& SharedGraphicsResource::operator= (const SharedGraphicsResource& resource) noexcept
 {
     mSharedResource = resource.mSharedResource;
     return *this;
 }
 
+inline 
 void SharedGraphicsResource::Reset() noexcept
 {
     mSharedResource.reset();
 }
 
+inline 
 void SharedGraphicsResource::Reset(GraphicsResource&& resource)
 {
     mSharedResource = std::make_shared<GraphicsResource>(std::move(resource));
 }
 
+inline 
 void SharedGraphicsResource::Reset(SharedGraphicsResource&& resource) noexcept
 {
     mSharedResource = std::move(resource.mSharedResource);
 }
 
+inline 
 void SharedGraphicsResource::Reset(const SharedGraphicsResource& resource) noexcept
 {
     mSharedResource = resource.mSharedResource;

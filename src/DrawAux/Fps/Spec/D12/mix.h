@@ -1,7 +1,7 @@
 ﻿// DrawAux/Fps/Spec/D12/mix.h - from DirectXTK
 #pragma once // NOLINT copyright
 // TODO(alex): wtf, error LNK2001 unresolved external symbol IID_ID3D12Device
-const GUID IID_ID3D12Device = { 0x189819f1, 0x1db6, 0x4b57, { 0xbe, 0x54, 0x18, 0x21, 0x33, 0x9b, 0x85, 0xf7 } };
+inline const GUID IID_ID3D12Device = { 0x189819f1, 0x1db6, 0x4b57, { 0xbe, 0x54, 0x18, 0x21, 0x33, 0x9b, 0x85, 0xf7 } };
 namespace prj_3d::HelloWinHlsl::DrawAux::Fps::Spec::D12 {
 
 using XMVECTOR = DirectX::XMVECTOR;
@@ -111,7 +111,7 @@ inline HRESULT CreateRootSignature(
 class com_exception : public std::exception
 {
 public:
-    com_exception(HRESULT hr) noexcept : result(hr) {}
+    explicit com_exception(HRESULT hr) noexcept : result(hr) {}
 
     const char* what() const noexcept override
     {

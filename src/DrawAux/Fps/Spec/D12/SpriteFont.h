@@ -360,7 +360,7 @@ class SpriteFont::Impl {
 	}
 
 	// Sets the missing-character fallback glyph.
-	void SpriteFont::Impl::SetDefaultCharacter(wchar_t character)
+	void Impl::SetDefaultCharacter(wchar_t character)
 	{
 		defaultGlyph = nullptr;
 
@@ -368,6 +368,7 @@ class SpriteFont::Impl {
 		{
 			defaultGlyph = FindGlyph(character);
 		}
+		return;
 	}
 
 public:
@@ -400,10 +401,23 @@ public:
 		glyphs.assign(glyphData, glyphData + glyphCount);
 		glyphsIndex.reserve(glyphs.size());
 
-		for (auto& glyph : glyphs)
-		{
-			glyphsIndex.emplace_back(glyph.Character);
-		}
+		//for (auto& glyph : glyphs)
+		//{
+		//	glyphsIndex.emplace_back(glyph.Character);
+		//}
+		//std::for_each(
+		//		glyphs.begin(), glyphs.end()
+		//		, [this](const auto& glyph) { 
+		//			glyphsIndex.emplace_back( glyph.Character );
+		//		}
+		//	);
+		std::transform( 
+				glyphs.begin(), glyphs.end()
+				, std::back_inserter( glyphsIndex ) 
+				, [this](const auto& glyph) { 
+					return glyph.Character;
+				}
+			);
 
 		// Read font properties.
 		lineSpacing = reader->Read<float>();
@@ -508,6 +522,7 @@ public:
     float lineSpacing;
 };
 
+	inline 
 	XMVECTOR XM_CALLCONV SpriteFont::MeasureString(_In_z_ wchar_t const* text, bool ignoreWhitespace) const
 	{
 		XMVECTOR result = XMVectorZero();
@@ -668,6 +683,7 @@ template<> inline XMVECTOR      XM_CALLCONV     XMVectorSwizzle<3,0,1,2>(FXMVECT
 
 //------------------------------------------------------------------------------
 
+	inline 
 	void XM_CALLCONV SpriteFont::DrawString(
 		SpriteBatch_t* spriteBatch
 		, wchar_t const* text

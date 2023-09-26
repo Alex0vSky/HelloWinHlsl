@@ -10,14 +10,6 @@ typedef GraphicsMemory GraphicsMemory_t;
 
 namespace
 {
-// Include the precompiled shader code.
-#ifndef __INTELLISENSE__
-#include "SpriteEffect_SpriteVertexShader.inc"
-#include "SpriteEffect_SpritePixelShader.inc"
-#include "SpriteEffect_SpriteVertexShaderHeap.inc"
-#include "SpriteEffect_SpritePixelShaderHeap.inc"
-#endif // __INTELLISENSE__
-
     inline bool operator != (D3D12_GPU_DESCRIPTOR_HANDLE a, D3D12_GPU_DESCRIPTOR_HANDLE b) noexcept
     {
         return a.ptr != b.ptr;
@@ -152,7 +144,7 @@ private:
 };
 
 // Matches CommonStates::AlphaBlend
-const D3D12_BLEND_DESC SpriteBatchPipelineStateDescription::s_DefaultBlendDesc =
+inline const D3D12_BLEND_DESC SpriteBatchPipelineStateDescription::s_DefaultBlendDesc =
 {
 	FALSE, // AlphaToCoverageEnable
 	FALSE, // IndependentBlendEnable
@@ -170,7 +162,7 @@ const D3D12_BLEND_DESC SpriteBatchPipelineStateDescription::s_DefaultBlendDesc =
 	} }
 };
 // Same to CommonStates::CullCounterClockwise
-const D3D12_RASTERIZER_DESC SpriteBatchPipelineStateDescription::s_DefaultRasterizerDesc =
+inline const D3D12_RASTERIZER_DESC SpriteBatchPipelineStateDescription::s_DefaultRasterizerDesc =
 {
     D3D12_FILL_MODE_SOLID,
     D3D12_CULL_MODE_BACK,
@@ -186,7 +178,7 @@ const D3D12_RASTERIZER_DESC SpriteBatchPipelineStateDescription::s_DefaultRaster
 };
 
 // Same as CommonStates::DepthNone
-const D3D12_DEPTH_STENCIL_DESC SpriteBatchPipelineStateDescription::s_DefaultDepthStencilDesc =
+inline const D3D12_DEPTH_STENCIL_DESC SpriteBatchPipelineStateDescription::s_DefaultDepthStencilDesc =
 {
     FALSE, // DepthEnable
     D3D12_DEPTH_WRITE_MASK_ZERO,
@@ -356,7 +348,7 @@ public:
         auto entry = std::make_pair(key, newValue);
         mResourceMap->insert(entry);
 
-        return std::move(newValue);
+        return newValue;
     }
 
 
@@ -1036,6 +1028,7 @@ public:
 			// Queue this sprite for later sorting and batched rendering.
 			mSpriteQueueCount++;
 		}
+		return;
 	}
 
     DXGI_MODE_ROTATION mRotation;
@@ -1311,21 +1304,22 @@ inline XMMATRIX XM_CALLCONV XMMatrixIdentity()
 }
 
 // Global pools of per-device and per-context SpriteBatch resources.
-SharedResourcePool<ID3D12Device*, SpriteBatch::Impl::DeviceResources, ResourceUploadBatch_t&> SpriteBatch::Impl::deviceResourcesPool;
+inline SharedResourcePool<ID3D12Device*, SpriteBatch::Impl::DeviceResources, ResourceUploadBatch_t&> SpriteBatch::Impl::deviceResourcesPool;
 // Constants.
-const XMMATRIX SpriteBatch::MatrixIdentity = XMMatrixIdentity();
+inline const XMMATRIX SpriteBatch::MatrixIdentity = XMMatrixIdentity();
 const XMFLOAT2 SpriteBatch::Float2Zero(0, 0);
 
-const D3D12_SHADER_BYTECODE SpriteBatch::Impl::s_DefaultVertexShaderByteCodeStatic = { SpriteEffect_SpriteVertexShader, sizeof(SpriteEffect_SpriteVertexShader) };
-const D3D12_SHADER_BYTECODE SpriteBatch::Impl::s_DefaultPixelShaderByteCodeStatic = { SpriteEffect_SpritePixelShader, sizeof(SpriteEffect_SpritePixelShader) };
+inline const D3D12_SHADER_BYTECODE SpriteBatch::Impl::s_DefaultVertexShaderByteCodeStatic = { SpriteEffect_SpriteVertexShader, sizeof(SpriteEffect_SpriteVertexShader) };
+inline const D3D12_SHADER_BYTECODE SpriteBatch::Impl::s_DefaultPixelShaderByteCodeStatic = { SpriteEffect_SpritePixelShader, sizeof(SpriteEffect_SpritePixelShader) };
 
-const D3D12_SHADER_BYTECODE SpriteBatch::Impl::s_DefaultVertexShaderByteCodeHeap = { SpriteEffect_SpriteVertexShaderHeap, sizeof(SpriteEffect_SpriteVertexShaderHeap) };
-const D3D12_SHADER_BYTECODE SpriteBatch::Impl::s_DefaultPixelShaderByteCodeHeap = { SpriteEffect_SpritePixelShaderHeap, sizeof(SpriteEffect_SpritePixelShaderHeap) };
+inline const D3D12_SHADER_BYTECODE SpriteBatch::Impl::s_DefaultVertexShaderByteCodeHeap = { SpriteEffect_SpriteVertexShaderHeap, sizeof(SpriteEffect_SpriteVertexShaderHeap) };
+inline const D3D12_SHADER_BYTECODE SpriteBatch::Impl::s_DefaultPixelShaderByteCodeHeap = { SpriteEffect_SpritePixelShaderHeap, sizeof(SpriteEffect_SpritePixelShaderHeap) };
 
-const D3D12_INPUT_LAYOUT_DESC SpriteBatch::Impl::s_DefaultInputLayoutDesc = VertexPositionColorTexture::InputLayout;
+inline const D3D12_INPUT_LAYOUT_DESC SpriteBatch::Impl::s_DefaultInputLayoutDesc = VertexPositionColorTexture::InputLayout;
 
 
 
+	inline
 	SpriteBatch::SpriteBatch(ID3D12Device* device,
 		ResourceUploadBatch_t& upload,
 		const SpriteBatchPipelineStateDescription& psoDesc,
@@ -1333,6 +1327,7 @@ const D3D12_INPUT_LAYOUT_DESC SpriteBatch::Impl::s_DefaultInputLayoutDesc = Vert
 		: pImpl(std::make_unique<Impl>(device, upload, psoDesc, viewport))
 	{}
 
+	inline
 	void XM_CALLCONV SpriteBatch::Begin(
 		ID3D12GraphicsCommandList* commandList,
 		SpriteSortMode sortMode,
@@ -1341,17 +1336,20 @@ const D3D12_INPUT_LAYOUT_DESC SpriteBatch::Impl::s_DefaultInputLayoutDesc = Vert
 		pImpl->Begin(commandList, sortMode, transformMatrix);
 	}
 
+	inline
 	void SpriteBatch::End()
 	{
 		pImpl->End();
 	}
 
+	inline
 	void SpriteBatch::SetViewport(const D3D12_VIEWPORT& viewPort)
 	{
 		pImpl->mSetViewport = true;
 		pImpl->mViewPort = viewPort;
 	}
 
+	inline
 	void XM_CALLCONV SpriteBatch::Draw(D3D12_GPU_DESCRIPTOR_HANDLE texture,
 		XMUINT2 const& textureSize,
 		FXMVECTOR position,

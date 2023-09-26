@@ -13,12 +13,12 @@ struct VertexPosition
     VertexPosition(VertexPosition&&) = default;
     VertexPosition& operator=(VertexPosition&&) = default;
 
-    VertexPosition(XMFLOAT3 const& iposition) noexcept
+    explicit VertexPosition(XMFLOAT3 const& iposition) noexcept
         : position(iposition)
     {
     }
 
-    VertexPosition(FXMVECTOR iposition) noexcept
+    explicit VertexPosition(FXMVECTOR iposition) noexcept
     {
         XMStoreFloat3(&this->position, iposition);
     }
@@ -414,7 +414,7 @@ const D3D12_INPUT_LAYOUT_DESC VertexPositionNormal::InputLayout =
 
 //--------------------------------------------------------------------------------------
 // Vertex struct holding position, color, and texture mapping information.
-const D3D12_INPUT_ELEMENT_DESC VertexPositionColorTexture::InputElements[] =
+inline const D3D12_INPUT_ELEMENT_DESC VertexPositionColorTexture::InputElements[] =
 {
     { "SV_Position", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
     { "COLOR",       0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
@@ -423,7 +423,7 @@ const D3D12_INPUT_ELEMENT_DESC VertexPositionColorTexture::InputElements[] =
 
 static_assert(sizeof(VertexPositionColorTexture) == 36, "Vertex struct/layout mismatch");
 
-const D3D12_INPUT_LAYOUT_DESC VertexPositionColorTexture::InputLayout =
+inline const D3D12_INPUT_LAYOUT_DESC VertexPositionColorTexture::InputLayout =
 {
     VertexPositionColorTexture::InputElements,
     VertexPositionColorTexture::InputElementCount

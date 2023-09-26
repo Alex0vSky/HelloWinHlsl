@@ -60,16 +60,6 @@ private:
 
 namespace
 {
-#ifdef _GAMING_XBOX_SCARLETT
-#include "XboxGamingScarlettGenerateMips_main.inc"
-#elif defined(_GAMING_XBOX)
-#include "XboxGamingXboxOneGenerateMips_main.inc"
-#elif defined(_XBOX_ONE) && defined(_TITLE)
-#include "XboxOneGenerateMips_main.inc"
-#else
-#include "GenerateMips_main.inc"
-#endif
-
     bool FormatIsUAVCompatible(_In_ ID3D12Device* device, bool typedUAVLoadAdditionalFormats, DXGI_FORMAT format) noexcept
     {
         switch (format)
@@ -259,10 +249,10 @@ namespace
         CPtr<ID3D12RootSignature> rootSignature;
         CPtr<ID3D12PipelineState> generateMipsPSO;
 
-        GenerateMipsResources(
+        explicit GenerateMipsResources(
             _In_ ID3D12Device* device)
+			: rootSignature ( CreateGenMipsRootSignature( device ) )
         {
-            rootSignature = CreateGenMipsRootSignature(device);
             generateMipsPSO = CreateGenMipsPipelineState(device, rootSignature.Get(), GenerateMips_main, sizeof(GenerateMips_main));
         }
 
@@ -327,7 +317,7 @@ namespace
 class ResourceUploadBatch::Impl
 {
 public:
-    Impl(
+    explicit Impl(
         _In_ ID3D12Device* device) noexcept
         : mDevice(device)
         , mCommandType(D3D12_COMMAND_LIST_TYPE_DIRECT)
@@ -1092,23 +1082,28 @@ private:
 };
 
 // Public constructor.
+inline 
 ResourceUploadBatch::ResourceUploadBatch(_In_ ID3D12Device* device) noexcept(false)
     : pImpl(std::make_unique<Impl>(device))
 {
 }
 
 
+inline 
 ResourceUploadBatch::ResourceUploadBatch(ResourceUploadBatch&&) noexcept = default;
+inline 
 ResourceUploadBatch& ResourceUploadBatch::operator= (ResourceUploadBatch&&) noexcept = default;
+inline 
 ResourceUploadBatch::~ResourceUploadBatch() = default;
 
+inline 
 void ResourceUploadBatch::Begin(D3D12_COMMAND_LIST_TYPE commandType)
 {
     pImpl->Begin(commandType);
 }
 
 
-_Use_decl_annotations_
+inline 
 void ResourceUploadBatch::Upload(
     ID3D12Resource* resource,
     uint32_t subresourceIndexStart,
@@ -1119,7 +1114,7 @@ void ResourceUploadBatch::Upload(
 }
 
 
-_Use_decl_annotations_
+inline 
 void ResourceUploadBatch::Upload(
     ID3D12Resource* resource,
     const SharedGraphicsResource_t& buffer
@@ -1128,13 +1123,14 @@ void ResourceUploadBatch::Upload(
     pImpl->Upload(resource, buffer);
 }
 
+inline 
 void ResourceUploadBatch::GenerateMips(_In_ ID3D12Resource* resource)
 {
     pImpl->GenerateMips(resource);
 }
 
 
-_Use_decl_annotations_
+inline 
 void ResourceUploadBatch::Transition(
     ID3D12Resource* resource,
     D3D12_RESOURCE_STATES stateBefore,
@@ -1144,12 +1140,14 @@ void ResourceUploadBatch::Transition(
 }
 
 
+inline 
 std::future<void> ResourceUploadBatch::End(_In_ ID3D12CommandQueue* commandQueue)
 {
     return pImpl->End(commandQueue);
 }
 
 
+inline 
 bool __cdecl ResourceUploadBatch::IsSupportedForGenerateMips(DXGI_FORMAT format) noexcept
 {
     return pImpl->IsSupportedForGenerateMips(format);

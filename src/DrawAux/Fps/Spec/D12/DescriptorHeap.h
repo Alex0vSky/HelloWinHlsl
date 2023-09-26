@@ -5,8 +5,8 @@ class DescriptorHeap {
 	_Use_decl_annotations_
 	void DescriptorHeap::Create(
 		ID3D12Device* pDevice,
-		const D3D12_DESCRIPTOR_HEAP_DESC* pDesc)
-	{
+		const D3D12_DESCRIPTOR_HEAP_DESC* pDesc
+	) {
 		assert(pDesc != nullptr);
 
 		m_desc = *pDesc;
@@ -35,6 +35,7 @@ class DescriptorHeap {
 				std::ignore = m_pHeap->GetGPUDescriptorHandleForHeapStart(&m_hGPU);
 			}
 #endif
+			return;
 		}
 	}
 
@@ -87,6 +88,5 @@ class DescriptorHeap {
     }
 
 	ID3D12DescriptorHeap* Heap() const noexcept { return m_pHeap.Get(); }
-
 };
 } // namespace prj_3d::HelloWinHlsl::DrawAux::Fps::Spec::D12
