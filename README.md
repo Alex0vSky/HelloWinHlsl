@@ -32,7 +32,7 @@ Windows DirectX Hlsl shader C++ library
 - [x] Dx11
 - [x] Dx12
 - [x] get rid of dependence on the boost::pfr library
-- [ ] get rid of dependence on the DirectXTK12 library
+- [x] get rid of dependence on the DirectXTK12 library
 
 ## Features
 
