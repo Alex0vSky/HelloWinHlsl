@@ -122,7 +122,7 @@ class Accessor< DxVer::v12, TConstBuf > {
 		for ( UINT n = 0; n < m_stDxCtx ->FrameCount; n++ ) {
 			D3D12_CONSTANT_BUFFER_VIEW_DESC CBVDesc = { };
 			CBVDesc.BufferLocation = m_stDxCtx ->m_arpcResUploadHeap[ n ] ->GetGPUVirtualAddress( );
-			// TODO: align to separate class // CB size is required to be 256-byte aligned.
+			// TODO(alex): align to separate class // CB size is required to be 256-byte aligned.
 			CBVDesc.SizeInBytes = ( sizeof( TConstBuf ) + 255 ) & ~255;
 			m_stDxCtx ->m_pcD3dDevice12 ->CreateConstantBufferView(
 					&CBVDesc

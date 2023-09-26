@@ -95,7 +95,9 @@ class GameLoopPart : virtual public GameLoop::detail_::ABaseWndProcHolderAware<D
 					m_pc_CommandList ->SetGraphicsRootSignature( m_pcRootSignature.Get( ) );
 
 					// set constant buffer descriptor heap
-					ID3D12DescriptorHeap* descriptorHeaps[] = { m_stCtx ->m_psstDxCtx ->m_arpcDescriptorHeap[ frameIndex ].Get( ) };
+					ID3D12DescriptorHeap* descriptorHeaps[] = { 
+							m_stCtx ->m_psstDxCtx ->m_arpcDescriptorHeap[ frameIndex ].Get( ) 
+						};
 					m_pc_CommandList ->SetDescriptorHeaps( _countof( descriptorHeaps ), descriptorHeaps );
 					// set the root descriptor table 0 to the constant buffer descriptor heap
 					UINT RootParameterIndex = 0;
