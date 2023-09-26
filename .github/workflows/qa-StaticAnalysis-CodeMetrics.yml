@@ -104,6 +104,7 @@ jobs:
           $exclude = '';
           $arrExclude = @(
              ( "${{ github.workspace }}" + '\src\_pch\' )
+             ,( "${{ github.workspace }}" + '\src\DrawAux\Fps\Spec\D12\' )
           );
           $exclude = '--exclude=' + ( $arrExclude -join ' --exclude=' );
           $exclude;
@@ -186,14 +187,10 @@ jobs:
           $defines = '';
           $defines += ' -DA0S_cppcheck__';
           $defines += ' -D__INTELLISENSE__';
-          $defines += ' -DBOOST_PFR_HAS_GUARANTEED_COPY_ELISION=0';
+          $defines += ' -D_MSC_VER';
           $undefines = '';
           $undefines += ' -UAPSTUDIO_INVOKED';
           $undefines += ' -UUNICODE';
-          $undefines += ' -UBOOST_PFR_USE_LOOPHOLE';
-          $undefines += ' -UBOOST_PFR_DETAIL_STRICT_RVALUE_TESTING';
-          $undefines += ' -UBOOST_PFR_DOXYGEN_INVOKED';
-          $undefines += ' -UBOOST_PFR_NOT_SUPPORTED';
           $undefines += ' -UD3D12_SDK_VERSION';
           $undefines += ' -UD3DX12_USE_ATL';
           $undefines += ' -UD3DXFX_LARGEADDRESS_HANDLE';
@@ -211,7 +208,6 @@ jobs:
           $undefines += ' -U_GAMING_XBOX';
           $undefines += ' -U_TITLE';
           $undefines += ' -U_XBOX_ONE';
-          $undefines += ' -U_MSC_VER';
           $undefines += ' -U_MSVC_LANG';
           $undefines += ' -U_NO_COM';
           $undefines += ' -UDEBUG';
